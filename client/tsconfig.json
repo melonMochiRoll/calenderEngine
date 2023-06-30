@@ -12,5 +12,12 @@
     "noImplicitAny": true,
     "esModuleInterop" : true,
     "allowSyntheticDefaultImports" : true,
+    "baseUrl": ".",
+    "paths": {
+      "Components/*": ["src/components/*"],
+      "Containers/*": ["src/containers/*"],
+      "Pages/*": ["src/pages/*"],
+      "Styles/*": ["src/styles/*"],
+    },
   }
 }
