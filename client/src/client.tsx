@@ -1,18 +1,14 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
+import { GlobalStyle } from 'Styles/GlobalStyle';
+import MainRouter from 'Routes/MainRouter';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <h1>hello, dev-server</h1>,
-  },
-]);
+const rootNode = document.getElementById('root') as HTMLElement;
 
-const root = document.getElementById('root') as HTMLElement;
-
-createRoot(root).render(
+createRoot(rootNode).render(
   <React.StrictMode>
-    <RouterProvider router={router} ></RouterProvider>
+    <GlobalStyle />
+    <RouterProvider router={MainRouter} />
   </React.StrictMode>
 );
