@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { ToDoTitle } from 'Containers/TodoApp';
 
 const TodoInit: FC = () => {
   return (
@@ -13,9 +14,7 @@ export default TodoInit;
 
 const Container = styled.div`
   display: flex;
-  width: 85%;
-  padding: 50px 0 0 50px;
   flex-direction: column;
+  justify-content: center;
+  padding: 0 50px;
 `;
-
-const ToDoTitle = styled.h1``;
