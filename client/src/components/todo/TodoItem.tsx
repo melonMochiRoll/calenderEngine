@@ -49,7 +49,7 @@ export default TodoItem;
 const Block = styled.div<{ completed: boolean }>`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 280px;
   font-size: 18px;
   padding: 13px 15px;
   box-shadow: ${({completed}) => completed ?

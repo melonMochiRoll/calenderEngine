@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import TodoItem from 'Components/TodoItem';
-import TodoNull from 'Components/TodoNull';
+import TodoItem from 'Components/todo/TodoItem';
+import TodoNull from 'Components/todo/TodoNull';
 import { todoType } from 'Pages/MainPage';
 
 interface TodoListProps {
@@ -63,7 +63,6 @@ const Block = styled.div`
   height: 60%;
   padding: 5px;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   overflow: auto;
