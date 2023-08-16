@@ -1,14 +1,17 @@
-import React, { CSSProperties, FC } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import NotiIcon from '@mui/icons-material/Feedback';
 
 interface DateCoverProps {
   setCurrentToDo: () => void;
+  hasTodo: boolean;
   isToday: boolean;
   date: number;
 };
 
 const DateCover: FC<DateCoverProps> = ({
   setCurrentToDo,
+  hasTodo,
   isToday,
   date,
 }) => {
@@ -16,7 +19,10 @@ const DateCover: FC<DateCoverProps> = ({
     <Block
       isToday={isToday}
       onClick={setCurrentToDo}>
-      {date}
+      <Content>
+        {date}
+        {hasTodo ? <NotiIcon /> : ''}
+      </Content>
     </Block>
   );
 };
@@ -24,7 +30,7 @@ const DateCover: FC<DateCoverProps> = ({
 export default DateCover;
 
 const Block = styled.td<{ isToday: boolean }>`
-  position: relative;
+  width: 120px;
   cursor: pointer;
   background-color: #FFFFFF;
   border: ${({isToday}) => isToday ?
@@ -34,4 +40,13 @@ const Block = styled.td<{ isToday: boolean }>`
   &:hover {
     background-color: rgba(200, 200, 200, 0.1);
   }
+
+  svg {
+    color: #248E4E;
+  }
+`;
+
+const Content = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
