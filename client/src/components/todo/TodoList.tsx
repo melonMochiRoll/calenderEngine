@@ -18,7 +18,7 @@ const TodoList: FC<TodoListProps> = ({
   deleteTodo,
 }) => {
 
-  if (!currentDateTodos.length) {
+  if (!currentDateTodos) {
     return (
       <Block>
         <TodoNull />
