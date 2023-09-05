@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import DateCover from './DateCover';
+import { currentMonthTodosType } from 'Pages/MainPage';
 
 interface CalendarCreatorProps {
   setCurrentToDo: React.Dispatch<React.SetStateAction<string>>;
   currentYear: number;
   currentMonth: number;
   currentDate: number;
+  currentMonthTodos: currentMonthTodosType;
   dates: Array<number|string>;
 };
 
@@ -16,6 +18,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
   currentYear,
   currentMonth,
   currentDate,
+  currentMonthTodos,
   dates,
 }) => {
   const isNowMonth = dayjs().month() === currentMonth;
@@ -45,6 +48,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                   return <DateCover
                     key={i + n}
                     setCurrentToDo={() => setCurrentToDo(`${currentYear}&${currentMonth + 1}&${date}`)}
+                    hasTodo={currentMonthTodos.hasOwnProperty(`${currentYear}&${currentMonth + 1}&${date}`)}
                     isToday={date === currentDate}
                     date={date} />;
                 })}
