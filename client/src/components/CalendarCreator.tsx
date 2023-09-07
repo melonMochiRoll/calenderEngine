@@ -44,11 +44,12 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
               <tr key={i}>
                 {[1, 2, 3, 4, 5, 6, 7].map(n => {
                   const date = dates[i + n];
+                  const timeKey = `${currentYear}&${currentMonth + 1}&${date}`;
                   if (!date || typeof date === 'string') return <td key={i + n} />;
                   return <DateCover
                     key={i + n}
-                    setCurrentTime={() => setCurrentTime(`${currentYear}&${currentMonth + 1}&${date}`)}
-                    hasTodo={currentMonthTodos.hasOwnProperty(`${currentYear}&${currentMonth + 1}&${date}`)}
+                    setCurrentTime={() => setCurrentTime(timeKey)}
+                    hasTodo={currentMonthTodos.hasOwnProperty(timeKey)}
                     isToday={date === currentDate}
                     date={date} />;
                 })}
