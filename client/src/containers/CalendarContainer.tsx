@@ -45,7 +45,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
           currentYear={currentYear}
           currentMonth={currentMonth} />
         <CalendarCreator
-          setCurrentToDo={setCurrentTime}
+          setCurrentTime={setCurrentTime}
           currentYear={currentYear}
           currentMonth={currentMonth}
           currentDate={currentDate}

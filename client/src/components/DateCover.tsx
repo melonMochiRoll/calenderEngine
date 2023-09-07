@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 import NotiIcon from '@mui/icons-material/Feedback';
 
 interface DateCoverProps {
-  setCurrentToDo: () => void;
+  setCurrentTime: () => void;
   hasTodo: boolean;
   isToday: boolean;
   date: number;
 };
 
 const DateCover: FC<DateCoverProps> = ({
-  setCurrentToDo,
+  setCurrentTime,
   hasTodo,
   isToday,
   date,
@@ -18,7 +18,7 @@ const DateCover: FC<DateCoverProps> = ({
   return (
     <Block
       isToday={isToday}
-      onClick={setCurrentToDo}>
+      onClick={setCurrentTime}>
       <Content>
         {date}
         {hasTodo ? <NotiIcon /> : ''}
