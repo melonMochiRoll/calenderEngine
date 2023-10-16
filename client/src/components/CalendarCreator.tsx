@@ -49,7 +49,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                   return <DateCover
                     key={i + n}
                     setCurrentTime={() => setCurrentTime(timeKey)}
-                    hasTodo={currentMonthTodos.hasOwnProperty(timeKey)}
+                    hasTodo={currentMonthTodos?.hasOwnProperty(timeKey)}
                     isToday={date === currentDate}
                     date={date} />;
                 })}
