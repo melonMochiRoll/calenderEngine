@@ -4,21 +4,22 @@ import { currentMonthTodosType } from 'Pages/MainPage';
 import TodoList from 'Components/todo/TodoList';
 import TodoTabs from 'Components/todo/TodoTabs';
 import TodoInput from 'Components/todo/TodoInput';
+import useTabs from 'Hooks/useTabs';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface TodoAppProps {
   currentTime: string;
   currentMonthTodos: currentMonthTodosType;
-  setCurrentMonthTodos: React.Dispatch<React.SetStateAction<currentMonthTodosType>>;
 };
 
 const TodoApp: FC<TodoAppProps> = ({
   currentTime,
   currentMonthTodos,
-  setCurrentMonthTodos,
 }) => {
-  const [ todoTab, setTodoTab ] = useState('all');
+  const [ todoTab, onChangeTab ] = useTabs('all');
   const [ currentDateTodos, setCurrentDateTodos ] = useState(currentMonthTodos[currentTime]);
   const [ year, month, date ] = currentTime.split('&');
+  const qc = useQueryClient();
 
   useEffect(() => {
     setCurrentDateTodos(currentMonthTodos[currentTime]);
@@ -26,23 +27,14 @@ const TodoApp: FC<TodoAppProps> = ({
 
   const addTodo = (value: string) => {
     if (!value || !value.trim()) return;
+    let newTodos = [{ title: value, isCompleted: false }];
 
     if (currentDateTodos) {
-      const newTodos = [
-        ...currentDateTodos,
-        { title: value, isCompleted: false },
-      ];
-      setCurrentDateTodos(newTodos);
-      setCurrentMonthTodos({
-        ...currentMonthTodos,
-        [`${currentTime}`]: newTodos,
-      });
-      return;
+      newTodos.unshift(...currentDateTodos);
     }
 
-    const newTodos = [{ title: value, isCompleted: false }];
     setCurrentDateTodos(newTodos);
-    setCurrentMonthTodos({
+    qc.setQueryData(['getCurrentMonthTodosKey'], {
       ...currentMonthTodos,
       [`${currentTime}`]: newTodos,
     });
@@ -59,24 +51,14 @@ const TodoApp: FC<TodoAppProps> = ({
       ...currentDateTodos.slice(index + 1, currentDateTodos.length),
     ];
 
+    currentMonthTodos[`${currentTime}`] = newTodos;
+
     if (newTodos.length < 1) {
-      const newMonthTodos = {
-        ...currentMonthTodos
-      };
-      delete newMonthTodos[`${currentTime}`];
-      setCurrentMonthTodos(newMonthTodos);
-    } else {
-      setCurrentMonthTodos({
-        ...currentMonthTodos,
-        [`${currentTime}`]: newTodos,
-      });
+      delete currentMonthTodos[`${currentTime}`];
     }
 
+    qc.setQueryData(['getCurrentMonthTodosKey'], currentMonthTodos);
     setCurrentDateTodos(newTodos);
-  };
-
-  const onChangeTab = (e: React.SyntheticEvent, newValue: string) => {
-    setTodoTab(newValue);
   };
 
   return (
