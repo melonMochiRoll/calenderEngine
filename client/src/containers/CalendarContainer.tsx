@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import ControlPanel from 'Components/ControlPanel';
 import CalendarTitle from 'Components/CalendarTitle';
 import CalendarCreator from 'Components/CalendarCreator';
-import { currentMonthTodosType } from 'Pages/MainPage';
+import { currentMonthTodosType } from 'Hooks/useTodos';
 
 interface CalendarContainerProps {
   setCurrentTime: React.Dispatch<React.SetStateAction<string>>;

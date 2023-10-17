@@ -2,26 +2,23 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import TodoApp from './todo/TodoApp';
 import TodoInit from 'Components/todo/TodoInit';
-import { currentMonthTodosType } from 'Pages/MainPage';
+import { currentMonthTodosType } from 'Hooks/useTodos';
 
 interface TodoContainerProps {
   currentTime: string;
   currentMonthTodos: currentMonthTodosType;
-  setCurrentMonthTodos: React.Dispatch<React.SetStateAction<currentMonthTodosType>>;
 };
 
 const TodoContainer: FC<TodoContainerProps> = ({
   currentTime,
   currentMonthTodos,
-  setCurrentMonthTodos,
 }) => {
   return (
     <Block>
       {currentTime ?
         <TodoApp
           currentTime={currentTime}
-          currentMonthTodos={currentMonthTodos}
-          setCurrentMonthTodos={setCurrentMonthTodos} /> :
+          currentMonthTodos={currentMonthTodos} /> :
         <TodoInit />
       }
     </Block>

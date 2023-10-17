@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import DateCover from './DateCover';
-import { currentMonthTodosType } from 'Pages/MainPage';
+import { currentMonthTodosType } from 'Hooks/useTodos';
 
 interface CalendarCreatorProps {
   setCurrentTime: React.Dispatch<React.SetStateAction<string>>;

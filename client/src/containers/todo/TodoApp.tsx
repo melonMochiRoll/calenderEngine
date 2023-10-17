@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { currentMonthTodosType } from 'Pages/MainPage';
+import { currentMonthTodosType } from 'Hooks/useTodos';
 import TodoList from 'Components/todo/TodoList';
 import TodoTabs from 'Components/todo/TodoTabs';
 import TodoInput from 'Components/todo/TodoInput';

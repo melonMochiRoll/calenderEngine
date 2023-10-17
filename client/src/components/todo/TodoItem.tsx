@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
-import { todoType } from 'Pages/MainPage';
+import { todoType } from 'Hooks/useTodos';
 
 interface TodoItemProps {
   index: number;

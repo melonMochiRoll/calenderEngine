@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import TodoItem from 'Components/todo/TodoItem';
 import TodoNull from 'Components/todo/TodoNull';
-import { todoType } from 'Pages/MainPage';
+import { todoType } from 'Hooks/useTodos';
 
 interface TodoListProps {
   todoTab: string;
