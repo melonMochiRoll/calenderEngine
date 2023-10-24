@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import session from 'express-session';
-import 'dotenv/config'
+import 'dotenv/config';
 import passport from 'passport';
 
 async function bootstrap() {
@@ -17,7 +17,7 @@ async function bootstrap() {
   app.enableCors(devCorsOption);
 
   const sessionOption = {
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { secure: true },
