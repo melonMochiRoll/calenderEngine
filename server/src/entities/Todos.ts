@@ -19,8 +19,7 @@ export class Todos {
   contents: string;
 
   @Column({
-    type: 'date',
-    default: () => '(CURRENT_DATE)',
+    type: 'date'
   })
   date: Date;
 
