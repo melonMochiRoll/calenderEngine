@@ -4,6 +4,8 @@ import session from 'express-session';
 import 'dotenv/config';
 import passport from 'passport';
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: console,
@@ -29,6 +31,11 @@ async function bootstrap() {
   const port = Number(process.env.PORT);
   await app.listen(port);
   console.log(`PORT :: ${port} server is ready`);
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 
 bootstrap();
