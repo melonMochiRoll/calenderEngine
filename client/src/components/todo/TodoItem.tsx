@@ -3,41 +3,42 @@ import styled from '@emotion/styled';
 import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
-import { todoType } from 'Hooks/useTodos';
 
 interface TodoItemProps {
   index: number;
-  item: todoType;
-  updateTodo: (index: number) => void;
+  content: string;
+  isCompleted: boolean;
+  shiftTodo: (content: string, index: number) => void;
   deleteTodo: (index: number) => void;
 };
 
 const TodoItem: FC<TodoItemProps> = ({
   index,
-  item,
-  updateTodo,
+  content,
+  isCompleted,
+  shiftTodo,
   deleteTodo,
 }) => {
-  const [ completed, setCompleted ] = useState(item.isCompleted);
+  const [ completed, setCompleted ] = useState(isCompleted);
 
   useEffect(() => {
-    setCompleted(item.isCompleted);
-  }, [item]);
+    setCompleted(isCompleted);
+  }, [isCompleted]);
 
-  const onChangeCompleted = (index: number) => {
-    updateTodo(index);
+  const onChangeCompleted = (content: string, index: number) => {
+    shiftTodo(content, index);
     setCompleted((prev) => !prev);
   };
 
   return (
     <Block completed={completed}>
-      <Switch onClick={() => onChangeCompleted(index)}>
+      <Switch onClick={() => onChangeCompleted(content, index)}>
         {completed ?
           <ChkIcon sx={{ color: '#2fb765' }} fontSize='large' /> :
           <ChkLineIcon sx={{ color: 'rgba(0, 0, 0, 0.2)' }} fontSize='large' />}
       </Switch>
       <Contents>
-        <span>{item.title}</span>
+        <span>{content}</span>
         <BackIcon onClick={() => deleteTodo(index)} sx={{ color: '#ad0000' }}/>
       </Contents>
     </Block>
