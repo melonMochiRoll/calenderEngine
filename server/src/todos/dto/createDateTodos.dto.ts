@@ -4,7 +4,7 @@ export class CreateDateTodosDto {
 
   @IsNotEmpty()
   @IsString()
-  content: string;
+  contents: string;
 
   @IsNotEmpty()
   @IsString()
