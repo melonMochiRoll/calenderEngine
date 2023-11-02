@@ -14,15 +14,23 @@ type UseTodosReturnType = [
   currentMonthTodosType,
 ];
 
+type UseTodosQueryKey = [
+  string, number, number
+];
+
 const useTodos = (
   year: number,
   monthIndex: number,
   ): UseTodosReturnType => {
-  const { data: currentMonthTodos } = useQuery({
-    queryKey: ['getCurrentMonthTodos'],
-    queryFn: () => getCurrentMonthTodos(year, monthIndex),
+  const { data: currentMonthTodos } = useQuery<currentMonthTodosType, Error, currentMonthTodosType, UseTodosQueryKey>({
+    queryKey: ['getCurrentMonthTodos', year, monthIndex],
+    queryFn: ({ queryKey }) => getCurrentMonthTodos(queryKey[1], queryKey[2]),
     refetchOnWindowFocus: false,
   });
+
+  if (!currentMonthTodos) {
+    return [ {} ];
+  }
   
   return [ currentMonthTodos ];
 };
