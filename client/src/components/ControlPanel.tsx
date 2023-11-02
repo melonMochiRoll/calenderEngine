@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import ArrowRightIcon from '@mui/icons-material/ArrowForwardRounded';
 import ArrowLeftIcon from '@mui/icons-material/ArrowBackRounded';
 
-interface ControlPanelProps<T> {
-  prevMonth: Dayjs;
-  nextMonth: Dayjs;
-  setNow: React.Dispatch<React.SetStateAction<T>>;
+interface ControlPanelProps {
+  prevMonth: dayjs.Dayjs;
+  nextMonth: dayjs.Dayjs;
+  setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
 };
 
-const ControlPanel: FC<ControlPanelProps<any>> = ({
+const ControlPanel: FC<ControlPanelProps> = ({
   setNow,
   prevMonth,
   nextMonth,
