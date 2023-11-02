@@ -1,22 +1,24 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import ControlPanel from 'Components/ControlPanel';
 import CalendarTitle from 'Components/CalendarTitle';
 import CalendarCreator from 'Components/CalendarCreator';
 import { currentMonthTodosType } from 'Hooks/useTodos';
+import dayjs from 'dayjs';
 
 interface CalendarContainerProps {
+  now: dayjs.Dayjs;
+  setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>
   setCurrentTime: React.Dispatch<React.SetStateAction<string>>;
   currentMonthTodos: currentMonthTodosType;
 };
 
 const CalendarContainer: FC<CalendarContainerProps> = ({
+  now,
+  setNow,
   setCurrentTime,
   currentMonthTodos,
 }) => {
-  const [ now, setNow ] = useState(dayjs());
-
   const currentYear = now.year();
   const currentMonth = now.month();
 
