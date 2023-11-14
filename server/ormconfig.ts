@@ -14,9 +14,10 @@ const ormconfig: TypeOrmModuleOptions = {
     Users,
     Todos,
   ],
-  synchronize: true,
+  synchronize: false,
   autoLoadEntities: true,
   charset: 'utf8mb4',
+  timezone: 'Asia/Seoul',
 }
 
 export default ormconfig;
