@@ -21,7 +21,7 @@ export class Users {
   @IsString()
   @Column({
     type: 'varchar',
-    length: 18,
+    length: 100,
   })
   password: string;
 
