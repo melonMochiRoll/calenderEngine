@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { UsersService } from "src/users/users.service";
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,13 @@ export class AuthService {
   ) {
     const user = await this.usersService.getOneByEmail(email);
 
-    if (user && user.password === password) {
+    if (!user) {
+      return null;
+    }
+
+    const compare = await bcrypt.compare(password, user.password);
+
+    if (compare) {
       const { password, ...rest} = user;
       return rest;
     }
