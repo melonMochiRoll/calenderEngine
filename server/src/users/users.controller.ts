@@ -3,7 +3,7 @@ import { UsersService } from "./users.service";
 import { CreateUserDTO } from "./dto/createUser.dto";
 import { IsNotAuthenicatedGuard } from "src/auth/local.auth.guard";
 import { User } from "src/common/decorator/user.decorator";
-import { UsersWithoutPassword } from "src/typings/types";
+import { Users } from "src/entities/Users";
 
 @Controller('api/users')
 export class UsersController {
@@ -12,7 +12,7 @@ export class UsersController {
   ) {}
 
   @Get()
-  async getUser(@User() user: UsersWithoutPassword) {
+  async getUser(@User() user: Users) {
     return user || false;
   };
 
