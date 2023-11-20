@@ -1,13 +1,20 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDTO } from "./dto/createUser.dto";
 import { IsNotAuthenicatedGuard } from "src/auth/local.auth.guard";
+import { User } from "src/common/decorator/user.decorator";
+import { UsersWithoutPassword } from "src/typings/types";
 
 @Controller('api/users')
 export class UsersController {
   constructor(
     private usersService: UsersService,
   ) {}
+
+  @Get()
+  async getUser(@User() user: UsersWithoutPassword) {
+    return user || false;
+  };
 
   @UseGuards(IsNotAuthenicatedGuard)
   @Post()
