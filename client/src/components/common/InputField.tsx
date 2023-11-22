@@ -1,19 +1,20 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import useInput from 'Hooks/useInput';
 import { InputTypeAttribute } from 'src/typings/types';
 
 interface InputFieldProps {
+  value: string;
+  onChangeValue: (e: any) => void;
   title: string;
   type: InputTypeAttribute;
 };
 
 const InputField: FC<InputFieldProps> = ({
+  value,
+  onChangeValue,
   title,
   type,
   }) => {
-  const [ value, onChangeValue, setValue ] = useInput('');
-
   return (
     <Block>
       <Input
