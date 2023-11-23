@@ -24,3 +24,14 @@ export const login = async (email: string, password: string) => {
     return err;
   }
 };
+
+export const logout = async () => {
+  try {
+    await axiosInstance.post('api/auth/logout');
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+    return err;
+  }
+};
