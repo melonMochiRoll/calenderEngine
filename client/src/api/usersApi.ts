@@ -11,3 +11,16 @@ export const getUser = async () => {
     return err;
   }
 };
+
+export const login = async (email: string, password: string) => {
+  try {
+    await axiosInstance.post('/api/auth/login', { username: email, password });
+    
+    return true;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+    return err;
+  }
+};
