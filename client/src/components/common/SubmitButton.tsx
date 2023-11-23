@@ -2,17 +2,17 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 
 interface SubmitButtonProps {
-  title: string,
+  children: React.ReactNode;
   type?: 'submit' | 'reset' | 'button' | undefined,
 };
 
 const SubmitButton: FC<SubmitButtonProps> = ({ 
-  title,
   type,
+  children,
   }) => {
   return (
     <Button type={type}>
-      {title}
+      {children}
     </Button>
   )
 };
