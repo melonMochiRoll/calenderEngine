@@ -7,8 +7,35 @@ export const getUser = async () => {
     
     return data;
   } catch (err) {
-    console.error(err);
-    return err;
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+  }
+};
+
+export const getOneByEmail = async (email: string) => {
+  try {
+    const { data } = await axiosInstance.get(`/api/users/email?e=${email}`);
+
+    if (data) {
+      return true;
+    }
+
+    return false;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+  }
+};
+
+export const createUser = async (email: string, password: string) => {
+  try {
+    await axiosInstance.post('/api/users', { email, password });
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
   }
 };
 
@@ -21,7 +48,6 @@ export const login = async (email: string, password: string) => {
     if (err instanceof Error) {
       throw new Error(err.message);
     }
-    return err;
   }
 };
 
@@ -32,6 +58,5 @@ export const logout = async () => {
     if (err instanceof Error) {
       throw new Error(err.message);
     }
-    return err;
   }
 };
