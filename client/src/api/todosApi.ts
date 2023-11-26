@@ -10,6 +10,9 @@ export const getCurrentMonthTodos = async (
       
     return data;
   } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
     console.error(err);
   }
 };
@@ -22,6 +25,9 @@ export const createDateTodos = async (
     await axiosInstance
       .post(`api/todos`, { contents, date });
   } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
     console.error(err);
   }
 };
@@ -34,6 +40,9 @@ export const updateDateTodos = async (
     await axiosInstance
       .put(`/api/todos`, { todosId, contents });
   } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
     console.error(err);
   }
 };
@@ -45,6 +54,9 @@ export const deleteDateTodos = async (
     await axiosInstance
       .delete(`/api/todos?ti=${todosId}`);
   } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
     console.error(err);
   }
 };
