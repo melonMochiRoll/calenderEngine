@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { InputTypeAttribute } from 'src/typings/types';
 
 interface InputFieldProps {
+  id: string;
   value: string;
   onChangeValue: (e: any) => void;
   title: string;
@@ -10,6 +11,7 @@ interface InputFieldProps {
 };
 
 const InputField: FC<InputFieldProps> = ({
+  id,
   value,
   onChangeValue,
   title,
@@ -18,6 +20,7 @@ const InputField: FC<InputFieldProps> = ({
   return (
     <Block>
       <Input
+        id={id}
         value={value}
         onChange={onChangeValue}
         type={type}
@@ -25,7 +28,7 @@ const InputField: FC<InputFieldProps> = ({
         required
         />
       <Label
-        htmlFor='text'>
+        htmlFor={id}>
         {title}
       </Label>
     </Block>
