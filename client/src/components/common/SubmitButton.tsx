@@ -3,15 +3,19 @@ import styled from '@emotion/styled';
 
 interface SubmitButtonProps {
   children: React.ReactNode;
-  type?: 'submit' | 'reset' | 'button' | undefined,
+  type: 'submit' | 'reset' | 'button' | undefined,
+  onClick?: () => void;
 };
 
 const SubmitButton: FC<SubmitButtonProps> = ({ 
   type,
   children,
+  onClick,
   }) => {
   return (
-    <Button type={type}>
+    <Button
+      onClick={onClick}
+      type={type}>
       {children}
     </Button>
   )
