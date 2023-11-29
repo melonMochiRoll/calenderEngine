@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import ControlPanel from 'Components/ControlPanel';
-import CalendarTitle from 'Components/CalendarTitle';
 import CalendarCreator from 'Components/CalendarCreator';
 import { currentMonthTodosType } from 'Hooks/useTodos';
 import dayjs from 'dayjs';
+import CalendarTitle from 'Components/CalendarTitle';
 
 interface CalendarContainerProps {
   now: dayjs.Dayjs;
@@ -25,8 +25,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
   /** 현재 요일 */
   const currentDate = now.date();
   const currentDay = now.day();
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
-  const dayoftheweek = days[currentDay];
+  const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 
   const dates: Array<number|string> = [];
   const firstDay = now.date(1).day();
@@ -41,39 +40,38 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
   }
 
   return (
-    <Block>
-      <Calendar>
+    <Calendar>
+      <Top>
         <CalendarTitle
           currentYear={currentYear}
           currentMonth={currentMonth} />
-        <CalendarCreator
-          setCurrentTime={setCurrentTime}
-          currentYear={currentYear}
-          currentMonth={currentMonth}
-          currentDate={currentDate}
-          currentMonthTodos={currentMonthTodos}
-          dates={dates} />
         <ControlPanel
           setNow={setNow}
           prevMonth={now.month(currentMonth - 1)}
           nextMonth={now.month(currentMonth + 1)} />
-      </Calendar>
-    </Block>
+      </Top>
+      <CalendarCreator
+        setCurrentTime={setCurrentTime}
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+        currentDay={currentDay}
+        currentDate={currentDate}
+        currentMonthTodos={currentMonthTodos}
+        days={days}
+        dates={dates} />
+    </Calendar>
   );
 };
 
 export default CalendarContainer;
 
-const Block = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: stretch;
+const Calendar = styled.div`
   width: 100%;
-  height: 100vh;
-  background-color: #F3F5F8;
 `;
 
-const Calendar = styled.div`
-  width: 800px;
+const Top = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
 `;
