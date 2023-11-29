@@ -30,7 +30,9 @@ export default TodoContainer;
 const Block = styled.div`
   display: flex;
   justify-content: center;
-  width: 650px;
+  width: 550px;
   height: 100vh;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  padding: 15px;
+  border: 1px solid #2f323b;
+  background-color: #242731;
 `;
