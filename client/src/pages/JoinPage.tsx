@@ -28,5 +28,5 @@ const Block = styled.div`
   display: flex;
   height: 100vh;
   justify-content: center;
-  background-color: #0f102b;
+  background-color: #1f2128;
 `;
