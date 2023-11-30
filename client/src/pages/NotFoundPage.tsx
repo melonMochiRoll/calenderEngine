@@ -39,12 +39,14 @@ const Box = styled.div`
   gap: 20px;
   
   h1 {
-    font-size: 78px;
+    font-size: 120px;
     color: #fff;
+    margin: 0;
   }
 
   span {
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 300;
     color: #fff;
   }
 `;
