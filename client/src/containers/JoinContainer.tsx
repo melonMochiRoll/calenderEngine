@@ -1,11 +1,39 @@
 import React, { FC, useCallback, useState } from 'react';
-import styled from '@emotion/styled';
-import InputField from 'Components/common/InputField';
-import SubmitButton from 'Components/common/SubmitButton';
 import useInput from 'Hooks/useInput';
 import { createUser, getOneByEmail } from 'Api/usersApi';
 import { NavigateFunction } from 'react-router-dom';
 import JoinForm from 'Components/auth/JoinForm';
+
+const emailConfirmation = async (email: string) => {
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (!email) {
+    return '이메일을 입력해주세요';
+  }
+
+  if (!emailPattern.test(email)) {
+    return '이메일 형식을 확인해주세요';
+  }
+
+  if (await getOneByEmail(email)) {
+    return '중복 된 이메일입니다.';
+  }
+
+  return '';
+};
+
+const passwordConfirmation = (password: string) => {
+  
+  if (!password) {
+    return '비밀번호를 입력해주세요';
+  }
+
+  if (password.length < 8) {
+    return '비밀번호는 8자 이상이어야 합니다.';
+  }
+
+  return '';
+};
 
 interface JoinContainerProps {
   navigate: NavigateFunction;
@@ -29,14 +57,10 @@ const JoinContainer: FC<JoinContainerProps> = ({
     passwordChk: string,
   ) => {
     const isSubmit = {
-      email: email ? '' : '이메일을 입력해주세요',
-      password: password ? '' : '비밀번호를 입력해주세요',
-      passwordChk: password === passwordChk ? '' : '비밀번호가 일치하지 않습니다.',
+      email: await emailConfirmation(email),
+      password: passwordConfirmation(password),
+      passwordChk: password !== passwordChk ? '비밀번호가 일치하지 않습니다.' : '',
     };
-
-    if (await getOneByEmail(email)) {
-      isSubmit.email = '중복 된 이메일입니다.';
-    }
 
     for (let value of Object.values(isSubmit)) {
       if (value) {
@@ -74,9 +98,9 @@ const JoinContainer: FC<JoinContainerProps> = ({
     
   }, [email, password, passwordChk]);
 
-  const goBack = () => {
-    navigate('/')
-  };
+  const goBack = useCallback(() => {
+    navigate('/');
+  }, []);
 
   return (
     <JoinForm

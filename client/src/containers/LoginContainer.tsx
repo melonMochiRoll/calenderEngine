@@ -4,6 +4,32 @@ import { login } from 'Api/usersApi';
 import { NavigateFunction } from 'react-router-dom';
 import LoginForm from 'Components/auth/LoginForm';
 
+const emailConfirmation = (email: string) => {
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (!email) {
+    return '이메일을 입력해주세요';
+  }
+
+  if (!emailPattern.test(email)) {
+    return '이메일 형식을 확인해주세요';
+  }
+
+  return '';
+};
+
+const passwordConfirmation = (password: string) => {
+  if (!password) {
+    return '비밀번호를 입력해주세요';
+  }
+
+  if (password.length < 8) {
+    return '비밀번호는 8자 이상이어야 합니다.';
+  }
+
+  return '';
+};
+
 interface LoginContainerProps {
   navigate: NavigateFunction;
 };
@@ -20,8 +46,8 @@ const LoginContainer: FC<LoginContainerProps> = ({
 
   const confirmation = (email: string, password: string) => {
     const isSubmit = {
-      email: email ? '' : '이메일을 입력해주세요',
-      password: password ? '' : '비밀번호를 입력해주세요',
+      email: emailConfirmation(email),
+      password: passwordConfirmation(password),
     };
 
     for (let value of Object.values(isSubmit)) {
@@ -41,9 +67,12 @@ const LoginContainer: FC<LoginContainerProps> = ({
       password: '',
     });
 
-    if (!confirmation(email, password)) return;
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (!confirmation(trimmedEmail, trimmedPassword)) return;
   
-    login(email, password)
+    login(trimmedEmail, trimmedPassword)
       .then(() => {
         navigate('/');
       })
