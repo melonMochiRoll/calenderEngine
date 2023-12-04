@@ -8,8 +8,10 @@ interface CalendarCreatorProps {
   setCurrentTime: React.Dispatch<React.SetStateAction<string>>;
   currentYear: number;
   currentMonth: number;
+  currentDay: number;
   currentDate: number;
   currentMonthTodos: currentMonthTodosType;
+  days: Array<string>;
   dates: Array<number|string>;
 };
 
@@ -17,8 +19,10 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
   setCurrentTime,
   currentYear,
   currentMonth,
+  currentDay,
   currentDate,
   currentMonthTodos,
+  days,
   dates,
 }) => {
   const isNowMonth = dayjs().month() === currentMonth;
@@ -28,13 +32,9 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
     <Block>
       <WeekBlock>
         <tr>
-          <td>일요일</td>
-          <td>월요일</td>
-          <td>화요일</td>
-          <td>수요일</td>
-          <td>목요일</td>
-          <td>금요일</td>
-          <td>토요일</td>
+          {days.map((ele: string, i: number) => {
+            return <Day key={i} isToday={i === currentDay}>{ele}</Day>
+          })}
         </tr>
       </WeekBlock>
       <DayBlock>
@@ -76,16 +76,11 @@ const Block = styled.table`
 const WeekBlock = styled.thead`
   text-align: center;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 600;
+  color: #dedee3;
 
   tr {
     border-spacing: 5px;
-  }
-
-  td {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background-color: #FFFFFF;
-    padding: 5px 0;
   }
 `;
 
@@ -96,14 +91,21 @@ const DayBlock = styled.tbody`
     padding: 5px;
     vertical-align: top;
     height: 100px;
-    color: #434F5C;
+    color: #dedee3;
+    background-color: #242731;
   }
 
   td:first-of-type {
-    color: red;
+    color: #e66641;
   }
 
   td:last-of-type {
-    color: blue;
+    color: #2576f0;
   }
+`;
+
+const Day = styled.td<{ isToday: boolean }>`
+  border: 1px solid #2f323b;
+  background-color: ${({isToday}) => isToday ? '#6c5dd3' : '#242731'};
+  padding: 5px 0;
 `;
