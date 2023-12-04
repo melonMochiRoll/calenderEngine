@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import styled from '@emotion/styled';
 import TodoItem from 'Components/todo/TodoItem';
 import TodoNull from 'Components/todo/TodoNull';
@@ -61,7 +61,7 @@ const TodoList: FC<TodoListProps> = ({
   );
 };
 
-export default TodoList;
+export default memo(TodoList);
 
 const Block = styled.div`
   display: flex;
@@ -69,7 +69,7 @@ const Block = styled.div`
   padding: 5px;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #2f323b;
   overflow: auto;
   gap: 10px;
 `;
