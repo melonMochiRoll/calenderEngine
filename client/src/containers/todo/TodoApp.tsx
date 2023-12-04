@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { currentMonthTodosType } from 'Hooks/useTodos';
 import TodoList from 'Components/todo/TodoList';
@@ -7,6 +7,8 @@ import TodoInput from 'Components/todo/TodoInput';
 import useTabs from 'Hooks/useTabs';
 import { useQueryClient } from '@tanstack/react-query';
 import { createDateTodos, deleteDateTodos, updateDateTodos } from 'Api/todosApi';
+import useUser from 'Hooks/useUser';
+import { useNavigate } from 'react-router-dom';
 
 interface TodoAppProps {
   currentTime: string;
@@ -17,6 +19,8 @@ const TodoApp: FC<TodoAppProps> = ({
   currentTime,
   currentMonthTodos,
 }) => {
+  const [ userData ] = useUser();
+  const navigate = useNavigate();
   const [ todoTab, onChangeTab ] = useTabs('all');
   const [ currentDateTodos, setCurrentDateTodos ] = useState(currentMonthTodos[currentTime]);
   const [ year, month, date ] = currentTime.split('-').map(Number);
@@ -27,6 +31,10 @@ const TodoApp: FC<TodoAppProps> = ({
   }, [currentTime]);
 
   const addTodo = (value: string) => {
+    if (!userData) {
+      qc.setQueryData(['getCurrentMonthTodos'], {});
+      navigate('/login');
+    };
     if (!value || !value.trim()) return;
     
     const id = currentDateTodos?.id ? currentDateTodos.id : 0;
@@ -41,18 +49,28 @@ const TodoApp: FC<TodoAppProps> = ({
 
     setCurrentDateTodos(newTodos);
     currentMonthTodos[`${currentTime}`] = newTodos;
-    qc.setQueryData(['getCurrentMonthTodos', year, month-1], currentMonthTodos);
+    qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
   };
 
   const shiftTodo = (content: string, index: number) => {
+    if (!userData) {
+      qc.setQueryData(['getCurrentMonthTodos'], {});
+      navigate('/login')
+    };
+
     const target = currentDateTodos.contents[index][0] === '1' ? '0' : '1';
 
     currentMonthTodos[`${currentTime}`].contents[index] = `${target}${content}`;
-    qc.setQueryData(['getCurrentMonthTodos', year, month-1], currentMonthTodos);
+    qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
     updateDateTodos(currentDateTodos.id, currentDateTodos.contents.join('&'));
   };
 
   const deleteTodo = (index: number) => {
+    if (!userData) {
+      qc.setQueryData(['getCurrentMonthTodos'], {})
+      navigate('/login')
+    };
+
     const newContents = [
       ...currentDateTodos.contents.slice(0, index),
       ...currentDateTodos.contents.slice(index + 1, currentDateTodos.contents.length),
@@ -69,7 +87,7 @@ const TodoApp: FC<TodoAppProps> = ({
     }
 
     setCurrentDateTodos(newTodos);
-    qc.setQueryData(['getCurrentMonthTodos', year, month-1], currentMonthTodos);
+    qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
   };
 
   return (
@@ -100,4 +118,5 @@ const Container = styled.div`
 export const TodoTitle = styled.h1`
   font-size: 28px;
   font-weigth: 800;
+  color: #efeff1;
 `;
