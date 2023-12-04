@@ -31,6 +31,7 @@ export class TodosController {
     return await this.todosService.createDateTodos(dto.contents, dto.date, user.id);
   };
 
+  @UseGuards(IsAuthenicatedGuard)
   @Put()
   async updateDateTodos(
     @Body() dto: UpdateDateTodosDto,
@@ -38,6 +39,7 @@ export class TodosController {
     return this.todosService.updateDateTodos(dto.todosId, dto.contents);
   };
 
+  @UseGuards(IsAuthenicatedGuard)
   @Delete()
   async deleteDateTodos(
     @Query('ti', ParseIntPipe) todosId: number,
