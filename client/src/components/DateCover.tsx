@@ -32,17 +32,16 @@ export default DateCover;
 const Block = styled.td<{ isToday: boolean }>`
   width: 120px;
   cursor: pointer;
-  background-color: #FFFFFF;
   border: ${({isToday}) => isToday ?
-    `2px solid #248E4E` : `1px solid rgba(0, 0, 0, 0.2)`};
-  box-shadow: ${({isToday}) => isToday && 'inset 0 0 7px #248E4E'};
+    `2px solid #bf94FF` : `1px solid #2f323b`};
+  box-shadow: ${({isToday}) => isToday && 'inset 0 0 7px #bf94FF'};
 
   &:hover {
-    background-color: rgba(200, 200, 200, 0.1);
+    background-color: #2c2f38;
   }
 
   svg {
-    color: #248E4E;
+    color: #bf94FF;
   }
 `;
 

@@ -23,15 +23,12 @@ export default CalendarTitle;
 
 const Block = styled.div`
   display: flex;
-  justify-content: center;
 `;
 
 const Title = styled.h1`
-  width: 100%;
-  font-size: 24px;
+  font-size: 42px;
   text-align: center;
   font-weight: 800;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  color: #efeff1;
   padding: 3px;
 `;

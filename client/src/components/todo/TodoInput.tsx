@@ -27,7 +27,7 @@ const TodoInput: FC<TodoInputProps> = ({
       <AddIcon
         onClick={() => onSubmit(value)}
         fontSize='large'
-        sx={{ color: '#2fb765' }} />
+        sx={{ color: '#bf94FF' }} />
     </Block>
   );
 };
@@ -36,6 +36,7 @@ export default TodoInput;
 
 const Block = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 
@@ -49,19 +50,22 @@ const Input = styled.input`
   padding: 12px 15px;
   font-size: 17px;
   font-weight: 500;
+  color: #dedee3;
+  background-color: #242731;
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #2f323b;
   transition: box-shadow 150ms ease-out;
 
   &::placeholder {
     font-weight: 600;
     transition: 0.3s;
     text-align: center;
+    color: #dedee3;
   }
 
   &:focus {
     outline: none;
     border-bottom: none;
-    box-shadow: 0 2px 0 0 #2fb765;
+    box-shadow: 0 2px 0 0 #bf94FF;
   }
 `;

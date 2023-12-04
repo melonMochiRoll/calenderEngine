@@ -16,12 +16,13 @@ const TodoTabs: FC<TodoTabsProps> = ({
     '& .MuiButtonBase-root': {
       fontSize: '18px',
       fontWeight: 800,
+      color: '#dedee3',
     },
     '& .MuiButtonBase-root.Mui-selected': {
-      color: '#2fb765',
+      color: '#bf94FF',
     },
     '& .MuiTabs-indicator': {
-      backgroundColor: '#2fb765',
+      backgroundColor: '#bf94FF',
     },
   }
 

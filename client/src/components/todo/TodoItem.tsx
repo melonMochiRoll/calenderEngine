@@ -34,12 +34,12 @@ const TodoItem: FC<TodoItemProps> = ({
     <Block completed={completed}>
       <Switch onClick={() => onChangeCompleted(content, index)}>
         {completed ?
-          <ChkIcon sx={{ color: '#2fb765' }} fontSize='large' /> :
-          <ChkLineIcon sx={{ color: 'rgba(0, 0, 0, 0.2)' }} fontSize='large' />}
+          <ChkIcon sx={{ color: '#bf94FF' }} fontSize='large' /> :
+          <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
       </Switch>
       <Contents>
         <span>{content}</span>
-        <BackIcon onClick={() => deleteTodo(index)} sx={{ color: '#ad0000' }}/>
+        <BackIcon onClick={() => deleteTodo(index)} sx={{ color: '#e66641' }}/>
       </Contents>
     </Block>
   );
@@ -53,9 +53,7 @@ const Block = styled.div<{ completed: boolean }>`
   width: 280px;
   font-size: 18px;
   padding: 13px 15px;
-  box-shadow: ${({completed}) => completed ?
-    `0 0 6px #2fb765` :
-    `0 0 3px rgba(0, 0, 0, 0.4)`};
+  border: ${({completed}) => completed ? `2px solid #bf94FF` : `2px solid #2f323b`};
   border-radius: 6px;
 
   span {
@@ -83,6 +81,7 @@ const Contents = styled.div`
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
+  color: #dedee3;
 
   svg {
     opacity: 0;

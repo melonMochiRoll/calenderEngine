@@ -19,10 +19,10 @@ const ControlPanel: FC<ControlPanelProps> = ({
     <Block>
       <ArrowLeftIcon
         fontSize='large'
-        onClick={() => {setNow(prevMonth)}}/>
+        onClick={() => setNow(prevMonth)}/>
       <ArrowRightIcon
         fontSize='large'
-        onClick={() => {setNow(nextMonth)}}/>
+        onClick={() => setNow(nextMonth)}/>
     </Block>
   );
 };
@@ -30,20 +30,15 @@ const ControlPanel: FC<ControlPanelProps> = ({
 export default ControlPanel;
 
 const Block = styled.div`
-  width: 100%;
-  margin-top: 20px;
-  padding: 5px 10px;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  align-items: end;
+  padding: 5px 10px;
   gap: 10px;
 
   svg {
     cursor: pointer;
     border-radius: 8px;
-    color: #248E4E;
+    color: #dedee3;
   }
 
   svg:hover {
