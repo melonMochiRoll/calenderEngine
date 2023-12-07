@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDTO } from "./dto/createUser.dto";
 import { IsNotAuthenicatedGuard } from "src/auth/local.auth.guard";
@@ -12,13 +12,18 @@ export class UsersController {
   ) {}
 
   @Get()
-  async getUser(@User() user: Users) {
+  getUser(@User() user: Users) {
     return user || false;
+  };
+
+  @Get('email')
+  getOneByEmail(@Query('e') email: string) {
+    return this.usersService.getOneByEmail(email);
   };
 
   @UseGuards(IsNotAuthenicatedGuard)
   @Post()
-  async createUser(@Body() dto: CreateUserDTO) {
+  createUser(@Body() dto: CreateUserDTO) {
     return this.usersService.createUser(dto.email, dto.password);
   };
 }
