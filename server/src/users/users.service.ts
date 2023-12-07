@@ -28,17 +28,27 @@ export class UsersService {
     email: string,
     password: string,
   ) {
-    const result = await this.getOneByEmail(email);
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+    if (emailPattern.test(email)) {
+      throw new ConflictException('이메일 형식을 확인해주세요');
+    }
 
-    if (result) {
+    if (await this.getOneByEmail(email)) {
       throw new ConflictException('이미 가입된 이메일입니다.');
     }
 
-    const hash = await bcrypt.hash(password, 11);
-    await this.usersRepository.save({
-      email,
-      password: hash,
-    });
+    try {
+      const hash = await bcrypt.hash(password, 11);
+      await this.usersRepository.save({
+        email,
+        password: hash,
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error(err.message);
+      }
+    }
 
     return true;
   };
