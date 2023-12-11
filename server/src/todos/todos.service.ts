@@ -1,14 +1,18 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, Repository } from "typeorm";
 import { Todos } from "src/entities/Todos";
 import { todosWithoutUserId } from "src/typings/types";
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
 
 @Injectable()
 export class TodosService {
   constructor(
     @InjectRepository(Todos)
     private todosRepository: Repository<Todos>,
+    @Inject(CACHE_MANAGER)
+    private cacheManager: Cache,
   ) {}
 
   async getCurrentMonthTodos(
@@ -16,6 +20,11 @@ export class TodosService {
     year: number,
     monthIndex: number,
   ) {
+    const cached = await this.cacheManager.get('getCurrentMonthTodos');
+
+    if (cached) {
+      return cached;
+    }
 
     const now = `${year}-${monthIndex + 1}`;
     const next = monthIndex === 11 ?
@@ -50,6 +59,8 @@ export class TodosService {
         return acc;
       }, {});
 
+    await this.cacheManager.set('getCurrentMonthTodos', result);
+
     return result;
   };
 
@@ -58,19 +69,31 @@ export class TodosService {
     date: string,
     UserId: number,
   ) {
-    return await this.todosRepository.save({ contents, date, UserId });
+    return await this.todosRepository.save({ contents, date, UserId })
+      .then(async (data) => {
+        await this.cacheManager.del('getCurrentMonthTodos');
+        return data;
+      });
   };
 
   async updateDateTodos(
     todosId: number,
     contents: string,
   ) {
-    return await this.todosRepository.update({ id: todosId }, { contents });
+    return await this.todosRepository.update({ id: todosId }, { contents })
+      .then(async (data) => {
+        await this.cacheManager.del('getCurrentMonthTodos');
+        return data;
+      });
   };
 
   async deleteDateTodos(
     todosId: number,
   ) {
-    return await this.todosRepository.delete(todosId);
+    return await this.todosRepository.delete(todosId)
+      .then(async (data) => {
+        await this.cacheManager.del('getCurrentMonthTodos');
+        return data;
+      });
   };
 }
