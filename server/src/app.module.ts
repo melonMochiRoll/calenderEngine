@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
-import { TodosModule } from './todos/todos.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import ormconfig from 'ormconfig';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { TodosModule } from './todos/todos.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormconfig),
+    CacheModule.register({
+      isGlobal: true,
+    }),
+    AuthModule,
+    UsersModule,
     TodosModule,
   ],
   controllers: [],
