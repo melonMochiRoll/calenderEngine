@@ -9,54 +9,48 @@ export const getCurrentMonthTodos = async (
       .get(`/api/todos?y=${year}&mi=${monthIndex}`);
       
     return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(err.message);
-    }
-    console.error(err);
+  } catch (err: any) {
+    throw new Error(err);
   }
 };
 
 export const createDateTodos = async (
   contents: string,
   date: string,
+  year: number,
+  monthIndex: number,
   ) => {
   try {
     await axiosInstance
-      .post(`api/todos`, { contents, date });
-  } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(err.message);
-    }
-    console.error(err);
+      .post(`api/todos`, { contents, date, year, monthIndex });
+  } catch (err: any) {
+    throw new Error(err);
   }
 };
 
 export const updateDateTodos = async (
   todosId: number,
   contents: string,
+  year: number,
+  monthIndex: number,
   ) => {
   try {
     await axiosInstance
-      .put(`/api/todos`, { todosId, contents });
-  } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(err.message);
-    }
-    console.error(err);
+      .put(`/api/todos`, { todosId, contents, year, monthIndex });
+  } catch (err: any) {
+    throw new Error(err);
   }
 };
 
 export const deleteDateTodos = async (
   todosId: number,
+  year: number,
+  monthIndex: number,
   ) => {
   try {
     await axiosInstance
-      .delete(`/api/todos?ti=${todosId}`);
-  } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(err.message);
-    }
-    console.error(err);
+      .delete(`/api/todos?ti=${todosId}&y=${year}&mi=${monthIndex}`);
+  } catch (err: any) {
+    throw new Error(err);
   }
 };

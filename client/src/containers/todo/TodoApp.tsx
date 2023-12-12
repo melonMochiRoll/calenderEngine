@@ -42,9 +42,19 @@ const TodoApp: FC<TodoAppProps> = ({
 
     if (currentDateTodos) {
       newTodos.contents.unshift(...currentDateTodos.contents);
-      updateDateTodos(id, newTodos.contents.join('&'));
+      updateDateTodos(
+        id,
+        newTodos.contents.join('&'),
+        year,
+        month-1,
+      );
     } else {
-      createDateTodos(newTodos.contents.join('&'), currentTime);
+      createDateTodos(
+        newTodos.contents.join('&'),
+        currentTime,
+        year,
+        month-1,
+      );
     }
 
     setCurrentDateTodos(newTodos);
@@ -62,7 +72,12 @@ const TodoApp: FC<TodoAppProps> = ({
 
     currentMonthTodos[`${currentTime}`].contents[index] = `${target}${content}`;
     qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
-    updateDateTodos(currentDateTodos.id, currentDateTodos.contents.join('&'));
+    updateDateTodos(
+      currentDateTodos.id,
+      currentDateTodos.contents.join('&'),
+      year,
+      month-1,
+    );
   };
 
   const deleteTodo = (index: number) => {
@@ -81,9 +96,18 @@ const TodoApp: FC<TodoAppProps> = ({
 
     if (newContents.length < 1) {
       delete currentMonthTodos[`${currentTime}`];
-      deleteDateTodos(currentDateTodos.id);
+      deleteDateTodos(
+        currentDateTodos.id,
+        year,
+        month-1,
+      );
     } else {
-      updateDateTodos(currentDateTodos.id, newContents.join('&'));
+      updateDateTodos(
+        currentDateTodos.id,
+        newContents.join('&'),
+        year,
+        month-1,
+      );
     }
 
     setCurrentDateTodos(newTodos);
