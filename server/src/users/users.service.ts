@@ -15,13 +15,21 @@ export class UsersService {
   async getOneById(
     id: number,
     ): Promise<Users> {
-    return await this.usersRepository.findOneBy({ id });
+    try {
+      return await this.usersRepository.findOneBy({ id });
+    } catch (err: any) {
+      throw new Error(err);
+    }
   };
 
   async getOneByEmail(
     email: string,
     ): Promise<Users> {
-    return await this.usersRepository.findOneBy({ email });
+    try {
+      return await this.usersRepository.findOneBy({ email });
+    } catch (err: any) {
+      throw new Error(err);
+    }
   };
 
   async createUser(
@@ -30,7 +38,7 @@ export class UsersService {
   ) {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     
-    if (emailPattern.test(email)) {
+    if (!emailPattern.test(email)) {
       throw new ConflictException('이메일 형식을 확인해주세요');
     }
 
@@ -39,17 +47,17 @@ export class UsersService {
     }
 
     try {
-      const hash = await bcrypt.hash(password, 11);
+      const SALT_OR_ROUNDS = Number(process.env.SALTORROUNDS);
+
+      const hash = await bcrypt.hash(password, SALT_OR_ROUNDS);
       await this.usersRepository.save({
         email,
         password: hash,
       });
-    } catch (err) {
-      if (err instanceof Error) {
-        throw new Error(err.message);
-      }
+      
+      return true;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
-    return true;
   };
 }
