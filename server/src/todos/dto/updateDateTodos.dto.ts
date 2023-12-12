@@ -9,4 +9,12 @@ export class UpdateDateTodosDto {
   @IsNotEmpty()
   @IsString()
   contents: string;
+
+  @IsNotEmpty()
+  @IsInt()
+  year: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  monthIndex: number;
 };

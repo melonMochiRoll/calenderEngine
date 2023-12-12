@@ -16,84 +16,119 @@ export class TodosService {
   ) {}
 
   async getCurrentMonthTodos(
-    UserId: number,
     year: number,
     monthIndex: number,
+    UserId: number,
   ) {
-    const cached = await this.cacheManager.get('getCurrentMonthTodos');
-
-    if (cached) {
-      return cached;
+    try {
+      const cached = await this.cacheManager.get(`${UserId}_${year}_${monthIndex}`);
+      if (cached) {
+        return cached;
+      }
+  
+      const now = `${year}-${monthIndex + 1}`;
+      const next = monthIndex === 11 ?
+        `${year + 1}-${1}` :
+        `${year}-${monthIndex + 2}`;
+  
+      const searchResult: todosWithoutUserId[] = await this.todosRepository
+        .find({
+          select: {
+            id: true,
+            contents: true,
+            date: true,
+          },
+          where: {
+            UserId,
+            date: Between(
+              new Date(`${now}-1`),
+              new Date(`${next}-1`)
+            )
+          },
+          order: {
+            date: 'ASC',
+          }
+        });
+  
+      const result = searchResult
+        .reduce((acc: Object, item: todosWithoutUserId) => {
+          acc[`${item.date}`] = {
+            id: item.id,
+            contents: item.contents.split('&'),
+          };
+          return acc;
+        }, {});
+  
+      await this.cacheManager.set(`${UserId}_${year}_${monthIndex}`, result);
+  
+      return result;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
-    const now = `${year}-${monthIndex + 1}`;
-    const next = monthIndex === 11 ?
-      `${year + 1}-${1}` :
-      `${year}-${monthIndex + 2}`;
-
-    const searchResult: todosWithoutUserId[] = await this.todosRepository
-      .find({
-        select: {
-          id: true,
-          contents: true,
-          date: true,
-        },
-        where: {
-          UserId,
-          date: Between(
-            new Date(`${now}-1`),
-            new Date(`${next}-1`)
-          )
-        },
-        order: {
-          date: 'ASC',
-        }
-      });
-
-    const result = searchResult
-      .reduce((acc: Object, item: todosWithoutUserId) => {
-        acc[`${item.date}`] = {
-          id: item.id,
-          contents: item.contents.split('&'),
-        };
-        return acc;
-      }, {});
-
-    await this.cacheManager.set('getCurrentMonthTodos', result);
-
-    return result;
   };
 
   async createDateTodos(
     contents: string,
     date: string,
+    year: number,
+    monthIndex: number,
     UserId: number,
   ) {
-    return await this.todosRepository.save({ contents, date, UserId })
-      .then(async (data) => {
-        await this.cacheManager.del('getCurrentMonthTodos');
-        return data;
-      });
+    try {
+      await this.todosRepository
+        .save({ contents, date, UserId })
+        .then(
+          async () => {
+            await this.cacheManager.del(`${UserId}_${year}_${monthIndex}`);
+          }
+        );
+
+      return true;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   };
 
   async updateDateTodos(
     todosId: number,
     contents: string,
+    year: number,
+    monthIndex: number,
+    UserId: number,
   ) {
-    return await this.todosRepository.update({ id: todosId }, { contents })
-      .then(async (data) => {
-        await this.cacheManager.del('getCurrentMonthTodos');
-        return data;
-      });
+    try {
+      await this.todosRepository
+        .update({ id: todosId }, { contents })
+        .then(
+          async () => {
+            await this.cacheManager.del(`${UserId}_${year}_${monthIndex}`);
+          }
+        );
+
+      return true;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   };
 
   async deleteDateTodos(
     todosId: number,
+    year: number,
+    monthIndex: number,
+    UserId: number,
   ) {
-    return await this.todosRepository.delete(todosId)
-      .then(async (data) => {
-        await this.cacheManager.del('getCurrentMonthTodos');
-        return data;
-      });
+    try {
+      await this.todosRepository
+        .delete(todosId)
+        .then(
+          async () => {
+            await this.cacheManager.del(`${UserId}_${year}_${monthIndex}`);
+          }
+        );
+
+      return true;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   };
 }

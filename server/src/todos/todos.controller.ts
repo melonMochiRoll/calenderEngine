@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateDateTodosDto } from './dto/createDateTodos.dto';
 import { UpdateDateTodosDto } from './dto/updateDateTodos.dto';
@@ -6,44 +6,67 @@ import { User } from 'src/common/decorator/user.decorator';
 import { Users } from 'src/entities/Users';
 import { IsAuthenicatedGuard } from 'src/auth/local.auth.guard';
 
+@UseGuards(IsAuthenicatedGuard)
 @Controller('api/todos')
 export class TodosController {
   constructor(
     private todosService: TodosService,
   ) {}
 
-  @UseGuards(IsAuthenicatedGuard)
   @Get()
   async getCurrentMonthTodos(
     @Query('y', ParseIntPipe) year: number,
     @Query('mi', ParseIntPipe) monthIndex: number,
     @User() user: Users,
   ) {
-    return await this.todosService.getCurrentMonthTodos(user.id, year, monthIndex);
+    return await this.todosService.getCurrentMonthTodos(
+      year,
+      monthIndex,
+      user.id,
+    );
   };
 
-  @UseGuards(IsAuthenicatedGuard)
   @Post()
-  async createDateTodos(
+  createDateTodos(
     @Body() dto: CreateDateTodosDto,
     @User() user: Users,
   ) {
-    return await this.todosService.createDateTodos(dto.contents, dto.date, user.id);
+    return this.todosService.createDateTodos(
+      dto.contents,
+      dto.date,
+      dto.year,
+      dto.monthIndex,
+      user.id,
+    );
   };
 
-  @UseGuards(IsAuthenicatedGuard)
   @Put()
-  async updateDateTodos(
+  updateDateTodos(
     @Body() dto: UpdateDateTodosDto,
+    @User() user: Users,
   ) {
-    return this.todosService.updateDateTodos(dto.todosId, dto.contents);
+    return this.todosService.updateDateTodos(
+      dto.todosId,
+      dto.contents,
+      dto.year,
+      dto.monthIndex,
+      user.id
+    );
   };
 
-  @UseGuards(IsAuthenicatedGuard)
   @Delete()
-  async deleteDateTodos(
+  @HttpCode(204)
+  deleteDateTodos(
     @Query('ti', ParseIntPipe) todosId: number,
+    @Query('y', ParseIntPipe) year: number,
+    @Query('mi', ParseIntPipe) monthIndex: number,
+    @User() user: Users,
   ) {
-    return this.todosService.deleteDateTodos(todosId);
+    return this.todosService.deleteDateTodos(
+      todosId,
+      year,
+      monthIndex,
+      user.id
+    );
   }
 }
