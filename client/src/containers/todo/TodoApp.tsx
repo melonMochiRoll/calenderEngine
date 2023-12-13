@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { currentMonthTodosType } from 'Hooks/useTodos';
 import TodoList from 'Components/todo/TodoList';
@@ -11,24 +11,24 @@ import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 
 interface TodoAppProps {
-  currentTime: string;
+  todoTime: string;
   currentMonthTodos: currentMonthTodosType;
 };
 
 const TodoApp: FC<TodoAppProps> = ({
-  currentTime,
+  todoTime,
   currentMonthTodos,
 }) => {
   const [ userData ] = useUser();
   const navigate = useNavigate();
   const [ todoTab, onChangeTab ] = useTabs('all');
-  const [ currentDateTodos, setCurrentDateTodos ] = useState(currentMonthTodos[currentTime]);
-  const [ year, month, date ] = currentTime.split('-').map(Number);
+  const [ currentDateTodos, setCurrentDateTodos ] = useState(currentMonthTodos[todoTime]);
+  const [ year, month, date ] = todoTime.split('-').map(Number);
   const qc = useQueryClient();
 
   useEffect(() => {
-    setCurrentDateTodos(currentMonthTodos[currentTime]);
-  }, [currentTime]);
+    setCurrentDateTodos(currentMonthTodos[todoTime]);
+  }, [todoTime]);
 
   const addTodo = (value: string) => {
     if (!userData) {
@@ -51,14 +51,14 @@ const TodoApp: FC<TodoAppProps> = ({
     } else {
       createDateTodos(
         newTodos.contents.join('&'),
-        currentTime,
+        todoTime,
         year,
         month-1,
       );
     }
 
     setCurrentDateTodos(newTodos);
-    currentMonthTodos[`${currentTime}`] = newTodos;
+    currentMonthTodos[`${todoTime}`] = newTodos;
     qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
   };
 
@@ -70,7 +70,7 @@ const TodoApp: FC<TodoAppProps> = ({
 
     const target = currentDateTodos.contents[index][0] === '1' ? '0' : '1';
 
-    currentMonthTodos[`${currentTime}`].contents[index] = `${target}${content}`;
+    currentMonthTodos[`${todoTime}`].contents[index] = `${target}${content}`;
     qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
     updateDateTodos(
       currentDateTodos.id,
@@ -92,10 +92,10 @@ const TodoApp: FC<TodoAppProps> = ({
     ];
     const newTodos = { id: currentDateTodos.id, contents: newContents };
 
-    currentMonthTodos[`${currentTime}`] = newTodos;
+    currentMonthTodos[`${todoTime}`] = newTodos;
 
     if (newContents.length < 1) {
-      delete currentMonthTodos[`${currentTime}`];
+      delete currentMonthTodos[`${todoTime}`];
       deleteDateTodos(
         currentDateTodos.id,
         year,

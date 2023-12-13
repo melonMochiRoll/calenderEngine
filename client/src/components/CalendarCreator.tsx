@@ -5,7 +5,7 @@ import DateCover from './DateCover';
 import { currentMonthTodosType } from 'Hooks/useTodos';
 
 interface CalendarCreatorProps {
-  setCurrentTime: React.Dispatch<React.SetStateAction<string>>;
+  setTodoTime: React.Dispatch<React.SetStateAction<string>>;
   currentYear: number;
   currentMonth: number;
   currentDay: number;
@@ -16,7 +16,7 @@ interface CalendarCreatorProps {
 };
 
 const CalendarCreator: FC<CalendarCreatorProps> = ({
-  setCurrentTime,
+  setTodoTime,
   currentYear,
   currentMonth,
   currentDay,
@@ -48,7 +48,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                   if (!date || typeof date === 'string') return <td key={i + n} />;
                   return <DateCover
                     key={i + n}
-                    setCurrentTime={() => setCurrentTime(timeKey.format('YYYY-MM-DD').toString())}
+                    setCurrentTime={() => setTodoTime(timeKey.format('YYYY-MM-DD').toString())}
                     hasTodo={currentMonthTodos?.hasOwnProperty(timeKey.format('YYYY-MM-DD').toString())}
                     isToday={date === currentDate}
                     date={date} />;

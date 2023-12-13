@@ -8,7 +8,7 @@ import Header from 'Containers/Header';
 
 const MainPage: FC = () => {
   const [ now, setNow ] = useState(dayjs());
-  const [ currentTime, setCurrentTime ] = useState('');
+  const [ todoTime, setTodoTime ] = useState('');
   const [ currentMonthTodos ] = useTodos(now.year(), now.month());
 
   return (
@@ -19,12 +19,12 @@ const MainPage: FC = () => {
           <CalendarContainer
             now={now}
             setNow={setNow}
-            setCurrentTime={setCurrentTime}
+            setTodoTime={setTodoTime}
             currentMonthTodos={currentMonthTodos} />
         </Box>
       </CalendarBlock>
       <TodoContainer
-        currentTime={currentTime}
+        todoTime={todoTime}
         currentMonthTodos={currentMonthTodos} />
     </Block>
   );

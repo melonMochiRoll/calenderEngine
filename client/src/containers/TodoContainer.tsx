@@ -5,19 +5,19 @@ import TodoInit from 'Components/todo/TodoInit';
 import { currentMonthTodosType } from 'Hooks/useTodos';
 
 interface TodoContainerProps {
-  currentTime: string;
+  todoTime: string;
   currentMonthTodos: currentMonthTodosType;
 };
 
 const TodoContainer: FC<TodoContainerProps> = ({
-  currentTime,
+  todoTime,
   currentMonthTodos,
 }) => {
   return (
     <Block>
-      {currentTime ?
+      {todoTime ?
         <TodoApp
-          currentTime={currentTime}
+          todoTime={todoTime}
           currentMonthTodos={currentMonthTodos} /> :
         <TodoInit />
       }

@@ -9,14 +9,14 @@ import CalendarTitle from 'Components/CalendarTitle';
 interface CalendarContainerProps {
   now: dayjs.Dayjs;
   setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>
-  setCurrentTime: React.Dispatch<React.SetStateAction<string>>;
+  setTodoTime: React.Dispatch<React.SetStateAction<string>>;
   currentMonthTodos: currentMonthTodosType;
 };
 
 const CalendarContainer: FC<CalendarContainerProps> = ({
   now,
   setNow,
-  setCurrentTime,
+  setTodoTime,
   currentMonthTodos,
 }) => {
   const currentYear = now.year();
@@ -51,7 +51,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
           nextMonth={now.month(currentMonth + 1)} />
       </Top>
       <CalendarCreator
-        setCurrentTime={setCurrentTime}
+        setTodoTime={setTodoTime}
         currentYear={currentYear}
         currentMonth={currentMonth}
         currentDay={currentDay}
