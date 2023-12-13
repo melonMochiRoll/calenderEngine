@@ -32,9 +32,9 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
     <Block>
       <WeekBlock>
         <tr>
-          {days.map((ele: string, i: number) => {
-            return <Day key={i} isToday={i === currentDay}>{ele}</Day>
-          })}
+          {days.map((ele: string, i: number) =>
+            <Day key={i} isToday={isNowMonth && i === currentDay}>{ele}</Day>
+          )}
         </tr>
       </WeekBlock>
       <DayBlock>
