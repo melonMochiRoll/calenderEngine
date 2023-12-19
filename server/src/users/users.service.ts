@@ -15,21 +15,13 @@ export class UsersService {
   async getOneById(
     id: number,
     ): Promise<Users> {
-    try {
-      return await this.usersRepository.findOneBy({ id });
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    return await this.usersRepository.findOneBy({ id });
   };
 
   async getOneByEmail(
     email: string,
     ): Promise<Users> {
-    try {
-      return await this.usersRepository.findOneBy({ email });
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    return await this.usersRepository.findOneBy({ email });
   };
 
   async createUser(
