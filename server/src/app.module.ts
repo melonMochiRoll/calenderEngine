@@ -9,7 +9,9 @@ import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(ormconfig),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ormconfig,
+    }),
     CacheModule.register({
       isGlobal: true,
     }),
