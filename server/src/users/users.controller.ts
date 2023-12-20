@@ -17,13 +17,16 @@ export class UsersController {
   };
 
   @Get('email')
-  getOneByEmail(@Query('e') email: string) {
-    return this.usersService.getOneByEmail(email);
+  isUser(@Query('e') email: string) {
+    return this.usersService.isUser(email);
   };
 
   @UseGuards(IsNotAuthenicatedGuard)
   @Post()
   createUser(@Body() dto: CreateUserDTO) {
-    return this.usersService.createUser(dto.email, dto.password);
+    return this.usersService.createUser(
+      dto.email,
+      dto.password,
+    );
   };
 }
