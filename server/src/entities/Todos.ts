@@ -14,7 +14,7 @@ export class Todos {
   @IsString()
   @Column({
     type: 'varchar',
-    length: 630,
+    length: 660, // count 30 * length 20 + 1 + separator 29 = 659;
   })
   contents: string;
 
