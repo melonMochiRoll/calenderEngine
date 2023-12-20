@@ -1,8 +1,8 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, Repository } from "typeorm";
 import { Todos } from "src/entities/Todos";
-import { todosWithoutUserId } from "src/typings/types";
+import { TodosWithoutUserId } from "src/typings/types";
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 
@@ -31,7 +31,7 @@ export class TodosService {
         `${year + 1}-${1}` :
         `${year}-${monthIndex + 2}`;
   
-      const searchResult: todosWithoutUserId[] = await this.todosRepository
+      const searchResult: TodosWithoutUserId[] = await this.todosRepository
         .find({
           select: {
             id: true,
@@ -51,7 +51,7 @@ export class TodosService {
         });
   
       const result = searchResult
-        .reduce((acc: Object, item: todosWithoutUserId) => {
+        .reduce((acc: Object, item: TodosWithoutUserId) => {
           acc[`${item.date}`] = {
             id: item.id,
             contents: item.contents.split('&'),
@@ -63,7 +63,7 @@ export class TodosService {
   
       return result;
     } catch (err: any) {
-      throw new Error(err);
+      throw new InternalServerErrorException(err);;
     }
   };
 
@@ -85,7 +85,7 @@ export class TodosService {
 
       return true;
     } catch (err: any) {
-      throw new Error(err);
+      throw new InternalServerErrorException(err);
     }
   };
 
@@ -107,7 +107,7 @@ export class TodosService {
 
       return true;
     } catch (err: any) {
-      throw new Error(err);
+      throw new InternalServerErrorException(err);
     }
   };
 
@@ -128,7 +128,7 @@ export class TodosService {
 
       return true;
     } catch (err: any) {
-      throw new Error(err);
+      throw new InternalServerErrorException(err);
     }
   };
 }
