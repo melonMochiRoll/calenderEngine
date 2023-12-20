@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, Repository } from "typeorm";
 import { Todos } from "src/entities/Todos";
@@ -74,6 +74,11 @@ export class TodosService {
     monthIndex: number,
     UserId: number,
   ) {
+
+    if (contents?.length > 660) {
+      throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
+    }
+
     try {
       await this.todosRepository
         .save({ contents, date, UserId })
@@ -96,6 +101,11 @@ export class TodosService {
     monthIndex: number,
     UserId: number,
   ) {
+
+    if (contents?.length > 660) {
+      throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
+    }
+
     try {
       await this.todosRepository
         .update({ id: todosId }, { contents })
