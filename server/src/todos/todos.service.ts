@@ -50,7 +50,7 @@ export class TodosService {
           }
         });
   
-      const result = searchResult
+      const todosArray = searchResult
         .reduce((acc: Object, item: TodosWithoutUserId) => {
           acc[`${item.date}`] = {
             id: item.id,
@@ -59,9 +59,9 @@ export class TodosService {
           return acc;
         }, {});
   
-      await this.cacheManager.set(`${UserId}_${year}_${monthIndex}`, result);
+      await this.cacheManager.set(`${UserId}_${year}_${monthIndex}`, todosArray);
   
-      return result;
+      return todosArray;
     } catch (err: any) {
       throw new InternalServerErrorException(err);;
     }
