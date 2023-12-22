@@ -1,6 +1,6 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Users } from "./Users";
-import { IsString } from "class-validator";
+import { IsBoolean, IsString } from "class-validator";
 
 @Entity()
 export class Todos {
@@ -14,14 +14,27 @@ export class Todos {
   @IsString()
   @Column({
     type: 'varchar',
-    length: 660, // count 30 * length 21 + separator 29 = 659;
+    length: 30,
   })
   contents: string;
+
+  @IsBoolean()
+  @Column({
+    type: 'boolean',
+    default: 0,
+  })
+  isComplete: boolean;
 
   @Column({
     type: 'date'
   })
-  date: Date;
+  createdAt: Date;
+
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  deadline: Date;
 
   @Column({
     type: 'int',
