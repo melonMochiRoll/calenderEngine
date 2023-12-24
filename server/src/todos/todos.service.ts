@@ -2,9 +2,16 @@ import { BadRequestException, Inject, Injectable, InternalServerErrorException }
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, Repository } from "typeorm";
 import { Todos } from "src/entities/Todos";
-import { TodosWithoutUserId } from "src/typings/types";
+import { ProcessedTodos, TodosWithoutUserId } from "src/typings/types";
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
 
 @Injectable()
 export class TodosService {
@@ -16,75 +23,84 @@ export class TodosService {
   ) {}
 
   async getCurrentMonthTodos(
-    year: number,
-    monthIndex: number,
+    date: string,
     UserId: number,
-  ) {
+  ): Promise<ProcessedTodos> {
     try {
-      const cached = await this.cacheManager.get(`${UserId}_${year}_${monthIndex}`);
+      const currentDate = dayjs.tz(`${date}`);
+      const currentYear = currentDate.year();
+      const currenyMonth = currentDate.month() + 1;
+
+      const cached: ProcessedTodos = await this.cacheManager.get(`${UserId}_${currentYear}_${currenyMonth}`);
       if (cached) {
         return cached;
       }
-  
-      const now = `${year}-${monthIndex + 1}`;
-      const next = monthIndex === 11 ?
-        `${year + 1}-${1}` :
-        `${year}-${monthIndex + 2}`;
   
       const searchResult: TodosWithoutUserId[] = await this.todosRepository
         .find({
           select: {
             id: true,
             contents: true,
-            date: true,
+            createdAt: true,
+            isComplete: true,
+            deadline: true,
           },
           where: {
             UserId,
-            date: Between(
-              new Date(`${now}-1`),
-              new Date(`${next}-1`)
+            createdAt: Between(
+              dayjs.tz(`${currentYear}-${currenyMonth}-1`).toDate(),
+              dayjs.tz(`${currentYear}-${currenyMonth}-31`).toDate()
             )
           },
           order: {
-            date: 'ASC',
+            createdAt: 'ASC',
           }
         });
   
-      const todosArray = searchResult
-        .reduce((acc: Object, item: TodosWithoutUserId) => {
-          acc[`${item.date}`] = {
-            id: item.id,
-            contents: item.contents.split('&'),
-          };
+      const todosArray: ProcessedTodos = searchResult
+        .reduce((acc: any, item: TodosWithoutUserId) => {
+          const { createdAt, ...rest } = item;
+
+          acc.hasOwnProperty(`${createdAt}`) ?
+            acc[`${createdAt}`].push(rest) :
+            acc[`${createdAt}`] = [{ ...rest }];
+
           return acc;
         }, {});
   
-      await this.cacheManager.set(`${UserId}_${year}_${monthIndex}`, todosArray);
+      if (todosArray.length) {
+        await this.cacheManager.set(`${UserId}_${currentYear}_${currenyMonth}`, todosArray);
+      }
   
       return todosArray;
     } catch (err: any) {
-      throw new InternalServerErrorException(err);;
+      throw new InternalServerErrorException(err);
     }
   };
 
   async createDateTodos(
     contents: string,
     date: string,
-    year: number,
-    monthIndex: number,
     UserId: number,
   ) {
+    const currentDate = dayjs.tz(`${date}`);
+    const currentYear = currentDate.year();
+    const currenyMonth = currentDate.month() + 1;
 
-    if (contents?.length > 660) {
+    if (contents.length > 30) {
       throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
     }
 
     try {
       await this.todosRepository
-        .save({ contents, date, UserId })
+        .save({
+          contents,
+          createdAt: currentDate.toDate(),
+          UserId,
+        })
         .then(
           async () => {
-            await this.cacheManager.del(`${UserId}_${year}_${monthIndex}`);
+            await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);
           }
         );
 
@@ -97,12 +113,14 @@ export class TodosService {
   async updateDateTodos(
     todosId: number,
     contents: string,
-    year: number,
-    monthIndex: number,
+    date: string,
     UserId: number,
   ) {
+    const currentDate = dayjs.tz(`${date}`);
+    const currentYear = currentDate.year();
+    const currenyMonth = currentDate.month() + 1;
 
-    if (contents?.length > 660) {
+    if (contents.length > 30) {
       throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
     }
 
@@ -111,7 +129,7 @@ export class TodosService {
         .update({ id: todosId }, { contents })
         .then(
           async () => {
-            await this.cacheManager.del(`${UserId}_${year}_${monthIndex}`);
+            await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);
           }
         );
 
@@ -123,16 +141,19 @@ export class TodosService {
 
   async deleteDateTodos(
     todosId: number,
-    year: number,
-    monthIndex: number,
+    date: string,
     UserId: number,
   ) {
     try {
+      const currentDate = dayjs.tz(`${date}`);
+      const currentYear = currentDate.year();
+      const currenyMonth = currentDate.month() + 1;
+
       await this.todosRepository
         .delete(todosId)
         .then(
           async () => {
-            await this.cacheManager.del(`${UserId}_${year}_${monthIndex}`);
+            await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);
           }
         );
 

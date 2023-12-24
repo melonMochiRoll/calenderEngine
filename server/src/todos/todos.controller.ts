@@ -15,13 +15,11 @@ export class TodosController {
 
   @Get()
   async getCurrentMonthTodos(
-    @Query('y', ParseIntPipe) year: number,
-    @Query('mi', ParseIntPipe) monthIndex: number,
+    @Query('date') date: string,
     @User() user: Users,
   ) {
     return await this.todosService.getCurrentMonthTodos(
-      year,
-      monthIndex,
+      date,
       user.id,
     );
   };
@@ -34,8 +32,6 @@ export class TodosController {
     return this.todosService.createDateTodos(
       dto.contents,
       dto.date,
-      dto.year,
-      dto.monthIndex,
       user.id,
     );
   };
@@ -48,8 +44,7 @@ export class TodosController {
     return this.todosService.updateDateTodos(
       dto.todosId,
       dto.contents,
-      dto.year,
-      dto.monthIndex,
+      dto.date,
       user.id
     );
   };
@@ -58,14 +53,12 @@ export class TodosController {
   @HttpCode(204)
   deleteDateTodos(
     @Query('ti', ParseIntPipe) todosId: number,
-    @Query('y', ParseIntPipe) year: number,
-    @Query('mi', ParseIntPipe) monthIndex: number,
+    @Query('date') date: string,
     @User() user: Users,
   ) {
     return this.todosService.deleteDateTodos(
       todosId,
-      year,
-      monthIndex,
+      date,
       user.id
     );
   }
