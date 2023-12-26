@@ -4,12 +4,18 @@ import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
 import useTodos from 'Hooks/useTodos';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import Header from 'Containers/Header';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
+
 const MainPage: FC = () => {
-  const [ now, setNow ] = useState(dayjs());
+  const [ now, setNow ] = useState(dayjs.tz());
   const [ todoTime, setTodoTime ] = useState('');
-  const [ currentMonthTodos ] = useTodos(now.year(), now.month());
+  const [ currentMonthTodos, refetch ] = useTodos(now.format('YYYY-MM-DD'));
 
   return (
     <Block>
@@ -25,7 +31,8 @@ const MainPage: FC = () => {
       </CalendarBlock>
       <TodoContainer
         todoTime={todoTime}
-        currentMonthTodos={currentMonthTodos} />
+        currentMonthTodos={currentMonthTodos}
+        refetch={refetch} />
     </Block>
   );
 };

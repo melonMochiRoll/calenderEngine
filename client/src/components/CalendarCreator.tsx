@@ -1,8 +1,14 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import DateCover from './DateCover';
 import { currentMonthTodosType } from 'Hooks/useTodos';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
 
 interface CalendarCreatorProps {
   setTodoTime: React.Dispatch<React.SetStateAction<string>>;
@@ -44,12 +50,19 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
               <tr key={i}>
                 {[1, 2, 3, 4, 5, 6, 7].map(n => {
                   const date = dates[i + n];
-                  const timeKey = dayjs(`${currentYear}-${currentMonth + 1}-${date}`);
-                  if (!date || typeof date === 'string') return <td key={i + n} />;
+
+                  if (!date || typeof date === 'string') {
+                    return <td key={i + n} />
+                  };
+
+                  const timeKey = dayjs
+                    .tz(`${currentYear}-${currentMonth + 1}-${date}`)
+                    .format('YYYY-MM-DD');
+                    
                   return <DateCover
                     key={i + n}
-                    setCurrentTime={() => setTodoTime(timeKey.format('YYYY-MM-DD').toString())}
-                    hasTodo={currentMonthTodos?.hasOwnProperty(timeKey.format('YYYY-MM-DD').toString())}
+                    setTodoTime={() => setTodoTime(timeKey)}
+                    hasTodo={currentMonthTodos?.hasOwnProperty(timeKey)}
                     isToday={date === currentDate}
                     date={date} />;
                 })}
