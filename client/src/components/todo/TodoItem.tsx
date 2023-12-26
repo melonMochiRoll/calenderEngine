@@ -1,45 +1,33 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
+import { todoType } from 'Hooks/useTodos';
 
 interface TodoItemProps {
-  index: number;
-  content: string;
-  isCompleted: boolean;
-  shiftTodo: (content: string, index: number) => void;
-  deleteTodo: (index: number) => void;
+  todos: todoType;
+  shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
+  deleteTodo: (todosId: number) => void;
 };
 
 const TodoItem: FC<TodoItemProps> = ({
-  index,
-  content,
-  isCompleted,
+  todos,
   shiftTodo,
   deleteTodo,
 }) => {
-  const [ completed, setCompleted ] = useState(isCompleted);
-
-  useEffect(() => {
-    setCompleted(isCompleted);
-  }, [isCompleted]);
-
-  const onChangeCompleted = (content: string, index: number) => {
-    shiftTodo(content, index);
-    setCompleted((prev) => !prev);
-  };
+  const { id: todosId, contents, isComplete } = todos;
 
   return (
-    <Block completed={completed}>
-      <Switch onClick={() => onChangeCompleted(content, index)}>
-        {completed ?
+    <Block isComplete={isComplete}>
+      <Switch onClick={() => shiftTodo(todosId as number, contents, !isComplete)}>
+        {isComplete ?
           <ChkIcon sx={{ color: '#bf94FF' }} fontSize='large' /> :
           <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
       </Switch>
       <Contents>
-        <span>{content}</span>
-        <BackIcon onClick={() => deleteTodo(index)} sx={{ color: '#e66641' }}/>
+        <span>{contents}</span>
+        <BackIcon onClick={() => deleteTodo(todosId as number)} sx={{ color: '#e66641' }}/>
       </Contents>
     </Block>
   );
@@ -47,13 +35,13 @@ const TodoItem: FC<TodoItemProps> = ({
 
 export default TodoItem;
 
-const Block = styled.div<{ completed: boolean }>`
+const Block = styled.div<{ isComplete: boolean }>`
   display: flex;
   align-items: center;
   width: 280px;
   font-size: 18px;
   padding: 13px 15px;
-  border: ${({completed}) => completed ? `2px solid #bf94FF` : `2px solid #2f323b`};
+  border: ${({isComplete}) => isComplete ? `2px solid #bf94FF` : `2px solid #2f323b`};
   border-radius: 6px;
 
   span {

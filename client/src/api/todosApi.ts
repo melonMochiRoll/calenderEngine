@@ -1,14 +1,13 @@
 import { axiosInstance } from "./axiosInstance";
 
 export const getCurrentMonthTodos = async (
-  year: number,
-  monthIndex: number,
+  date: string,
   ) => {
   try {
     const { data } = await axiosInstance
-      .get(`/api/todos?y=${year}&mi=${monthIndex}`);
+      .get(`/api/todos?date=${date}`);
       
-    return data;
+    return data ? data : {};
   } catch (err: any) {
     throw new Error(err);
   }
@@ -17,12 +16,10 @@ export const getCurrentMonthTodos = async (
 export const createDateTodos = async (
   contents: string,
   date: string,
-  year: number,
-  monthIndex: number,
   ) => {
   try {
     await axiosInstance
-      .post(`api/todos`, { contents, date, year, monthIndex });
+      .post(`api/todos`, { contents, date });
   } catch (err: any) {
     throw new Error(err);
   }
@@ -31,12 +28,12 @@ export const createDateTodos = async (
 export const updateDateTodos = async (
   todosId: number,
   contents: string,
-  year: number,
-  monthIndex: number,
+  isComplete: boolean,
+  date: string,
   ) => {
   try {
     await axiosInstance
-      .put(`/api/todos`, { todosId, contents, year, monthIndex });
+      .put(`/api/todos`, { todosId, contents, isComplete, date });
   } catch (err: any) {
     throw new Error(err);
   }
@@ -44,12 +41,11 @@ export const updateDateTodos = async (
 
 export const deleteDateTodos = async (
   todosId: number,
-  year: number,
-  monthIndex: number,
+  date: string,
   ) => {
   try {
     await axiosInstance
-      .delete(`/api/todos?ti=${todosId}&y=${year}&mi=${monthIndex}`);
+      .delete(`/api/todos?ti=${todosId}&date=${date}`);
   } catch (err: any) {
     throw new Error(err);
   }

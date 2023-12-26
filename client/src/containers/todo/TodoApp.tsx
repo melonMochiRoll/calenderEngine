@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { currentMonthTodosType } from 'Hooks/useTodos';
 import TodoList from 'Components/todo/TodoList';
@@ -9,114 +9,74 @@ import { useQueryClient } from '@tanstack/react-query';
 import { createDateTodos, deleteDateTodos, updateDateTodos } from 'Api/todosApi';
 import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
+import TodoTitle from 'Components/todo/TodoTitle';
 
 interface TodoAppProps {
   todoTime: string;
   currentMonthTodos: currentMonthTodosType;
+  refetch: Function;
 };
 
 const TodoApp: FC<TodoAppProps> = ({
   todoTime,
   currentMonthTodos,
+  refetch,
 }) => {
-  const [ userData ] = useUser();
   const navigate = useNavigate();
+  const [ userData ] = useUser();
   const [ todoTab, onChangeTab ] = useTabs('all');
-  const [ currentDateTodos, setCurrentDateTodos ] = useState(currentMonthTodos[todoTime]);
-  const [ year, month, date ] = todoTime.split('-').map(Number);
   const qc = useQueryClient();
 
-  useEffect(() => {
-    setCurrentDateTodos(currentMonthTodos[todoTime]);
-  }, [todoTime]);
-
-  const addTodo = (value: string) => {
+  const addTodo = async (value: string) => {
     if (!userData) {
       qc.setQueryData(['getCurrentMonthTodos'], {});
+      refetch();
       navigate('/login');
     };
     if (!value || !value.trim()) return;
-    
-    const id = currentDateTodos?.id ? currentDateTodos.id : 0;
-    const newTodos = { id, contents: [ `0${value}` ] };
 
-    if (currentDateTodos) {
-      newTodos.contents.unshift(...currentDateTodos.contents);
-      updateDateTodos(
-        id,
-        newTodos.contents.join('&'),
-        year,
-        month-1,
-      );
-    } else {
-      createDateTodos(
-        newTodos.contents.join('&'),
-        todoTime,
-        year,
-        month-1,
-      );
-    }
-
-    setCurrentDateTodos(newTodos);
-    currentMonthTodos[`${todoTime}`] = newTodos;
-    qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
+    await createDateTodos(value, todoTime);
+    refetch();
   };
 
-  const shiftTodo = (content: string, index: number) => {
+  const shiftTodo = async (
+    todosId: number,
+    contents: string,
+    isComplete: boolean,
+    ) => {
     if (!userData) {
       qc.setQueryData(['getCurrentMonthTodos'], {});
-      navigate('/login')
+      refetch();
+      navigate('/login');
     };
 
-    const target = currentDateTodos.contents[index][0] === '1' ? '0' : '1';
-
-    currentMonthTodos[`${todoTime}`].contents[index] = `${target}${content}`;
-    qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
-    updateDateTodos(
-      currentDateTodos.id,
-      currentDateTodos.contents.join('&'),
-      year,
-      month-1,
+    await updateDateTodos(
+      todosId,
+      contents,
+      isComplete,
+      todoTime,
     );
+    refetch();
   };
 
-  const deleteTodo = (index: number) => {
+  const deleteTodo = async (todosId: number) => {
     if (!userData) {
-      qc.setQueryData(['getCurrentMonthTodos'], {})
-      navigate('/login')
+      qc.setQueryData(['getCurrentMonthTodos'], {});
+      refetch();
+      navigate('/login');
     };
-
-    const newContents = [
-      ...currentDateTodos.contents.slice(0, index),
-      ...currentDateTodos.contents.slice(index + 1, currentDateTodos.contents.length),
-    ];
-    const newTodos = { id: currentDateTodos.id, contents: newContents };
-
-    currentMonthTodos[`${todoTime}`] = newTodos;
-
-    if (newContents.length < 1) {
-      delete currentMonthTodos[`${todoTime}`];
-      deleteDateTodos(
-        currentDateTodos.id,
-        year,
-        month-1,
-      );
-    } else {
-      updateDateTodos(
-        currentDateTodos.id,
-        newContents.join('&'),
-        year,
-        month-1,
-      );
-    }
-
-    setCurrentDateTodos(newTodos);
-    qc.setQueryData(['getCurrentMonthTodos'], currentMonthTodos);
+    
+    await deleteDateTodos(
+      todosId,
+      todoTime,
+    );
+    refetch();
   };
 
   return (
     <Container>
-      <TodoTitle>{`${year}년 ${month}월 ${date}일`}</TodoTitle>
+      <TodoTitle
+        todoTime={todoTime}/>
       <TodoInput
         addTodo={addTodo} />
       <TodoTabs
@@ -124,7 +84,7 @@ const TodoApp: FC<TodoAppProps> = ({
         onChangeTab={onChangeTab} />
       <TodoList
         todoTab={todoTab}
-        currentDateTodos={currentDateTodos}
+        currentDateTodos={currentMonthTodos[todoTime]}
         shiftTodo={shiftTodo}
         deleteTodo={deleteTodo} />
     </Container>
@@ -137,10 +97,4 @@ const Container = styled.div`
   display: flex;
   padding: 50px 0;
   flex-direction: column;
-`;
-
-export const TodoTitle = styled.h1`
-  font-size: 28px;
-  font-weigth: 800;
-  color: #efeff1;
 `;

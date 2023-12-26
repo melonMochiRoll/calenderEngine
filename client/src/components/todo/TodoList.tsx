@@ -6,9 +6,9 @@ import { todoType } from 'Hooks/useTodos';
 
 interface TodoListProps {
   todoTab: string;
-  currentDateTodos: todoType;
-  shiftTodo: (content: string, index: number) => void;
-  deleteTodo: (index: number) => void;
+  currentDateTodos: todoType[];
+  shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
+  deleteTodo: (todosId: number) => void;
 };
 
 const TodoList: FC<TodoListProps> = ({
@@ -26,34 +26,26 @@ const TodoList: FC<TodoListProps> = ({
     );
   }
 
-  const returnTodoItem = (content: string, completed: boolean, index: number) => {
-    return (
-      <TodoItem
-        key={index}
-        index={index}
-        content={content}
-        isCompleted={completed}
-        shiftTodo={shiftTodo}
-        deleteTodo={deleteTodo} />
-    );
+  const returnTodoItem = (i: number, it: todoType) => {
+    return <TodoItem
+      key={i}
+      todos={it}
+      shiftTodo={shiftTodo}
+      deleteTodo={deleteTodo} />;
   };
 
   return (
     <Block>
       {
-        currentDateTodos.contents.map((it: string, i: number) => {
-          const [ head, ...tail ] = it.split('');
-          const content = tail.join('');
-          const completed = Boolean(Number(head));
-
+        currentDateTodos.map((it: todoType, i: number) => {
           if (todoTab === 'all') {
-            return returnTodoItem(content, completed, i);
+            return returnTodoItem(i, it);
           }
-          if (todoTab === 'completed' && completed) {
-            return returnTodoItem(content, completed, i);
+          if (todoTab === 'completed' && it.isComplete) {
+            return returnTodoItem(i, it);
           }
-          if (todoTab === 'pending' && !completed) {
-            return returnTodoItem(content, completed, i);
+          if (todoTab === 'pending' && !it.isComplete) {
+            return returnTodoItem(i, it);
           }
         })
       }
