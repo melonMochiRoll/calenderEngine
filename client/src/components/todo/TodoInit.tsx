@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { TodoTitle } from 'Containers/todo/TodoApp';
+import { Title } from 'Components/todo/TodoTitle';
 
 const TodoInit: FC = () => {
   return (
     <Container>
-      <TodoTitle>날짜를 선택해주세요</TodoTitle>
+      <Title>날짜를 선택해주세요</Title>
     </Container>
   );
 };
