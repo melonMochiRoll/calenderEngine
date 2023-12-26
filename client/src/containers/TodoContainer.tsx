@@ -7,18 +7,21 @@ import { currentMonthTodosType } from 'Hooks/useTodos';
 interface TodoContainerProps {
   todoTime: string;
   currentMonthTodos: currentMonthTodosType;
+  refetch: Function;
 };
 
 const TodoContainer: FC<TodoContainerProps> = ({
   todoTime,
   currentMonthTodos,
+  refetch,
 }) => {
   return (
     <Block>
       {todoTime ?
         <TodoApp
           todoTime={todoTime}
-          currentMonthTodos={currentMonthTodos} /> :
+          currentMonthTodos={currentMonthTodos}
+          refetch={refetch} /> :
         <TodoInit />
       }
     </Block>
