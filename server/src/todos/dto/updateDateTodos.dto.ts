@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsNotEmpty, IsString } from "class-validator";
 
 export class UpdateDateTodosDto {
 
@@ -11,10 +11,10 @@ export class UpdateDateTodosDto {
   contents: string;
 
   @IsNotEmpty()
-  @IsInt()
-  year: number;
+  @IsBoolean()
+  isComplete: boolean;
 
   @IsNotEmpty()
-  @IsInt()
-  monthIndex: number;
+  @IsString()
+  date: string;
 };

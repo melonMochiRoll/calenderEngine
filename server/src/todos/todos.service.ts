@@ -113,6 +113,7 @@ export class TodosService {
   async updateDateTodos(
     todosId: number,
     contents: string,
+    isComplete: boolean,
     date: string,
     UserId: number,
   ) {
@@ -126,7 +127,7 @@ export class TodosService {
 
     try {
       await this.todosRepository
-        .update({ id: todosId }, { contents })
+        .update({ id: todosId }, { contents, isComplete })
         .then(
           async () => {
             await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);

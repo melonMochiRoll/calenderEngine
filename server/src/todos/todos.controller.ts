@@ -44,6 +44,7 @@ export class TodosController {
     return this.todosService.updateDateTodos(
       dto.todosId,
       dto.contents,
+      dto.isComplete,
       dto.date,
       user.id
     );
