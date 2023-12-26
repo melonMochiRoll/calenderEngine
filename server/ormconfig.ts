@@ -6,7 +6,7 @@ import { Users } from 'src/entities/Users';
 const ormconfig: TypeOrmModuleOptions = {
   type: "mysql",
   host: "localhost",
-  port: 3306,
+  port: 3307,
   username: process.env.ORM_USERNAME,
   password: process.env.ORM_PASSWORD,
   database: process.env.ORM_DATABASE,
@@ -17,7 +17,6 @@ const ormconfig: TypeOrmModuleOptions = {
   synchronize: false,
   autoLoadEntities: true,
   charset: 'utf8mb4',
-  timezone: 'Asia/Seoul',
 }
 
 export default ormconfig;
