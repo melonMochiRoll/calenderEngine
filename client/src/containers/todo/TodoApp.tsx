@@ -33,7 +33,7 @@ const TodoApp: FC<TodoAppProps> = ({
       refetch();
       navigate('/login');
     };
-    if (!value || !value.trim()) return;
+    if (!value || !value.trim() || value.length > 30) return;
 
     await createDateTodos(value, todoTime);
     refetch();

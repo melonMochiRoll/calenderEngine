@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import styled from '@emotion/styled';
 import AddIcon from '@mui/icons-material/AddCircleRounded';
 import useInput from 'Hooks/useInput';
@@ -10,7 +10,15 @@ interface TodoInputProps {
 const TodoInput: FC<TodoInputProps> = ({
   addTodo,
 }) => {
-  const [ value, onChangeValue, setValue ] = useInput('');
+  const [ value, _, setValue ] = useInput('');
+
+  const onChangeValueWithMaxLength = useCallback((e: any) => {
+    if (e.target.value.length > 30) {
+      return;
+    }
+
+    setValue(e.target.value);
+  }, [value]);
 
   const onSubmit = (value: string) => {
     addTodo(value);
@@ -19,15 +27,20 @@ const TodoInput: FC<TodoInputProps> = ({
 
   return (
     <Block>
-      <Input
-        value={value}
-        onChange={onChangeValue}
-        type='text'
-        placeholder='새 할일' />
-      <AddIcon
-        onClick={() => onSubmit(value)}
-        fontSize='large'
-        sx={{ color: '#bf94FF' }} />
+      <Top>
+        <Input
+          value={value}
+          onChange={onChangeValueWithMaxLength}
+          type='text'
+          placeholder='새 할일' />
+        <AddIcon
+          onClick={() => onSubmit(value)}
+          fontSize='large'
+          sx={{ color: '#bf94FF' }} />
+      </Top>
+      <Bottom>
+        <span>{value.length + '/30'}</span>
+      </Bottom>
     </Block>
   );
 };
@@ -36,12 +49,28 @@ export default TodoInput;
 
 const Block = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
+const Top = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
 
   svg {
     cursor: pointer;
+  }
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+
+  span {
+    color: #fff;
   }
 `;
 
