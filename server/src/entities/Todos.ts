@@ -28,7 +28,7 @@ export class Todos {
   @Column({
     type: 'date'
   })
-  createdAt: Date;
+  date: Date;
 
   @Column({
     type: 'date',
