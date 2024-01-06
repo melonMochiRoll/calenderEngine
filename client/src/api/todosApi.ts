@@ -1,13 +1,28 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const getCurrentMonthTodos = async (
+export const getTodos = async (
+  date: string
+  ) => {
+  if (!date) return;
+
+  try {
+    const { data } = await axiosInstance
+      .get(`/api/todos?date=${date}`);
+
+    return data;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const getCurrentMonthTodosList = async (
   date: string,
   ) => {
   try {
     const { data } = await axiosInstance
-      .get(`/api/todos?date=${date}`);
+      .get(`/api/todos/list?date=${date}`);
       
-    return data ? data : {};
+    return data;
   } catch (err: any) {
     throw new Error(err);
   }
