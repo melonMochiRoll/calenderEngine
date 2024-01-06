@@ -6,12 +6,6 @@ import { ProcessedTodos, TodosWithoutUserId } from "src/typings/types";
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
 
 @Injectable()
 export class TodosService {
@@ -22,54 +16,113 @@ export class TodosService {
     private cacheManager: Cache,
   ) {}
 
+  async getTodos(
+    date: string,
+    UserId: number,
+  ): Promise<any> {
+    try {
+      const searchResult = await this.todosRepository.find({
+        where: {
+          UserId,
+          date: dayjs(date).toDate(),
+        },
+      });
+
+      return searchResult;
+    } catch (err: any) {
+      throw new InternalServerErrorException(err);
+    }
+  };
+
+  async getCurrentMonthTodosList(
+    date: string,
+    UserId: number,
+  ): Promise<any> {
+    try {
+      const currentDate = dayjs(`${date}`);
+      const currentYear = currentDate.year();
+      const currentMonth = currentDate.month() + 1;
+
+      const searchResult =
+        await this.todosRepository
+          .find({
+            select: {
+              date: true,
+            },
+            where: {
+              UserId,
+              date: Between(
+                dayjs(`${currentYear}-${currentMonth}-1`).toDate(),
+                dayjs(`${currentYear}-${currentMonth}-31`).toDate()
+              )
+            },
+          });
+
+      const todosList =
+        searchResult
+          .reduce((acc: any, item: { date: Date }) => {
+            acc[`${item.date}`] ?
+              acc[`${item.date}`] += 1 :
+              acc[`${item.date}`] = 1;
+
+            return acc;
+          }, {});
+      
+      return todosList;
+    } catch (err: any) {
+      throw new InternalServerErrorException(err);
+    }
+  };
+
   async getCurrentMonthTodos(
     date: string,
     UserId: number,
   ): Promise<ProcessedTodos> {
     try {
-      const currentDate = dayjs.tz(`${date}`);
+      const currentDate = dayjs(`${date}`);
       const currentYear = currentDate.year();
-      const currenyMonth = currentDate.month() + 1;
+      const currentMonth = currentDate.month() + 1;
 
-      const cached: ProcessedTodos = await this.cacheManager.get(`${UserId}_${currentYear}_${currenyMonth}`);
+      const cached: ProcessedTodos = await this.cacheManager.get(`${UserId}_${currentYear}_${currentMonth}`);
       if (cached) {
         return cached;
       }
   
-      const searchResult: TodosWithoutUserId[] = await this.todosRepository
+      const searchResult: TodosWithoutUserId[] =
+        await this.todosRepository
         .find({
           select: {
             id: true,
             contents: true,
-            createdAt: true,
+            date: true,
             isComplete: true,
             deadline: true,
           },
           where: {
             UserId,
-            createdAt: Between(
-              dayjs.tz(`${currentYear}-${currenyMonth}-1`).toDate(),
-              dayjs.tz(`${currentYear}-${currenyMonth}-31`).toDate()
+            date: Between(
+              dayjs(`${currentYear}-${currentMonth}-1`).toDate(),
+              dayjs(`${currentYear}-${currentMonth}-31`).toDate()
             )
           },
           order: {
-            createdAt: 'ASC',
+            date: 'ASC',
           }
         });
   
       const todosArray: ProcessedTodos = searchResult
         .reduce((acc: any, item: TodosWithoutUserId) => {
-          const { createdAt, ...rest } = item;
+          const { date, ...rest } = item;
 
-          acc.hasOwnProperty(`${createdAt}`) ?
-            acc[`${createdAt}`].push(rest) :
-            acc[`${createdAt}`] = [{ ...rest }];
+          acc.hasOwnProperty(`${date}`) ?
+            acc[`${date}`].push(rest) :
+            acc[`${date}`] = [{ ...rest }];
 
           return acc;
         }, {});
   
       if (todosArray.length) {
-        await this.cacheManager.set(`${UserId}_${currentYear}_${currenyMonth}`, todosArray);
+        // await this.cacheManager.set(`${UserId}_${currentYear}_${currentMonth}`, todosArray);
       }
   
       return todosArray;
@@ -83,9 +136,9 @@ export class TodosService {
     date: string,
     UserId: number,
   ) {
-    const currentDate = dayjs.tz(`${date}`);
+    const currentDate = dayjs(`${date}`);
     const currentYear = currentDate.year();
-    const currenyMonth = currentDate.month() + 1;
+    const currentMonth = currentDate.month() + 1;
 
     if (contents.length > 30) {
       throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
@@ -95,12 +148,12 @@ export class TodosService {
       await this.todosRepository
         .save({
           contents,
-          createdAt: currentDate.toDate(),
+          date: currentDate.toDate(),
           UserId,
         })
         .then(
           async () => {
-            await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);
+            // await this.cacheManager.del(`${UserId}_${currentYear}_${currentMonth}`);
           }
         );
 
@@ -117,9 +170,9 @@ export class TodosService {
     date: string,
     UserId: number,
   ) {
-    const currentDate = dayjs.tz(`${date}`);
+    const currentDate = dayjs(`${date}`);
     const currentYear = currentDate.year();
-    const currenyMonth = currentDate.month() + 1;
+    const currentMonth = currentDate.month() + 1;
 
     if (contents.length > 30) {
       throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
@@ -130,7 +183,7 @@ export class TodosService {
         .update({ id: todosId }, { contents, isComplete })
         .then(
           async () => {
-            await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);
+            // await this.cacheManager.del(`${UserId}_${currentYear}_${currentMonth}`);
           }
         );
 
@@ -146,15 +199,15 @@ export class TodosService {
     UserId: number,
   ) {
     try {
-      const currentDate = dayjs.tz(`${date}`);
+      const currentDate = dayjs(`${date}`);
       const currentYear = currentDate.year();
-      const currenyMonth = currentDate.month() + 1;
+      const currentMonth = currentDate.month() + 1;
 
       await this.todosRepository
         .delete(todosId)
         .then(
           async () => {
-            await this.cacheManager.del(`${UserId}_${currentYear}_${currenyMonth}`);
+            // await this.cacheManager.del(`${UserId}_${currentYear}_${currentMonth}`);
           }
         );
 
