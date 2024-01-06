@@ -1,32 +1,33 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCurrentMonthTodos } from 'Api/todosApi';
+import { getTodos } from 'Api/todosApi';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export type todoType = {
-  id?: number;
-  contents: string;
-  isComplete: boolean;
-  deadline?: string;
-};
-
-export type currentMonthTodosType = {
-  [todoKey: string]: todoType[];
+  id: number,
+  contents: string,
+  isComplete: boolean,
+  date: Date,
+  deadline: Date,
+  UserId: number,
 };
 
 type UseTodosReturnType = [
-  currentMonthTodosType,
+  todoType,
   Function,
 ];
+
+export const getTodosQueryKey = 'getTodos';
 
 const useTodos = (
   date: string,
   ): UseTodosReturnType => {
   const {
-    data: currentMonthTodos,
+    data: todos,
     refetch,
-  } = useQuery<currentMonthTodosType>({
-    queryKey: ['getCurrentMonthTodos'],
-    queryFn: () => getCurrentMonthTodos(date),
+  } = useQuery({
+    queryKey: [getTodosQueryKey],
+    queryFn: () => getTodos(date),
     refetchOnWindowFocus: false,
   });
 
@@ -35,8 +36,8 @@ const useTodos = (
   }, [date]);
 
   return [
-    currentMonthTodos as currentMonthTodosType,
-    refetch
+    todos,
+    refetch,
   ];
 };
 
