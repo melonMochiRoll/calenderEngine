@@ -47,6 +47,7 @@ export class TodosService {
         await this.todosRepository
           .find({
             select: {
+              contents: true,
               date: true,
             },
             where: {
@@ -56,15 +57,26 @@ export class TodosService {
                 dayjs(`${currentYear}-${currentMonth}-31`).toDate()
               )
             },
+            order: {
+              id: 'ASC',
+            }
           });
 
       const todosList =
         searchResult
-          .reduce((acc: any, item: { date: Date }) => {
-            acc[`${item.date}`] ?
-              acc[`${item.date}`] += 1 :
-              acc[`${item.date}`] = 1;
+          .reduce((acc: any, item: { contents: string, date: Date }) => {
+            if (acc[`${item.date}`]) {
+              if (acc[`${item.date}`].partialContents.length < 2) {
+                acc[`${item.date}`].partialContents.push(item.contents);
+                return acc;
+              }
 
+              return acc;
+            }
+  
+            acc[`${item.date}`] = {
+              partialContents: [ item.contents ],
+            };
             return acc;
           }, {});
       
