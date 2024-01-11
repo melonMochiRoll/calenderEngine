@@ -14,7 +14,7 @@ export class TodosController {
   ) {}
 
   @Get()
-  getTodo(
+  getTodos(
     @Query('date') date: string,
     @User() user: Users,
   ) {
