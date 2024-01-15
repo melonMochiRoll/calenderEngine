@@ -1,6 +1,5 @@
 import React, { FC, useCallback } from 'react';
 import styled from '@emotion/styled';
-import AddIcon from '@mui/icons-material/AddCircleRounded';
 import useInput from 'Hooks/useInput';
 
 interface TodoInputProps {
@@ -33,13 +32,13 @@ const TodoInput: FC<TodoInputProps> = ({
           onChange={onChangeValueWithMaxLength}
           type='text'
           placeholder='새 할일' />
-        <AddIcon
-          onClick={() => onSubmit(value)}
-          fontSize='large'
-          sx={{ color: '#bf94FF' }} />
+        <Button
+          onClick={() => onSubmit(value)}>
+          추가
+        </Button>
       </Top>
       <Bottom>
-        <span>{value.length + '/30'}</span>
+        <span>{`${value.length}/30`}</span>
       </Bottom>
     </Block>
   );
@@ -51,13 +50,17 @@ const Block = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 
 const Top = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 2px;
+  border: 1px solid #2f323b;
+  border-radius: 15px;
+  background-color: #2f323b;
 
   svg {
     cursor: pointer;
@@ -75,26 +78,40 @@ const Bottom = styled.div`
 `;
 
 const Input = styled.input`
-  width: 250px;
+  width: 200px;
   padding: 12px 15px;
   font-size: 17px;
   font-weight: 500;
   color: #dedee3;
-  background-color: #242731;
+  background-color: #2f323b;
   border: none;
-  border-bottom: 1px solid #2f323b;
+  border-radius: 15px;
   transition: box-shadow 150ms ease-out;
 
   &::placeholder {
     font-weight: 600;
     transition: 0.3s;
-    text-align: center;
     color: #dedee3;
   }
 
   &:focus {
     outline: none;
-    border-bottom: none;
-    box-shadow: 0 2px 0 0 #bf94FF;
+  }
+`;
+
+const Button = styled.button`
+  width: 75px;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #6c5dd3;
+  cursor: pointer;
+  border: 2px solid #6c5dd3;
+  border-radius: 15px;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0);
   }
 `;
