@@ -6,19 +6,19 @@ import { todoType } from 'Hooks/useTodos';
 
 interface TodoListProps {
   todoTab: string;
-  currentDateTodos: todoType[];
+  todosData: todoType[];
   shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
 
 const TodoList: FC<TodoListProps> = ({
   todoTab,
-  currentDateTodos,
+  todosData,
   shiftTodo,
   deleteTodo,
 }) => {
 
-  if (!currentDateTodos) {
+  if (!todosData || !todosData?.length) {
     return (
       <Block>
         <TodoNull />
@@ -35,21 +35,26 @@ const TodoList: FC<TodoListProps> = ({
   };
 
   return (
-    <Block>
-      {
-        currentDateTodos.map((it: todoType, i: number) => {
-          if (todoTab === 'all') {
-            return returnTodoItem(i, it);
-          }
-          if (todoTab === 'completed' && it.isComplete) {
-            return returnTodoItem(i, it);
-          }
-          if (todoTab === 'pending' && !it.isComplete) {
-            return returnTodoItem(i, it);
-          }
-        })
-      }
-    </Block>
+    <>
+      <Block>
+        {
+          todosData.map((it: todoType, i: number) => {
+            if (todoTab === 'all') {
+              return returnTodoItem(i, it);
+            }
+            if (todoTab === 'completed' && it.isComplete) {
+              return returnTodoItem(i, it);
+            }
+            if (todoTab === 'pending' && !it.isComplete) {
+              return returnTodoItem(i, it);
+            }
+          })
+        }
+      </Block>
+      <TodosCount>
+        <span>{`${todosData?.length}/20`}</span>
+      </TodosCount>
+    </> 
   );
 };
 
@@ -64,4 +69,15 @@ const Block = styled.div`
   border-bottom: 1px solid #2f323b;
   overflow: auto;
   gap: 10px;
+`;
+
+const TodosCount = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  align-items: end;
+
+  span {
+    color: #fff;
+  }
 `;
