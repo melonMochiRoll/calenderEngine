@@ -74,8 +74,8 @@ const Block = styled.div`
 const TodosCount = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px;
   align-items: end;
+  padding: 10px;
 
   span {
     color: #fff;
