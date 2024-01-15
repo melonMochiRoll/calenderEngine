@@ -20,6 +20,10 @@ export class TodosService {
     date: string,
     UserId: number,
   ): Promise<any> {
+    if (!new RegExp(/^\w{4}-\w{2}-\w{2}$/, 'g').test(date)) {
+      throw new BadRequestException('날짜 형식을 확인해 주세요.');
+    }
+
     try {
       const searchResult = await this.todosRepository.find({
         where: {
@@ -66,7 +70,7 @@ export class TodosService {
         searchResult
           .reduce((acc: any, item: { contents: string, date: Date }) => {
             if (acc[`${item.date}`]) {
-              if (acc[`${item.date}`].partialContents.length < 2) {
+              if (acc[`${item.date}`].partialContents.length < 3) {
                 acc[`${item.date}`].partialContents.push(item.contents);
                 return acc;
               }
