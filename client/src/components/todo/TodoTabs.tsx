@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import styled from '@emotion/styled';
 import { SxProps, Tab, Tabs } from '@mui/material';
 
 interface TodoTabsProps {
@@ -13,16 +12,23 @@ const TodoTabs: FC<TodoTabsProps> = ({
 }) => {
   const tabsStyle: SxProps = {
     marginBottom: '20px',
+    '& .MuiTabs-flexContainer': {
+      border: '1px solid #2f323b',
+      padding: '4px',
+      borderRadius: '10px',
+    },
     '& .MuiButtonBase-root': {
-      fontSize: '18px',
+      borderRadius: '10px',
+      fontSize: '16px',
       fontWeight: 800,
       color: '#dedee3',
     },
     '& .MuiButtonBase-root.Mui-selected': {
-      color: '#bf94FF',
+      color: '#dedee3',
+      backgroundColor: '#6c5dd3',
     },
     '& .MuiTabs-indicator': {
-      backgroundColor: '#bf94FF',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
     },
   }
 
