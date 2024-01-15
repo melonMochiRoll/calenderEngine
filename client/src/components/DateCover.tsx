@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import NotiIcon from '@mui/icons-material/Feedback';
+import BeforeLine from './BeforeLine';
 
 interface DateCoverProps {
   setTodoTime: () => void;
-  hasTodo: boolean;
+  partialContents: any;
   isToday: boolean;
   date: number;
 };
 
 const DateCover: FC<DateCoverProps> = ({
   setTodoTime,
-  hasTodo,
+  partialContents,
   isToday,
   date,
 }) => {
@@ -21,7 +21,17 @@ const DateCover: FC<DateCoverProps> = ({
       onClick={setTodoTime}>
       <Content>
         {date}
-        {hasTodo ? <NotiIcon /> : ''}
+        {partialContents ?
+          partialContents.map((item: string, index: number) => 
+            (
+              <BeforeLine key={index}>
+                {item.length > 11 ?
+                  <Partial>{`${item.slice(0, 11).trim()}...`}</Partial> :
+                  <Partial>{item}</Partial>
+                }
+              </BeforeLine>
+            )
+          ) : ''}
       </Content>
     </Block>
   );
@@ -47,5 +57,14 @@ const Block = styled.td<{ isToday: boolean }>`
 
 const Content = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  gap: 5px;
+`;
+
+const Partial = styled.span`
+  font-size: 13px;
+  color: #fff;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;

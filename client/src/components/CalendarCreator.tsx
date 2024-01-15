@@ -1,14 +1,8 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import DateCover from './DateCover';
-import { currentMonthTodosType } from 'Hooks/useTodos';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
+import { todosListType } from 'Hooks/useTodosList';
 
 interface CalendarCreatorProps {
   setTodoTime: React.Dispatch<React.SetStateAction<string>>;
@@ -16,7 +10,7 @@ interface CalendarCreatorProps {
   currentMonth: number;
   currentDay: number;
   currentDate: number;
-  currentMonthTodos: currentMonthTodosType;
+  todosListData: todosListType;
   days: Array<string>;
   dates: Array<number|string>;
 };
@@ -27,7 +21,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
   currentMonth,
   currentDay,
   currentDate,
-  currentMonthTodos,
+  todosListData,
   days,
   dates,
 }) => {
@@ -55,14 +49,14 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                     return <td key={i + n} />
                   };
 
-                  const timeKey = dayjs
-                    .tz(`${currentYear}-${currentMonth + 1}-${date}`)
+                  const timeKey =
+                    dayjs(`${currentYear}-${currentMonth + 1}-${date}`)
                     .format('YYYY-MM-DD');
                     
                   return <DateCover
                     key={i + n}
                     setTodoTime={() => setTodoTime(timeKey)}
-                    hasTodo={currentMonthTodos?.hasOwnProperty(timeKey)}
+                    partialContents={todosListData?.hasOwnProperty(timeKey) ? todosListData[timeKey].partialContents : []}
                     isToday={date === currentDate}
                     date={date} />;
                 })}
