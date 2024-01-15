@@ -2,19 +2,17 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import ormconfig from 'ormconfig';
+import { CacheManagerModule } from './cacheManager/cacheManager.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TodosModule } from './todos/todos.module';
-import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => ormconfig,
     }),
-    CacheModule.register({
-      isGlobal: true,
-    }),
+    CacheManagerModule,
     AuthModule,
     UsersModule,
     TodosModule,
