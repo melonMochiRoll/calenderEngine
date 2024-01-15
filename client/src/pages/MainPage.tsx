@@ -2,20 +2,14 @@ import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
-import useTodos from 'Hooks/useTodos';
+import useTodosList from 'Hooks/useTodosList';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import Header from 'Containers/Header';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
-
 const MainPage: FC = () => {
-  const [ now, setNow ] = useState(dayjs.tz());
+  const [ now, setNow ] = useState(dayjs());
   const [ todoTime, setTodoTime ] = useState('');
-  const [ currentMonthTodos, refetch ] = useTodos(now.format('YYYY-MM-DD'));
+  const [ todosListData, todosListDataRefetch ] = useTodosList(now.format('YYYY-MM-DD'));
 
   return (
     <Block>
@@ -26,13 +20,12 @@ const MainPage: FC = () => {
             now={now}
             setNow={setNow}
             setTodoTime={setTodoTime}
-            currentMonthTodos={currentMonthTodos} />
+            todosListData={todosListData} />
         </Box>
       </CalendarBlock>
       <TodoContainer
         todoTime={todoTime}
-        currentMonthTodos={currentMonthTodos}
-        refetch={refetch} />
+        todosListDataRefetch={todosListDataRefetch} />
     </Block>
   );
 };

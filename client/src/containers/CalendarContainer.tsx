@@ -2,22 +2,22 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import ControlPanel from 'Components/ControlPanel';
 import CalendarCreator from 'Components/CalendarCreator';
-import { currentMonthTodosType } from 'Hooks/useTodos';
 import dayjs from 'dayjs';
 import CalendarTitle from 'Components/CalendarTitle';
+import { todosListType } from 'Hooks/useTodosList';
 
 interface CalendarContainerProps {
   now: dayjs.Dayjs;
   setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>
   setTodoTime: React.Dispatch<React.SetStateAction<string>>;
-  currentMonthTodos: currentMonthTodosType;
+  todosListData: todosListType;
 };
 
 const CalendarContainer: FC<CalendarContainerProps> = ({
   now,
   setNow,
   setTodoTime,
-  currentMonthTodos,
+  todosListData,
 }) => {
   const currentYear = now.year();
   const currentMonth = now.month();
@@ -56,7 +56,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
         currentMonth={currentMonth}
         currentDay={currentDay}
         currentDate={currentDate}
-        currentMonthTodos={currentMonthTodos}
+        todosListData={todosListData}
         days={days}
         dates={dates} />
     </Calendar>
