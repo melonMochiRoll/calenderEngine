@@ -7,7 +7,7 @@ export const getUser = async () => {
     
     return data;
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -22,7 +22,7 @@ export const getOneByEmail = async (email: string) => {
 
     return false;
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -31,7 +31,7 @@ export const createUser = async (email: string, password: string) => {
     await axiosInstance
       .post('/api/users', { email, password });
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -40,7 +40,7 @@ export const login = async (email: string, password: string) => {
     await axiosInstance
       .post('/api/auth/login', { username: email, password });
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -49,6 +49,6 @@ export const logout = async () => {
     await axiosInstance
       .post('api/auth/logout');
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };

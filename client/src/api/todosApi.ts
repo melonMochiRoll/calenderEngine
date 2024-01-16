@@ -1,9 +1,12 @@
 import { axiosInstance } from "./axiosInstance";
 
 export const getTodos = async (
-  date: string
+  date: string,
+  isTodosExist: boolean,
   ) => {
-  if (!date) return;
+  if (!isTodosExist) {
+    return [];
+  }
 
   try {
     const { data } = await axiosInstance
@@ -11,7 +14,8 @@ export const getTodos = async (
 
     return data;
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
+    return [];
   }
 };
 
@@ -24,7 +28,8 @@ export const getCurrentMonthTodosList = async (
       
     return data;
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
+    return {};
   }
 };
 
@@ -36,7 +41,7 @@ export const createDateTodos = async (
     await axiosInstance
       .post(`api/todos`, { contents, date });
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -50,7 +55,7 @@ export const updateDateTodos = async (
     await axiosInstance
       .put(`/api/todos`, { todosId, contents, isComplete, date });
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -62,6 +67,6 @@ export const deleteDateTodos = async (
     await axiosInstance
       .delete(`/api/todos?ti=${todosId}&date=${date}`);
   } catch (err: any) {
-    throw new Error(err);
+    console.error(err);
   }
 };
