@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { getTodos } from 'Api/todosApi';
-import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export type todoType = {
@@ -13,7 +12,7 @@ export type todoType = {
 };
 
 type UseTodosReturnType = [
-  todoType,
+  todoType[],
   Function,
 ];
 
@@ -21,13 +20,14 @@ export const getTodosQueryKey = 'getTodos';
 
 const useTodos = (
   date: string,
+  isTodosExist: boolean,
   ): UseTodosReturnType => {
   const {
-    data: todos,
+    data: todosData,
     refetch,
   } = useQuery({
     queryKey: [getTodosQueryKey],
-    queryFn: () => getTodos(date),
+    queryFn: () => getTodos(date, isTodosExist),
     refetchOnWindowFocus: false,
   });
 
@@ -36,7 +36,7 @@ const useTodos = (
   }, [date]);
 
   return [
-    todos,
+    todosData || [],
     refetch,
   ];
 };
