@@ -6,6 +6,7 @@ import useUser from 'Hooks/useUser';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { logout } from 'Api/usersApi';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTodosListQueryKey } from 'Hooks/useTodosList';
 
 interface HeaderProps {};
 
@@ -16,12 +17,14 @@ const Header: FC<HeaderProps> = () => {
 
   const onLogout = useCallback(() => {
     logout()
-      .then(() => {
-        refetch();
-        qc.setQueryData(['getCurrentMonthTodos'], {});
-        navigator('/');
+      .catch((err) => {
+        console.error(err);
       })
-      .catch((err) => console.error(err));
+      .finally(() => {
+        refetch();
+        qc.setQueryData([useTodosListQueryKey], {});
+        navigator('/');
+      });
   }, []);
 
   return (
