@@ -2,23 +2,25 @@ import React, { FC, memo } from 'react';
 import styled from '@emotion/styled';
 import TodoItem from 'Components/todo/TodoItem';
 import TodoNull from 'Components/todo/TodoNull';
-import { todoType } from 'Hooks/useTodos';
+import { statusType, todosType } from 'Hooks/useTodos';
 
 interface TodoListProps {
   todoTab: string;
-  todosData: todoType[];
+  todosStatus: statusType;
+  todosData: todosType[];
   shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
 
 const TodoList: FC<TodoListProps> = ({
   todoTab,
+  todosStatus,
   todosData,
   shiftTodo,
   deleteTodo,
 }) => {
 
-  if (!todosData || !todosData?.length) {
+  if (!todosData || todosStatus === 'loading') {
     return (
       <Block>
         <TodoNull />
@@ -26,10 +28,13 @@ const TodoList: FC<TodoListProps> = ({
     );
   }
 
-  const returnTodoItem = (i: number, it: todoType) => {
+  const returnTodoItem = (
+    i: number,
+    todos: todosType,
+  ) => {
     return <TodoItem
       key={i}
-      todos={it}
+      todos={todos}
       shiftTodo={shiftTodo}
       deleteTodo={deleteTodo} />;
   };
@@ -38,7 +43,7 @@ const TodoList: FC<TodoListProps> = ({
     <>
       <Block>
         {
-          todosData.map((it: todoType, i: number) => {
+          todosData.map((it: todosType, i: number) => {
             if (todoTab === 'all') {
               return returnTodoItem(i, it);
             }
@@ -52,7 +57,7 @@ const TodoList: FC<TodoListProps> = ({
         }
       </Block>
       <TodosCount>
-        <span>{`${todosData?.length}/20`}</span>
+        <span>{`${todosData?.length || 0}/20`}</span>
       </TodosCount>
     </> 
   );

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getTodos } from 'Api/todosApi';
 import { useEffect } from 'react';
 
-export type todoType = {
+export type todosType = {
   id: number,
   contents: string,
   isComplete: boolean,
@@ -11,8 +11,11 @@ export type todoType = {
   UserId: number,
 };
 
+export type statusType = 'loading' | 'error' | 'success';
+
 type UseTodosReturnType = [
-  todoType[],
+  statusType,
+  todosType[],
   Function,
 ];
 
@@ -20,14 +23,14 @@ export const getTodosQueryKey = 'getTodos';
 
 const useTodos = (
   date: string,
-  isTodosExist: boolean,
   ): UseTodosReturnType => {
   const {
+    status,
     data: todosData,
     refetch,
   } = useQuery({
     queryKey: [getTodosQueryKey],
-    queryFn: () => getTodos(date, isTodosExist),
+    queryFn: () => getTodos(date),
     refetchOnWindowFocus: false,
   });
 
@@ -36,7 +39,8 @@ const useTodos = (
   }, [date]);
 
   return [
-    todosData || [],
+    status,
+    todosData || null,
     refetch,
   ];
 };

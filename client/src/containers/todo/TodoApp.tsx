@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { currentMonthTodosType } from 'Hooks/useTodos';
 import TodoList from 'Components/todo/TodoList';
 import TodoTabs from 'Components/todo/TodoTabs';
 import TodoInput from 'Components/todo/TodoInput';
@@ -10,33 +9,39 @@ import { createDateTodos, deleteDateTodos, updateDateTodos } from 'Api/todosApi'
 import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import TodoTitle from 'Components/todo/TodoTitle';
+import { useTodosListQueryKey } from 'Hooks/useTodosList';
+import useTodos from 'Hooks/useTodos';
 
 interface TodoAppProps {
   todoTime: string;
-  currentMonthTodos: currentMonthTodosType;
-  refetch: Function;
+  todosListDataRefetch: Function;
 };
 
 const TodoApp: FC<TodoAppProps> = ({
   todoTime,
-  currentMonthTodos,
-  refetch,
+  todosListDataRefetch,
 }) => {
   const navigate = useNavigate();
-  const [ userData ] = useUser();
+  const [ userData, userDataRefetch ] = useUser();
+  const [ todosStatus, todosData, todosDataRefetch ] = useTodos(todoTime);
   const [ todoTab, onChangeTab ] = useTabs('all');
   const qc = useQueryClient();
 
-  const addTodo = async (value: string) => {
+  const addTodo = async (contents: string) => {
+    userDataRefetch();
+
     if (!userData) {
-      qc.setQueryData(['getCurrentMonthTodos'], {});
-      refetch();
+      qc.setQueryData([useTodosListQueryKey], {});
       navigate('/login');
     };
-    if (!value || !value.trim() || value.length > 30) return;
+    if (!contents || !contents.trim() || contents.length > 30) return;
 
-    await createDateTodos(value, todoTime);
-    refetch();
+    await createDateTodos(
+      contents,
+      todoTime,
+    );
+    todosDataRefetch();
+    todosListDataRefetch();
   };
 
   const shiftTodo = async (
@@ -44,9 +49,10 @@ const TodoApp: FC<TodoAppProps> = ({
     contents: string,
     isComplete: boolean,
     ) => {
+    userDataRefetch();
+    
     if (!userData) {
-      qc.setQueryData(['getCurrentMonthTodos'], {});
-      refetch();
+      qc.setQueryData([useTodosListQueryKey], {});
       navigate('/login');
     };
 
@@ -56,13 +62,15 @@ const TodoApp: FC<TodoAppProps> = ({
       isComplete,
       todoTime,
     );
-    refetch();
+    todosDataRefetch();
+    todosListDataRefetch();
   };
 
   const deleteTodo = async (todosId: number) => {
+    userDataRefetch();
+
     if (!userData) {
-      qc.setQueryData(['getCurrentMonthTodos'], {});
-      refetch();
+      qc.setQueryData([useTodosListQueryKey], {});
       navigate('/login');
     };
     
@@ -70,7 +78,8 @@ const TodoApp: FC<TodoAppProps> = ({
       todosId,
       todoTime,
     );
-    refetch();
+    todosDataRefetch();
+    todosListDataRefetch();
   };
 
   return (
@@ -84,7 +93,8 @@ const TodoApp: FC<TodoAppProps> = ({
         onChangeTab={onChangeTab} />
       <TodoList
         todoTab={todoTab}
-        currentDateTodos={currentMonthTodos[todoTime]}
+        todosStatus={todosStatus}
+        todosData={todosData}
         shiftTodo={shiftTodo}
         deleteTodo={deleteTodo} />
     </Container>
