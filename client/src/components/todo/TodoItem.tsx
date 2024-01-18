@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
-import { todoType } from 'Hooks/useTodos';
+import { todosType } from 'Hooks/useTodos';
 
 interface TodoItemProps {
-  todos: todoType;
+  todos: todosType;
   shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
@@ -20,14 +20,14 @@ const TodoItem: FC<TodoItemProps> = ({
 
   return (
     <Block isComplete={isComplete}>
-      <Switch onClick={() => shiftTodo(todosId as number, contents, !isComplete)}>
+      <Switch onClick={() => shiftTodo(todosId, contents, !isComplete)}>
         {isComplete ?
           <ChkIcon sx={{ color: '#bf94FF' }} fontSize='large' /> :
           <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
       </Switch>
       <Contents>
         <span>{contents}</span>
-        <BackIcon onClick={() => deleteTodo(todosId as number)} sx={{ color: '#e66641' }}/>
+        <BackIcon onClick={() => deleteTodo(todosId)} sx={{ color: '#e66641' }}/>
       </Contents>
     </Block>
   );
