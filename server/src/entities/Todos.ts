@@ -14,9 +14,16 @@ export class Todos {
   @IsString()
   @Column({
     type: 'varchar',
-    length: 639,
+    length: 30,
   })
   contents: string;
+
+  @IsBoolean()
+  @Column({
+    type: 'boolean',
+    default: 0,
+  })
+  isComplete: boolean;
 
   @Index('todos_date_idx')
   @Column({
