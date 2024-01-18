@@ -27,7 +27,7 @@ export class UsersService {
   async isUser(
     email: string,
     ): Promise<boolean> {
-    return this.usersRepository.findOneBy({ email }) ? true : false;
+    return await this.usersRepository.findOneBy({ email }) ? true : false;
   };
 
   async createUser(
