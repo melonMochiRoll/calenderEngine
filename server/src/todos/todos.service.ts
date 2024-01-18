@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Between, Repository } from "typeorm";
+import { Between, Like, Repository } from "typeorm";
 import { Todos } from "src/entities/Todos";
-import { ProcessedTodos, TodosWithoutUserId } from "src/typings/types";
 import dayjs from "dayjs";
 import { CacheManagerService } from "src/cacheManager/cacheManager.service";
 
@@ -18,9 +17,12 @@ export class TodosService {
     date: string,
     UserId: number,
   ): Promise<any> {
-    if (!new RegExp(/^\w{4}-\w{2}-\w{2}$/, 'g').test(date)) {
+    const datePattern = /^\w{4}-\w{2}-\w{2}$/;
+
+    if (!datePattern.test(date)) {
       throw new BadRequestException('날짜 형식을 확인해 주세요.');
     }
+
     const currentDate = dayjs(`${date}`);
     const currentYear = currentDate.year();
     const currentMonth = currentDate.month() + 1;
@@ -125,6 +127,8 @@ export class TodosService {
     date: string,
     UserId: number,
   ) {
+    contents = contents.trim();
+
     const currentDate = dayjs(`${date}`);
     const currentYear = currentDate.year();
     const currentMonth = currentDate.month() + 1;
@@ -132,6 +136,10 @@ export class TodosService {
 
     if (contents.length > 30) {
       throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
+    }
+
+    if (!contents) {
+      throw new BadRequestException('유효하지 않은 내용입니다.');
     }
 
     try {
@@ -165,10 +173,6 @@ export class TodosService {
     const currentYear = currentDate.year();
     const currentMonth = currentDate.month() + 1;
     const currentDay = currentDate.date();
-
-    if (contents.length > 30) {
-      throw new BadRequestException('컨텐츠의 길이가 너무 깁니다!');
-    }
 
     try {
       await this.todosRepository
@@ -210,5 +214,24 @@ export class TodosService {
     } catch (err: any) {
       throw new InternalServerErrorException(err);
     }
+  };
+
+  async searchTodos(
+    keyword: string,
+    UserId: number,
+  ) {
+    const searchResult =
+      await this.todosRepository.find({
+        where: {
+          UserId,
+          contents: Like(`%${keyword}%`),
+        },
+        order: {
+          date: 'DESC',
+        },
+        take: 10, // 하나의 페이지 or 블럭의 임의의 todos 갯수
+      });
+
+    return searchResult;
   };
 }
