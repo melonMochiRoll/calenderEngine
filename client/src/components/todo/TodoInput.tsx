@@ -86,11 +86,9 @@ const Input = styled.input`
   background-color: #2f323b;
   border: none;
   border-radius: 15px;
-  transition: box-shadow 150ms ease-out;
 
   &::placeholder {
     font-weight: 600;
-    transition: 0.3s;
     color: #dedee3;
   }
 
