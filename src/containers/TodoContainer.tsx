@@ -2,26 +2,22 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import TodoApp from './todo/TodoApp';
 import TodoInit from 'Components/todo/TodoInit';
-import { currentMonthTodosType } from 'Hooks/useTodos';
 
 interface TodoContainerProps {
   todoTime: string;
-  currentMonthTodos: currentMonthTodosType;
-  refetch: Function;
+  todosListDataRefetch: Function;
 };
 
 const TodoContainer: FC<TodoContainerProps> = ({
   todoTime,
-  currentMonthTodos,
-  refetch,
+  todosListDataRefetch,
 }) => {
   return (
     <Block>
       {todoTime ?
         <TodoApp
           todoTime={todoTime}
-          currentMonthTodos={currentMonthTodos}
-          refetch={refetch} /> :
+          todosListDataRefetch={todosListDataRefetch} /> :
         <TodoInit />
       }
     </Block>

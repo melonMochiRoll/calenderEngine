@@ -5,6 +5,7 @@ import CalendarCreator from 'Components/CalendarCreator';
 import dayjs from 'dayjs';
 import CalendarTitle from 'Components/CalendarTitle';
 import { todosListType } from 'Hooks/useTodosList';
+import SearchBar from 'Components/SearchBar';
 
 interface CalendarContainerProps {
   now: dayjs.Dayjs;
@@ -45,6 +46,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
         <CalendarTitle
           currentYear={currentYear}
           currentMonth={currentMonth} />
+        <SearchBar />
         <ControlPanel
           setNow={setNow}
           prevMonth={now.month(currentMonth - 1)}

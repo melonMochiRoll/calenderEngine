@@ -2,12 +2,7 @@ import { axiosInstance } from "./axiosInstance";
 
 export const getTodos = async (
   date: string,
-  isTodosExist: boolean,
   ) => {
-  if (!isTodosExist) {
-    return [];
-  }
-
   try {
     const { data } = await axiosInstance
       .get(`/api/todos?date=${date}`);
@@ -15,7 +10,6 @@ export const getTodos = async (
     return data;
   } catch (err: any) {
     console.error(err);
-    return [];
   }
 };
 
@@ -29,7 +23,6 @@ export const getCurrentMonthTodosList = async (
     return data;
   } catch (err: any) {
     console.error(err);
-    return {};
   }
 };
 

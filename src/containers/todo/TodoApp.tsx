@@ -29,12 +29,13 @@ const TodoApp: FC<TodoAppProps> = ({
 
   const addTodo = async (contents: string) => {
     userDataRefetch();
+    contents.trim();
 
     if (!userData) {
       qc.setQueryData([useTodosListQueryKey], {});
       navigate('/login');
     };
-    if (!contents || !contents.trim() || contents.length > 30) return;
+    if (!contents || contents.length > 30) return;
 
     await createDateTodos(
       contents,
