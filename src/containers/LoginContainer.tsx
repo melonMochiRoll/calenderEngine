@@ -6,28 +6,41 @@ import LoginForm from 'Components/auth/LoginForm';
 
 const emailConfirmation = (email: string) => {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const result = {
+    email: email.trim(),
+    error: '',
+  };
 
   if (!email) {
-    return '이메일을 입력해주세요';
+    result.error = '이메일을 입력해주세요';
+    return result;
   }
 
   if (!emailPattern.test(email)) {
-    return '이메일 형식을 확인해주세요';
+    result.error = '이메일 형식을 확인해주세요';
+    return result;
   }
 
-  return '';
+  return result;
 };
 
 const passwordConfirmation = (password: string) => {
+  const result = {
+    password: password.trim(),
+    error: '',
+  };
+
   if (!password) {
-    return '비밀번호를 입력해주세요';
+    result.error = '비밀번호를 입력해주세요';
+    return result;
   }
 
   if (password.length < 8) {
-    return '비밀번호는 8자 이상이어야 합니다.';
+    result.error = '비밀번호는 8자 이상이어야 합니다.';
+    return result;
   }
 
-  return '';
+  return result;
 };
 
 interface LoginContainerProps {
@@ -44,22 +57,6 @@ const LoginContainer: FC<LoginContainerProps> = ({
     password: '',
   });
 
-  const confirmation = (email: string, password: string) => {
-    const isSubmit = {
-      email: emailConfirmation(email),
-      password: passwordConfirmation(password),
-    };
-
-    for (let value of Object.values(isSubmit)) {
-      if (value) {
-        setErrors(isSubmit);
-        return false;
-      }
-    }
-
-    return true;
-  };
-
   const onSubmit = useCallback((e: any) => {
     e.preventDefault();
     setErrors({
@@ -67,21 +64,26 @@ const LoginContainer: FC<LoginContainerProps> = ({
       password: '',
     });
 
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
+    const emailConfirmResult = emailConfirmation(email);
+    const passwordConfirmResult = passwordConfirmation(password);
 
-    if (!confirmation(trimmedEmail, trimmedPassword)) return;
+    if (emailConfirmResult.error || passwordConfirmResult.error) {
+      setErrors({
+        email: emailConfirmResult.error,
+        password: passwordConfirmResult.error,
+      });
+      return;
+    }
   
-    login(trimmedEmail, trimmedPassword)
+    login(emailConfirmResult.email, passwordConfirmResult.password)
       .then(() => {
         navigate('/');
       })
-      .catch(error => {
+      .catch(() => {
         setErrors({
           email: '이메일 혹은 비밀번호를 확인해주세요',
           password: '',
         });
-        console.error(`error : ${error}`)
       });
 
   }, [email, password]);

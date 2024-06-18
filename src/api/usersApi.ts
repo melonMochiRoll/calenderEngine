@@ -11,7 +11,7 @@ export const getUser = async () => {
   }
 };
 
-export const getOneByEmail = async (email: string) => {
+export const isUser = async (email: string) => {
   try {
     const { data } = await axiosInstance
       .get(`/api/users/email?e=${email}`);
@@ -31,7 +31,7 @@ export const createUser = async (email: string, password: string) => {
     await axiosInstance
       .post('/api/users', { email, password });
   } catch (err: any) {
-    console.error(err);
+    throw new Error();
   }
 };
 
@@ -40,7 +40,7 @@ export const login = async (email: string, password: string) => {
     await axiosInstance
       .post('/api/auth/login', { username: email, password });
   } catch (err: any) {
-    console.error(err);
+    throw new Error();
   }
 };
 
