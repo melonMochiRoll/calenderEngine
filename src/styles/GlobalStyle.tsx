@@ -1,5 +1,23 @@
 import React from 'react';
 import { Global, css } from '@emotion/react';
+import Black2 from '../../public/fonts/Pretendard-Black.subset.woff2';
+import Black from '../../public/fonts/Pretendard-Black.subset.woff';
+import ExtraBold2 from '../../public/fonts/Pretendard-ExtraBold.subset.woff2';
+import ExtraBold from '../../public/fonts/Pretendard-ExtraBold.subset.woff';
+import Bold2 from '../../public/fonts/Pretendard-Bold.subset.woff2';
+import Bold from '../../public/fonts/Pretendard-Bold.subset.woff';
+import SemiBold2 from '../../public/fonts/Pretendard-SemiBold.subset.woff2';
+import SemiBold from '../../public/fonts/Pretendard-SemiBold.subset.woff';
+import Medium2 from '../../public/fonts/Pretendard-Medium.subset.woff2';
+import Medium from '../../public/fonts/Pretendard-Medium.subset.woff';
+import Regular2 from '../../public/fonts/Pretendard-Regular.subset.woff2';
+import Regular from '../../public/fonts/Pretendard-Regular.subset.woff';
+import Light2 from '../../public/fonts/Pretendard-Light.subset.woff2';
+import Light from '../../public/fonts/Pretendard-Light.subset.woff';
+import ExtraLight2 from '../../public/fonts/Pretendard-ExtraLight.subset.woff2';
+import ExtraLight from '../../public/fonts/Pretendard-ExtraLight.subset.woff';
+import Thin2 from '../../public/fonts/Pretendard-Thin.subset.woff2';
+import Thin from '../../public/fonts/Pretendard-Thin.subset.woff';
 
 const style = css`
   :root {
@@ -30,8 +48,8 @@ const style = css`
     font-weight: 900;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-Black.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-Black.subset.woff') format('woff');
+      url(${Black2}) format('woff2'),
+      url(${Black}) format('woff');
   }
 
   @font-face {
@@ -39,8 +57,8 @@ const style = css`
     font-weight: 800;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-ExtraBold.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-ExtraBold.subset.woff') format('woff');
+      url(${ExtraBold2}) format('woff2'),
+      url(${ExtraBold}) format('woff');
   }
 
   @font-face {
@@ -48,8 +66,8 @@ const style = css`
     font-weight: 700;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-Bold.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-Bold.subset.woff') format('woff');
+      url(${Bold2}) format('woff2'),
+      url(${Bold}) format('woff');
   }
 
   @font-face {
@@ -57,8 +75,8 @@ const style = css`
     font-weight: 600;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-SemiBold.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-SemiBold.subset.woff') format('woff');
+      url(${SemiBold2}) format('woff2'),
+      url(${SemiBold}) format('woff');
   }
 
   @font-face {
@@ -66,8 +84,8 @@ const style = css`
     font-weight: 500;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-Medium.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-Medium.subset.woff') format('woff');
+      url(${Medium2}) format('woff2'),
+      url(${Medium}) format('woff');
   }
 
   @font-face {
@@ -75,8 +93,8 @@ const style = css`
     font-weight: 400;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-Regular.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-Regular.subset.woff') format('woff');
+      url(${Regular2}) format('woff2'),
+      url(${Regular}) format('woff');
   }
 
   @font-face {
@@ -84,8 +102,8 @@ const style = css`
     font-weight: 300;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-Light.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-Light.subset.woff') format('woff');
+      url(${Light2}) format('woff2'),
+      url(${Light}) format('woff');
   }
 
   @font-face {
@@ -93,8 +111,8 @@ const style = css`
     font-weight: 200;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-ExtraLight.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-ExtraLight.subset.woff') format('woff');
+      url(${ExtraLight2}) format('woff2'),
+      url(${ExtraLight}) format('woff');
   }
 
   @font-face {
@@ -102,8 +120,8 @@ const style = css`
     font-weight: 100;
     font-display: swap;
     src:
-      url('../../public/fonts/Pretendard-Thin.subset.woff2') format('woff2'),
-      url('../../public/fonts/Pretendard-Thin.subset.woff') format('woff');
+      url(${Thin2}) format('woff2'),
+      url(${Thin}) format('woff');
   }
 `
 
