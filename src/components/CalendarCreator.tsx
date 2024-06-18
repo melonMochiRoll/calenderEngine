@@ -84,7 +84,7 @@ const WeekBlock = styled.thead`
   text-align: center;
   font-size: 16px;
   font-weight: 600;
-  color: #dedee3;
+  color: var(--white);
 
   tr {
     border-spacing: 5px;
@@ -98,8 +98,8 @@ const DayBlock = styled.tbody`
     padding: 5px;
     vertical-align: top;
     height: 100px;
-    color: #dedee3;
-    background-color: #242731;
+    color: var(--white);
+    background-color: var(--dark-gray);
   }
 
   td:first-of-type {
@@ -112,7 +112,7 @@ const DayBlock = styled.tbody`
 `;
 
 const Day = styled.td<{ isToday: boolean }>`
-  border: 1px solid #2f323b;
-  background-color: ${({isToday}) => isToday ? '#6c5dd3' : '#242731'};
+  border: 1px solid var(--light-gray);
+  background-color: ${({isToday}) => isToday ? 'var(--purple)' : 'var(--dark-gray)'};
   padding: 5px 0;
 `;

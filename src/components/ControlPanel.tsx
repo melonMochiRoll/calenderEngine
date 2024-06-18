@@ -38,7 +38,7 @@ const Block = styled.div`
   svg {
     cursor: pointer;
     border-radius: 8px;
-    color: #dedee3;
+    color: var(--white);
   }
 
   svg:hover {

@@ -33,5 +33,5 @@ const Block = styled.div`
   height: 100vh;
   padding: 15px;
   border: 1px solid #2f323b;
-  background-color: #242731;
+  background-color: var(--dark-gray);
 `;

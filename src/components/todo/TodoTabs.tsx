@@ -13,7 +13,7 @@ const TodoTabs: FC<TodoTabsProps> = ({
   const tabsStyle: SxProps = {
     marginBottom: '20px',
     '& .MuiTabs-flexContainer': {
-      border: '1px solid #2f323b',
+      border: '1px solid var(--light-gray)',
       padding: '4px',
       borderRadius: '10px',
     },
@@ -21,10 +21,10 @@ const TodoTabs: FC<TodoTabsProps> = ({
       borderRadius: '10px',
       fontSize: '16px',
       fontWeight: 800,
-      color: '#dedee3',
+      color: 'var(--white)',
     },
     '& .MuiButtonBase-root.Mui-selected': {
-      color: '#dedee3',
+      color: 'var(--white)',
       backgroundColor: '#6c5dd3',
     },
     '& .MuiTabs-indicator': {

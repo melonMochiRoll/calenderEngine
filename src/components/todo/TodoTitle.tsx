@@ -20,5 +20,5 @@ export default TodoTitle;
 export const Title = styled.h1`
   font-size: 28px;
   font-weigth: 800;
-  color: #efeff1;
+  color: var(--white);
 `;

@@ -25,13 +25,13 @@ const SearchBar: FC<SearchBarProps> = ({
         <SearchIcon
           onClick={() => onSubmit(value)}
           sx={{
-            color: '#dedee3',
+            color: 'var(--white)',
           }}/>
         <Input
           value={value}
           onChange={onChangeValue}
           type='text'
-          placeholder='Todo 검색'/>
+          placeholder='Search'/>
       </InputBox>
     </Block>
   );
@@ -48,7 +48,7 @@ const Block = styled.div`
 const InputBox = styled.div`
   display: flex;
   align-items: center;
-  background-color: #2f323b;
+  background-color: var(--light-gray);
   border-radius: 15px;
   padding: 10px;
 
@@ -60,11 +60,11 @@ const InputBox = styled.div`
 const Input = styled.input`
   width: 200px;
   border: none;
-  color: #dedee3;
+  color: var(--white);
   padding: 0 10px;
   font-size: 17px;
   font-weight: 500;
-  background-color: #2f323b;
+  background-color: var(--light-gray);
 
   &::placeholder {
     font-weight: 500;

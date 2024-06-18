@@ -22,7 +22,7 @@ const TodoItem: FC<TodoItemProps> = ({
     <Block isComplete={isComplete}>
       <Switch onClick={() => shiftTodo(todosId, contents, !isComplete)}>
         {isComplete ?
-          <ChkIcon sx={{ color: '#bf94FF' }} fontSize='large' /> :
+          <ChkIcon sx={{ color: 'var(--pink)' }} fontSize='large' /> :
           <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
       </Switch>
       <Contents>
@@ -41,7 +41,7 @@ const Block = styled.div<{ isComplete: boolean }>`
   width: 280px;
   font-size: 18px;
   padding: 13px 15px;
-  border: ${({isComplete}) => isComplete ? `2px solid #bf94FF` : `2px solid #2f323b`};
+  border: ${({isComplete}) => isComplete ? `2px solid var(--pink)` : `2px solid var(--light-gray)`};
   border-radius: 6px;
 
   span {
@@ -69,7 +69,7 @@ const Contents = styled.div`
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  color: #dedee3;
+  color: var(--white);
 
   svg {
     opacity: 0;

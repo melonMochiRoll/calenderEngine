@@ -29,6 +29,6 @@ const Title = styled.h1`
   font-size: 42px;
   text-align: center;
   font-weight: 800;
-  color: #efeff1;
+  color: var(--white);
   padding: 3px;
 `;

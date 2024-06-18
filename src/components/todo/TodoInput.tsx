@@ -58,9 +58,9 @@ const Top = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 2px;
-  border: 1px solid #2f323b;
+  border: 1px solid var(--light-gray);
   border-radius: 15px;
-  background-color: #2f323b;
+  background-color: var(--light-gray);
 
   svg {
     cursor: pointer;
@@ -73,7 +73,7 @@ const Bottom = styled.div`
   padding: 10px;
 
   span {
-    color: #fff;
+    color: var(--white);
   }
 `;
 
@@ -82,8 +82,8 @@ const Input = styled.input`
   padding: 12px 15px;
   font-size: 17px;
   font-weight: 500;
-  color: #dedee3;
-  background-color: #2f323b;
+  color: var(--white);
+  background-color: var(--light-gray);
   border: none;
   border-radius: 15px;
 
@@ -103,9 +103,9 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: 600;
   color: #fff;
-  background-color: #6c5dd3;
+  background-color: var(--purple);
   cursor: pointer;
-  border: 2px solid #6c5dd3;
+  border: 2px solid var(--purple);
   border-radius: 15px;
   transition: all 0.3s;
 

@@ -71,7 +71,7 @@ const Block = styled.div`
   padding: 5px;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #2f323b;
+  border-bottom: 1px solid var(--light-gray);
   overflow: auto;
   gap: 10px;
 `;

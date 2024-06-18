@@ -35,13 +35,13 @@ const Button = styled.button<{ filled: boolean }>`
   font-size: 14px;
   font-weight: 600;
   color: #fff;
-  background-color: ${({filled}) => filled ? `rgba(0, 0, 0, 0)` : `#6c5dd3`};
-  border: ${({filled}) => filled ? `none` : `2px solid #6c5dd3`} ;
+  background-color: ${({filled}) => filled ? `rgba(0, 0, 0, 0)` : `var(--purple)`};
+  border: ${({filled}) => filled ? `none` : `2px solid var(--purple)`} ;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s;
 
   &:hover {
-    background-color: ${({filled}) => filled ? `#6c5dd3` : `rgba(0, 0, 0, 0)`};
+    background-color: ${({filled}) => filled ? `var(--purple)` : `rgba(0, 0, 0, 0)`};
   }
 `;

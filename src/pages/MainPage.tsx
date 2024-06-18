@@ -44,7 +44,7 @@ const CalendarBlock = styled.div`
   width: 100%;
   height: 100vh;
   padding: 30px;
-  background-color: #1f2128;
+  background-color: var(--black);
 `;
 
 const Box = styled.div`

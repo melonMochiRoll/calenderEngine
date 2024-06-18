@@ -31,7 +31,7 @@ const Header: FC<HeaderProps> = () => {
     <Block>
       {userData ?
         <>
-          <AccountCircleIcon sx={{ color: '#efeff1' }} />
+          <AccountCircleIcon sx={{ color: 'var(--white)' }} />
           <EmailSpan>{userData.email}</EmailSpan>
           <MenuButton
             onClick={() => onLogout()}
@@ -68,7 +68,7 @@ const Block = styled.header`
 `;
 
 const EmailSpan = styled.span`
-  color: #efeff1;
+  color: var(--white);
   font-size: 16px;
   font-weight: 500;
 `;

@@ -43,15 +43,15 @@ const Block = styled.td<{ isToday: boolean }>`
   width: 120px;
   cursor: pointer;
   border: ${({isToday}) => isToday ?
-    `2px solid #bf94FF` : `1px solid #2f323b`};
-  box-shadow: ${({isToday}) => isToday && 'inset 0 0 7px #bf94FF'};
+    `2px solid var(--pink)` : `1px solid var(--light-gray)`};
+  box-shadow: ${({isToday}) => isToday && 'inset 0 0 7px var(--pink)'};
 
   &:hover {
     background-color: #2c2f38;
   }
 
   svg {
-    color: #bf94FF;
+    color: var(--pink);
   }
 `;
 
