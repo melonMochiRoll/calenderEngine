@@ -31,7 +31,7 @@ const SearchBar: FC<SearchBarProps> = ({
           value={value}
           onChange={onChangeValue}
           type='text'
-          placeholder='Search'/>
+          placeholder='Search...'/>
       </InputBox>
     </Block>
   );
