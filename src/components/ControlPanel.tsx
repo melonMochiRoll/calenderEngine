@@ -18,10 +18,10 @@ const ControlPanel: FC<ControlPanelProps> = ({
   return (
     <Block>
       <ArrowLeftIcon
-        fontSize='large'
+        sx={{ fontSize: '40px' }}
         onClick={() => setNow(prevMonth)}/>
       <ArrowRightIcon
-        fontSize='large'
+        sx={{ fontSize: '40px' }}
         onClick={() => setNow(nextMonth)}/>
     </Block>
   );
@@ -42,6 +42,6 @@ const Block = styled.div`
   }
 
   svg:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 `;
