@@ -26,9 +26,10 @@ const Block = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 42px;
+  font-size: 48px;
   text-align: center;
   font-weight: 800;
   color: var(--white);
   padding: 3px;
+  margin: 0;
 `;
