@@ -38,22 +38,10 @@ export default TodoItem;
 const Block = styled.div<{ isComplete: boolean }>`
   display: flex;
   align-items: center;
-  width: 280px;
-  font-size: 18px;
+  width: 100%;
   padding: 13px 15px;
   border: ${({isComplete}) => isComplete ? `2px solid var(--pink)` : `2px solid var(--light-gray)`};
   border-radius: 6px;
-
-  span {
-    font-size: 17px;
-    font-weight: 500;
-  }
-
-  &:hover {
-    svg {
-      opacity: 1;
-    }
-  }
 `;
 
 const Switch = styled.div`
@@ -71,9 +59,20 @@ const Contents = styled.div`
   overflow: hidden;
   color: var(--white);
 
+  span {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
   svg {
     opacity: 0;
     cursor: pointer;
     transition: all 0.1s;
+  }
+  
+  &:hover {
+    svg {
+      opacity: 1;
+    }
   }
 `;

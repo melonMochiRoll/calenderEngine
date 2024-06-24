@@ -18,7 +18,8 @@ const TodoTitle: FC<TodoTitleProps> = ({
 export default TodoTitle;
 
 export const Title = styled.h1`
-  font-size: 34px;
+  font-size: 46px;
   font-weigth: 800;
   color: var(--white);
+  margin: 20px 0;
 `;

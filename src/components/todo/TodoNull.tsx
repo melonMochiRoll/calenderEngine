@@ -12,7 +12,7 @@ export default TodoNull;
 const Text = styled.span`
   margin-top: 150px;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: #9298a1;
 `;

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { Title } from 'Components/todo/TodoTitle';
 
 const TodoInit: FC = () => {
   return (
@@ -16,5 +15,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 50px;
+  align-items: center;
+  padding-top: 200px;
+`;
+
+const Title = styled.h1`
+  font-size: 32px;
+  font-weigth: 800;
+  color: var(--white);
 `;

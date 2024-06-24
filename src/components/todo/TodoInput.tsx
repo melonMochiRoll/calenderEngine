@@ -73,14 +73,15 @@ const Bottom = styled.div`
   padding: 10px;
 
   span {
+    font-size: 20px;
     color: var(--white);
   }
 `;
 
 const Input = styled.input`
-  width: 200px;
+  width: 100%;
   padding: 12px 15px;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 500;
   color: var(--white);
   background-color: var(--light-gray);
@@ -98,9 +99,9 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  width: 75px;
+  width: 100px;
   height: 100%;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: #fff;
   background-color: var(--purple);

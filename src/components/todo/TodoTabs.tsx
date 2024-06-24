@@ -11,7 +11,8 @@ const TodoTabs: FC<TodoTabsProps> = ({
   onChangeTab,
 }) => {
   const tabsStyle: SxProps = {
-    marginBottom: '20px',
+    width: '100%',
+    height: '100px',
     '& .MuiTabs-flexContainer': {
       border: '1px solid var(--light-gray)',
       padding: '4px',
@@ -19,7 +20,7 @@ const TodoTabs: FC<TodoTabsProps> = ({
     },
     '& .MuiButtonBase-root': {
       borderRadius: '10px',
-      fontSize: '16px',
+      fontSize: '18px',
       fontWeight: 800,
       color: 'var(--white)',
     },
