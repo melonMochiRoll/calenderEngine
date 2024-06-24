@@ -39,14 +39,15 @@ const Block = styled.div`
 const CalendarBlock = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: stretch;
+  align-items: center;
   width: 100%;
   height: 100vh;
-  padding: 30px;
+  padding: 20px;
   background-color: var(--black);
 `;
 
 const Box = styled.div`
-  width: 800px;
+  width: 1000px;
+  height: 100%;
 `;
