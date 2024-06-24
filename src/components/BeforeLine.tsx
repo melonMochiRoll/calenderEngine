@@ -14,17 +14,17 @@ const hexArray = [
 ];
 
 interface BeforeLineProps {
+  date: number,
   children: ReactNode,
 };
 
 const BeforeLine: FC<BeforeLineProps> = ({
+  date,
   children,
 }) => {
-  const index = useRef(getRamdomInt(hexArray.length - 1));
-
   return (
     <Block>
-      <Line hex={hexArray[index.current]}/>
+      <Line hex={hexArray[date % 10]}/>
       {children}
     </Block>
   );

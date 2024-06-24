@@ -24,7 +24,9 @@ const DateCover: FC<DateCoverProps> = ({
         {partialContents ?
           partialContents.map((item: string, index: number) => 
             (
-              <BeforeLine key={index}>
+              <BeforeLine
+                key={index}
+                date={date}>
                 {item.length > 11 ?
                   <Partial>{`${item.slice(0, 11).trim()}...`}</Partial> :
                   <Partial>{item}</Partial>
