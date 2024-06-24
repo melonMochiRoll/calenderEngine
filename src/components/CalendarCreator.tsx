@@ -82,7 +82,7 @@ const Block = styled.table`
 
 const WeekBlock = styled.thead`
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--white);
 
@@ -94,10 +94,10 @@ const WeekBlock = styled.thead`
 const DayBlock = styled.tbody`
 
   td {
-    font-size: 18px;
+    font-size: 20px;
     padding: 5px;
     vertical-align: top;
-    height: 100px;
+    height: 115px;
     color: var(--white);
     background-color: var(--dark-gray);
   }
@@ -114,5 +114,5 @@ const DayBlock = styled.tbody`
 const Day = styled.td<{ isToday: boolean }>`
   border: 1px solid var(--light-gray);
   background-color: ${({isToday}) => isToday ? 'var(--purple)' : 'var(--dark-gray)'};
-  padding: 5px 0;
+  padding: 7px 0;
 `;
