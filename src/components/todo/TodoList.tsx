@@ -20,7 +20,7 @@ const TodoList: FC<TodoListProps> = ({
   deleteTodo,
 }) => {
 
-  if (!todosData || todosStatus === 'loading') {
+  if (!todosData || !todosData?.length || todosStatus === 'loading') {
     return (
       <Block>
         <TodoNull />
@@ -67,7 +67,8 @@ export default memo(TodoList);
 
 const Block = styled.div`
   display: flex;
-  height: 60%;
+  width: 100%;
+  height: 100%;
   padding: 5px;
   flex-direction: column;
   align-items: center;
@@ -83,6 +84,7 @@ const TodosCount = styled.div`
   padding: 10px;
 
   span {
+    font-size: 20px;
     color: #fff;
   }
 `;
