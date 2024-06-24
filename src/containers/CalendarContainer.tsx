@@ -42,7 +42,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
 
   return (
     <Calendar>
-      <Top>
+      <CalendarHeader>
         <CalendarTitle
           currentYear={currentYear}
           currentMonth={currentMonth} />
@@ -51,7 +51,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
           setNow={setNow}
           prevMonth={now.month(currentMonth - 1)}
           nextMonth={now.month(currentMonth + 1)} />
-      </Top>
+      </CalendarHeader>
       <CalendarCreator
         setTodoTime={setTodoTime}
         currentYear={currentYear}
@@ -71,9 +71,10 @@ const Calendar = styled.div`
   width: 100%;
 `;
 
-const Top = styled.div`
+const CalendarHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 5px;
+  align-items: center;
+  padding: 10px 0;
 `;
