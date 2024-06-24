@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import TodoTitle from 'Components/todo/TodoTitle';
 import { useTodosListQueryKey } from 'Hooks/useTodosList';
 import useTodos from 'Hooks/useTodos';
+import TodoInit from 'Components/todo/TodoInit';
 
 interface TodoAppProps {
   todoTime: string;
@@ -85,19 +86,24 @@ const TodoApp: FC<TodoAppProps> = ({
 
   return (
     <Container>
-      <TodoTitle
-        todoTime={todoTime}/>
-      <TodoInput
-        addTodo={addTodo} />
-      <TodoTabs
-        todoTab={todoTab}
-        onChangeTab={onChangeTab} />
-      <TodoList
-        todoTab={todoTab}
-        todosStatus={todosStatus}
-        todosData={todosData}
-        shiftTodo={shiftTodo}
-        deleteTodo={deleteTodo} />
+      {todoTime ?
+        <>
+        <TodoTitle
+          todoTime={todoTime}/>
+        <TodoInput
+          addTodo={addTodo} />
+        <TodoTabs
+          todoTab={todoTab}
+          onChangeTab={onChangeTab} />
+        <TodoList
+          todoTab={todoTab}
+          todosStatus={todosStatus}
+          todosData={todosData}
+          shiftTodo={shiftTodo}
+          deleteTodo={deleteTodo} />
+        </> :
+        <TodoInit />
+      }
     </Container>
   );
 };
@@ -106,6 +112,8 @@ export default TodoApp;
 
 const Container = styled.div`
   display: flex;
-  padding: 50px 0;
   flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
 `;
