@@ -7,9 +7,11 @@ type UseUserReturnType = [
   Function,
 ];
 
+export const GET_USER_KEY = 'getUser';
+
 const useUser = (): UseUserReturnType => {
   const { data: userData, refetch } = useQuery({
-    queryKey: ['getUser'],
+    queryKey: [GET_USER_KEY],
     queryFn: () => getUser(),
     refetchOnWindowFocus: false,
   });
