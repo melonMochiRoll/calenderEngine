@@ -18,6 +18,7 @@
       "Components/*": ["src/components/*"],
       "Containers/*": ["src/containers/*"],
       "Hooks/*": ["src/hooks/*"],
+      "Lib/*": ["src/lib/*"],
       "Pages/*": ["src/pages/*"],
       "Routes/*": ["src/routes/*"],
       "Styles/*": ["src/styles/*"],
