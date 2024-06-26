@@ -7,3 +7,10 @@ export interface IUser {
   createdAt: Date;
   deletedAt: Date;
 };
+
+export interface ILocalTodo {
+  id: string;
+  contents: string;
+  isComplete: boolean;
+  date: Date;
+};
