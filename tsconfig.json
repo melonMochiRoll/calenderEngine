@@ -17,6 +17,7 @@
       "Api/*": ["src/api/*"],
       "Components/*": ["src/components/*"],
       "Containers/*": ["src/containers/*"],
+      "Features/*": ["src/features/*"],
       "Hooks/*": ["src/hooks/*"],
       "Lib/*": ["src/lib/*"],
       "Pages/*": ["src/pages/*"],

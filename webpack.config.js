@@ -15,6 +15,7 @@ module.exports = {
       Api: path.resolve(__dirname, 'src/api/'),
       Components: path.resolve(__dirname, 'src/components/'),
       Containers: path.resolve(__dirname, 'src/containers/'),
+      Features: path.resolve(__dirname, 'src/features/'),
       Hooks: path.resolve(__dirname, 'src/hooks/'),
       Lib: path.resolve(__dirname, 'src/lib/'),
       Pages: path.resolve(__dirname, 'src/pages/'),
