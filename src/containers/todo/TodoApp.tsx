@@ -9,9 +9,9 @@ import { createDateTodos, deleteDateTodos, updateDateTodos } from 'Api/todosApi'
 import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import TodoTitle from 'Components/todo/TodoTitle';
-import { useTodosListQueryKey } from 'Hooks/useTodosList';
 import useTodos from 'Hooks/useTodos';
 import TodoInit from 'Components/todo/TodoInit';
+import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 
 interface TodoAppProps {
   todoTime: string;
@@ -33,7 +33,7 @@ const TodoApp: FC<TodoAppProps> = ({
     contents.trim();
 
     if (!userData) {
-      qc.setQueryData([useTodosListQueryKey], {});
+      qc.setQueryData([GET_TODOS_LIST_KEY], {});
       navigate('/login');
     };
     if (!contents || contents.length > 30) return;
@@ -54,7 +54,7 @@ const TodoApp: FC<TodoAppProps> = ({
     userDataRefetch();
     
     if (!userData) {
-      qc.setQueryData([useTodosListQueryKey], {});
+      qc.setQueryData([GET_TODOS_LIST_KEY], {});
       navigate('/login');
     };
 
@@ -72,7 +72,7 @@ const TodoApp: FC<TodoAppProps> = ({
     userDataRefetch();
 
     if (!userData) {
-      qc.setQueryData([useTodosListQueryKey], {});
+      qc.setQueryData([GET_TODOS_LIST_KEY], {});
       navigate('/login');
     };
     
