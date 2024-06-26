@@ -1,8 +1,12 @@
 import React, { FC, useCallback, useState } from 'react';
 import useInput from 'Hooks/useInput';
-import { login } from 'Api/usersApi';
+import { getUser, login } from 'Api/usersApi';
 import { NavigateFunction } from 'react-router-dom';
 import LoginForm from 'Components/auth/LoginForm';
+import { useQueryClient } from '@tanstack/react-query';
+import { getCurrentMonthTodosList } from 'Api/todosApi';
+import dayjs from 'dayjs';
+import { GET_TODOS_LIST_KEY, GET_USER_KEY } from 'Lib/queryKeys';
 
 const emailConfirmation = (email: string) => {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -50,6 +54,7 @@ interface LoginContainerProps {
 const LoginContainer: FC<LoginContainerProps> = ({
   navigate,
 }) => {
+  const qc = useQueryClient();
   const [ email, onChangeEmail ] = useInput('');
   const [ password, onChangePassword ] = useInput('');
   const [ errors, setErrors ] = useState({
@@ -76,7 +81,9 @@ const LoginContainer: FC<LoginContainerProps> = ({
     }
   
     login(emailConfirmResult.email, passwordConfirmResult.password)
-      .then(() => {
+      .then(async () => {
+        await qc.prefetchQuery([GET_USER_KEY], () => getUser());
+        await qc.prefetchQuery([GET_TODOS_LIST_KEY], () => getCurrentMonthTodosList(dayjs().format('YYYY-MM-DD')));
         navigate('/');
       })
       .catch(() => {
