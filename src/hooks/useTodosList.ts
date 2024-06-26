@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCurrentMonthTodosList } from 'Api/todosApi';
+import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 import { useEffect } from 'react';
 
 export type todosListType = {
@@ -13,8 +14,6 @@ type UseTodosListReturnType = [
   Function,
 ];
 
-export const useTodosListQueryKey = 'getCurrentMonthTodosList';
-
 const useTodosList = (
   date: string,
   ): UseTodosListReturnType => {
@@ -22,7 +21,7 @@ const useTodosList = (
     data: todosListData,
     refetch,
   } = useQuery({
-    queryKey: [useTodosListQueryKey],
+    queryKey: [GET_TODOS_LIST_KEY],
     queryFn: () => getCurrentMonthTodosList(date),
     refetchOnWindowFocus: false,
   });
