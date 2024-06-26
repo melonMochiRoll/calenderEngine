@@ -6,7 +6,7 @@ import useUser from 'Hooks/useUser';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { logout } from 'Api/usersApi';
 import { useQueryClient } from '@tanstack/react-query';
-import { useTodosListQueryKey } from 'Hooks/useTodosList';
+import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 
 interface HeaderProps {};
 
@@ -22,7 +22,7 @@ const Header: FC<HeaderProps> = () => {
       })
       .finally(() => {
         refetch();
-        qc.setQueryData([useTodosListQueryKey], {});
+        qc.setQueryData([GET_TODOS_LIST_KEY], {});
         navigator('/');
       });
   }, []);
