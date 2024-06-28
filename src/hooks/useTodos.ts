@@ -1,22 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { getTodos } from 'Api/todosApi';
 import { GET_TODOS_KEY } from 'Lib/queryKeys';
+import { TTodo } from 'Typings/types';
 import { useEffect } from 'react';
-
-export type todosType = {
-  id: number,
-  contents: string,
-  isComplete: boolean,
-  date: Date,
-  deadline: Date,
-  UserId: number,
-};
 
 export type statusType = 'loading' | 'error' | 'success';
 
 type UseTodosReturnType = [
   statusType,
-  todosType[],
+  TTodo[],
   Function,
 ];
 
@@ -25,7 +17,7 @@ const useTodos = (
   ): UseTodosReturnType => {
   const {
     status,
-    data: todosData,
+    data,
     refetch,
   } = useQuery({
     queryKey: [GET_TODOS_KEY],
@@ -39,7 +31,7 @@ const useTodos = (
 
   return [
     status,
-    todosData || null,
+    data || null,
     refetch,
   ];
 };
