@@ -8,9 +8,17 @@ export interface IUser {
   deletedAt: Date;
 };
 
-export interface ILocalTodo {
+export type ILocalTodo = {
   id: string;
   contents: string;
   isComplete: boolean;
   date: Date;
+};
+
+export type TTodo = {
+  id: number,
+  contents: string,
+  isComplete: boolean,
+  date: Date,
+  UserId: number,
 };
