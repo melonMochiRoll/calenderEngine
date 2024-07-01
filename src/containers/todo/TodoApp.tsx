@@ -6,8 +6,6 @@ import TodoInput from 'Components/todo/TodoInput';
 import useTabs from 'Hooks/useTabs';
 import { useQueryClient } from '@tanstack/react-query';
 import { createDateTodos, deleteDateTodos, updateDateTodos } from 'Api/todosApi';
-import useUser from 'Hooks/useUser';
-import { useNavigate } from 'react-router-dom';
 import TodoTitle from 'Components/todo/TodoTitle';
 import useTodos from 'Hooks/useTodos';
 import TodoInit from 'Components/todo/TodoInit';
@@ -15,27 +13,18 @@ import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 
 interface TodoAppProps {
   todoTime: string;
-  todosListDataRefetch: Function;
 };
 
 const TodoApp: FC<TodoAppProps> = ({
   todoTime,
-  todosListDataRefetch,
 }) => {
-  const navigate = useNavigate();
-  const [ userData, userDataRefetch ] = useUser();
+  const qc = useQueryClient();
   const [ todosStatus, todosData, todosDataRefetch ] = useTodos(todoTime);
   const [ todoTab, onChangeTab ] = useTabs('all');
-  const qc = useQueryClient();
 
   const addTodo = async (contents: string) => {
-    userDataRefetch();
     contents.trim();
 
-    if (!userData) {
-      qc.setQueryData([GET_TODOS_LIST_KEY], {});
-      navigate('/login');
-    };
     if (!contents || contents.length > 30) return;
 
     await createDateTodos(
@@ -43,7 +32,7 @@ const TodoApp: FC<TodoAppProps> = ({
       todoTime,
     );
     todosDataRefetch();
-    todosListDataRefetch();
+    await qc.refetchQueries([GET_TODOS_LIST_KEY]);
   };
 
   const shiftTodo = async (
@@ -51,12 +40,6 @@ const TodoApp: FC<TodoAppProps> = ({
     contents: string,
     isComplete: boolean,
     ) => {
-    userDataRefetch();
-    
-    if (!userData) {
-      qc.setQueryData([GET_TODOS_LIST_KEY], {});
-      navigate('/login');
-    };
 
     await updateDateTodos(
       todosId,
@@ -65,23 +48,16 @@ const TodoApp: FC<TodoAppProps> = ({
       todoTime,
     );
     todosDataRefetch();
-    todosListDataRefetch();
+    await qc.refetchQueries([GET_TODOS_LIST_KEY]);
   };
 
   const deleteTodo = async (todosId: number) => {
-    userDataRefetch();
-
-    if (!userData) {
-      qc.setQueryData([GET_TODOS_LIST_KEY], {});
-      navigate('/login');
-    };
-    
     await deleteDateTodos(
       todosId,
       todoTime,
     );
     todosDataRefetch();
-    todosListDataRefetch();
+    await qc.refetchQueries([GET_TODOS_LIST_KEY]);
   };
 
   return (
