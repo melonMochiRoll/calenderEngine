@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import DateCover from './DateCover';
 import { todosListType } from 'Hooks/useTodosList';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { setTodoTime } from 'Features/todoTimeSlice';
 
 interface CalendarCreatorProps {
-  setTodoTime: React.Dispatch<React.SetStateAction<string>>;
   currentYear: number;
   currentMonth: number;
   currentDay: number;
@@ -16,7 +17,6 @@ interface CalendarCreatorProps {
 };
 
 const CalendarCreator: FC<CalendarCreatorProps> = ({
-  setTodoTime,
   currentYear,
   currentMonth,
   currentDay,
@@ -25,6 +25,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
   days,
   dates,
 }) => {
+  const dispatch = useAppDispatch();
   const isNowMonth = dayjs().month() === currentMonth;
   currentDate = isNowMonth ? currentDate : -1;
 
@@ -55,7 +56,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                     
                   return <DateCover
                     key={i + n}
-                    setTodoTime={() => setTodoTime(timeKey)}
+                    setTodoTime={() => dispatch(setTodoTime(timeKey))}
                     partialContents={todosListData[timeKey]?.partialContents}
                     isToday={date === currentDate}
                     date={date} />;

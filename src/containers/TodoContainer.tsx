@@ -4,13 +4,9 @@ import HideIcon from '@mui/icons-material/LastPage';
 import ShowIcon from '@mui/icons-material/FirstPage';
 import RenderTodoApp from 'Components/RenderTodoApp';
 
-interface TodoContainerProps {
-  todoTime: string;
-};
+interface TodoContainerProps {};
 
-const TodoContainer: FC<TodoContainerProps> = ({
-  todoTime,
-}) => {
+const TodoContainer: FC<TodoContainerProps> = ({}) => {
   const [ isTodoShow, setIsTodoShow ] = useState(true);
 
   const toggleMenu = () => {
@@ -29,8 +25,7 @@ const TodoContainer: FC<TodoContainerProps> = ({
             sx={{ fontSize: '30px' }} />}
       </TodoHeader>
       {isTodoShow ?
-        <RenderTodoApp
-          todoTime={todoTime} /> : ''}
+        <RenderTodoApp /> : ''}
     </Block>
   );
 };

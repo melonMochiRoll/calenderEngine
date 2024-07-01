@@ -12,13 +12,11 @@ import RenderServerCalendar from 'Components/RenderServerCalendar';
 interface CalendarContainerProps {
   now: dayjs.Dayjs;
   setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
-  setTodoTime: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const CalendarContainer: FC<CalendarContainerProps> = ({
   now,
   setNow,
-  setTodoTime,
 }) => {
   const qc = useQueryClient();
   const userData = qc.getQueryData([GET_USER_KEY]);
@@ -57,7 +55,6 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
       {userData ?
         <RenderServerCalendar
           now={now}
-          setTodoTime={setTodoTime}
           currentYear={currentYear}
           currentMonth={currentMonth}
           currentDay={currentDay}
@@ -66,7 +63,6 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
           dates={dates} /> :
         <RenderLocalCalendar
           now={now}
-          setTodoTime={setTodoTime}
           currentYear={currentYear}
           currentMonth={currentMonth}
           currentDay={currentDay}

@@ -5,7 +5,6 @@ import useLocalTodosList from 'Hooks/useLocalTodosList';
 
 interface RenderLocalCalendarProps {
   now: dayjs.Dayjs,
-  setTodoTime: React.Dispatch<React.SetStateAction<string>>;
   currentYear: number;
   currentMonth: number;
   currentDay: number;
@@ -16,7 +15,6 @@ interface RenderLocalCalendarProps {
 
 const RenderLocalCalendar: FC<RenderLocalCalendarProps> = ({
   now,
-  setTodoTime,
   currentYear,
   currentMonth,
   currentDay,
@@ -28,7 +26,6 @@ const RenderLocalCalendar: FC<RenderLocalCalendarProps> = ({
   
   return (
     <CalendarCreator
-      setTodoTime={setTodoTime}
       currentYear={currentYear}
       currentMonth={currentMonth}
       currentDay={currentDay}

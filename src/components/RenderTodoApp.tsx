@@ -4,23 +4,17 @@ import { GET_USER_KEY } from 'Lib/queryKeys';
 import TodoApp from 'Containers/todo/TodoApp';
 import LocalTodoApp from 'Containers/todo/LocalTodoApp';
 
-interface RenderTodoAppProps {
-  todoTime: string;
-};
+interface RenderTodoAppProps {};
 
-const RenderTodoApp: FC<RenderTodoAppProps> = ({
-  todoTime,
-}) => {
+const RenderTodoApp: FC<RenderTodoAppProps> = ({}) => {
   const qc = useQueryClient();
   const userData = qc.getQueryData([GET_USER_KEY]);
   
   return (
     <>
       {userData ?
-        <TodoApp
-          todoTime={todoTime} /> :
-        <LocalTodoApp
-          todoTime={todoTime} />}
+        <TodoApp /> :
+        <LocalTodoApp />}
     </>
   );
 };

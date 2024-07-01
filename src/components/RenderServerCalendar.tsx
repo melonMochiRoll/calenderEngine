@@ -5,7 +5,6 @@ import React, { FC } from 'react';
 
 interface RenderServerCalendarProps {
   now: dayjs.Dayjs;
-  setTodoTime: React.Dispatch<React.SetStateAction<string>>;
   currentYear: number;
   currentMonth: number;
   currentDay: number;
@@ -16,7 +15,6 @@ interface RenderServerCalendarProps {
 
 const RenderServerCalendar: FC<RenderServerCalendarProps> = ({
   now,
-  setTodoTime,
   currentYear,
   currentMonth,
   currentDay,
@@ -28,7 +26,6 @@ const RenderServerCalendar: FC<RenderServerCalendarProps> = ({
   
   return (
     <CalendarCreator
-      setTodoTime={setTodoTime}
       currentYear={currentYear}
       currentMonth={currentMonth}
       currentDay={currentDay}

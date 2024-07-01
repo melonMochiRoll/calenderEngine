@@ -10,15 +10,13 @@ import TodoTitle from 'Components/todo/TodoTitle';
 import useTodos from 'Hooks/useTodos';
 import TodoInit from 'Components/todo/TodoInit';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
+import { useAppSelector } from 'Hooks/reduxHooks';
 
-interface TodoAppProps {
-  todoTime: string;
-};
+interface TodoAppProps {};
 
-const TodoApp: FC<TodoAppProps> = ({
-  todoTime,
-}) => {
+const TodoApp: FC<TodoAppProps> = ({}) => {
   const qc = useQueryClient();
+  const { todoTime } = useAppSelector(state => state.todoTime);
   const [ todosStatus, todosData, todosDataRefetch ] = useTodos(todoTime);
   const [ todoTab, onChangeTab ] = useTabs('all');
 

@@ -10,15 +10,13 @@ import LocalTodoList from 'Components/localTodo/LocalTodoList';
 import useLocalTodos from 'Hooks/useLocalTodos';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_LOCAL_TODOS_LIST_KEY } from 'Lib/queryKeys';
+import { useAppSelector } from 'Hooks/reduxHooks';
 
-interface LocalTodoAppProps {
-  todoTime: string;
-};
+interface LocalTodoAppProps {};
 
-const LocalTodoApp: FC<LocalTodoAppProps> = ({
-  todoTime,
-}) => {
+const LocalTodoApp: FC<LocalTodoAppProps> = ({}) => {
   const qc = useQueryClient();
+  const { todoTime } = useAppSelector(state => state.todoTime);
   const [ localTodosData, localTodosRefetch ] = useLocalTodos(todoTime);
   const [ todoTab, onChangeTab ] = useTabs('all');
   
