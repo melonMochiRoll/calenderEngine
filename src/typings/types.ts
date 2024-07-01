@@ -8,7 +8,7 @@ export interface IUser {
   deletedAt: Date;
 };
 
-export type ILocalTodo = {
+export type TLocalTodo = {
   id: string;
   contents: string;
   isComplete: boolean;
