@@ -1,17 +1,15 @@
 import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
-import TodoApp from './todo/TodoApp';
 import HideIcon from '@mui/icons-material/LastPage';
 import ShowIcon from '@mui/icons-material/FirstPage';
+import RenderTodoApp from 'Components/RenderTodoApp';
 
 interface TodoContainerProps {
   todoTime: string;
-  todosListDataRefetch: Function;
 };
 
 const TodoContainer: FC<TodoContainerProps> = ({
   todoTime,
-  todosListDataRefetch,
 }) => {
   const [ isTodoShow, setIsTodoShow ] = useState(true);
 
@@ -22,7 +20,7 @@ const TodoContainer: FC<TodoContainerProps> = ({
   return (
     <Block isTodoShow={isTodoShow}>
       <TodoHeader>
-        {isTodoShow ? 
+        {isTodoShow ?
           <HideIcon
             onClick={toggleMenu}
             sx={{ fontSize: '30px' }} /> :
@@ -31,9 +29,8 @@ const TodoContainer: FC<TodoContainerProps> = ({
             sx={{ fontSize: '30px' }} />}
       </TodoHeader>
       {isTodoShow ?
-        <TodoApp
-          todoTime={todoTime}
-          todosListDataRefetch={todosListDataRefetch} /> : ''}
+        <RenderTodoApp
+          todoTime={todoTime} /> : ''}
     </Block>
   );
 };
