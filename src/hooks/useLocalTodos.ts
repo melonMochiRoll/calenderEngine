@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getLocalTodos } from 'Lib/localTodos';
 import { GET_LOCAL_TODOS_KEY } from 'Lib/queryKeys';
-import { ILocalTodo } from 'Typings/types';
+import { TLocalTodo } from 'Typings/types';
 import { useEffect } from 'react';
 
 type UseLocalTodosReturnType = [
-  ILocalTodo[],
+  TLocalTodo[],
   Function,
 ];
 
