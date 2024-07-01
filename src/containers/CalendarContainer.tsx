@@ -1,25 +1,27 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import ControlPanel from 'Components/ControlPanel';
-import CalendarCreator from 'Components/CalendarCreator';
 import dayjs from 'dayjs';
 import CalendarTitle from 'Components/CalendarTitle';
-import { todosListType } from 'Hooks/useTodosList';
 import SearchBar from 'Components/SearchBar';
+import RenderLocalCalendar from 'Components/RenderLocalCalendar';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_USER_KEY } from 'Lib/queryKeys';
+import RenderServerCalendar from 'Components/RenderServerCalendar';
 
 interface CalendarContainerProps {
   now: dayjs.Dayjs;
-  setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>
+  setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
   setTodoTime: React.Dispatch<React.SetStateAction<string>>;
-  todosListData: todosListType;
 };
 
 const CalendarContainer: FC<CalendarContainerProps> = ({
   now,
   setNow,
   setTodoTime,
-  todosListData,
 }) => {
+  const qc = useQueryClient();
+  const userData = qc.getQueryData([GET_USER_KEY]);
   const currentYear = now.year();
   const currentMonth = now.month();
 
@@ -52,15 +54,25 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
           prevMonth={now.month(currentMonth - 1)}
           nextMonth={now.month(currentMonth + 1)} />
       </CalendarHeader>
-      <CalendarCreator
-        setTodoTime={setTodoTime}
-        currentYear={currentYear}
-        currentMonth={currentMonth}
-        currentDay={currentDay}
-        currentDate={currentDate}
-        todosListData={todosListData}
-        days={days}
-        dates={dates} />
+      {userData ?
+        <RenderServerCalendar
+          now={now}
+          setTodoTime={setTodoTime}
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          currentDay={currentDay}
+          currentDate={currentDate}
+          days={days}
+          dates={dates} /> :
+        <RenderLocalCalendar
+          now={now}
+          setTodoTime={setTodoTime}
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          currentDay={currentDay}
+          currentDate={currentDate}
+          days={days}
+          dates={dates} />}
     </Calendar>
   );
 };
