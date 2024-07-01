@@ -1,31 +1,19 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
-import useTodosList from 'Hooks/useTodosList';
-import dayjs from 'dayjs';
 import Header from 'Containers/Header';
 
 const MainPage: FC = () => {
-  const [ now, setNow ] = useState(dayjs());
-  const [ todoTime, setTodoTime ] = useState('');
-  const [ todosListData, todosListDataRefetch ] = useTodosList(now.format('YYYY-MM-DD'));
-
   return (
     <Block>
       <CalendarBlock>
         <Box>
           <Header />
-          <CalendarContainer
-            now={now}
-            setNow={setNow}
-            setTodoTime={setTodoTime}
-            todosListData={todosListData} />
+          <CalendarContainer />
         </Box>
       </CalendarBlock>
-      <TodoContainer
-        todoTime={todoTime}
-        todosListDataRefetch={todosListDataRefetch} />
+      <TodoContainer />
     </Block>
   );
 };
