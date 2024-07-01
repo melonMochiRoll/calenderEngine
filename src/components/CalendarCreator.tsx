@@ -3,38 +3,33 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import DateCover from './DateCover';
 import { todosListType } from 'Hooks/useTodosList';
-import { useAppDispatch } from 'Hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
+import { DAYS } from 'Lib/calendarConstants';
 
 interface CalendarCreatorProps {
-  currentYear: number;
-  currentMonth: number;
-  currentDay: number;
-  currentDate: number;
   todosListData: todosListType;
-  days: Array<string>;
-  dates: Array<number|string>;
 };
 
 const CalendarCreator: FC<CalendarCreatorProps> = ({
-  currentYear,
-  currentMonth,
-  currentDay,
-  currentDate,
   todosListData,
-  days,
-  dates,
 }) => {
   const dispatch = useAppDispatch();
+  const {
+    currentYear,
+    currentMonth,
+    currentDate,
+    currentDay,
+    dates,
+  } = useAppSelector(state => state.calendarTime);
   const isNowMonth = dayjs().month() === currentMonth;
-  currentDate = isNowMonth ? currentDate : -1;
 
   return (
     <Block>
       <WeekBlock>
         <tr>
-          {days.map((ele: string, i: number) =>
-            <Day key={i} isToday={isNowMonth && i === currentDay}>{ele}</Day>
+          {DAYS.map((ele: string, i: number) =>
+            <Day key={i} isToday={isNowMonth && (i === currentDay)}>{ele}</Day>
           )}
         </tr>
       </WeekBlock>
@@ -58,7 +53,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                     key={i + n}
                     setTodoTime={() => dispatch(setTodoTime(timeKey))}
                     partialContents={todosListData[timeKey]?.partialContents}
-                    isToday={date === currentDate}
+                    isToday={isNowMonth && (date === currentDate)}
                     date={date} />;
                 })}
               </tr>

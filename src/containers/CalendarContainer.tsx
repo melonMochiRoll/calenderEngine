@@ -1,44 +1,23 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import ControlPanel from 'Components/ControlPanel';
-import dayjs from 'dayjs';
 import CalendarTitle from 'Components/CalendarTitle';
 import SearchBar from 'Components/SearchBar';
 import RenderLocalCalendar from 'Components/RenderLocalCalendar';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_USER_KEY } from 'Lib/queryKeys';
 import RenderServerCalendar from 'Components/RenderServerCalendar';
+import { useAppSelector } from 'Hooks/reduxHooks';
 
-interface CalendarContainerProps {
-  now: dayjs.Dayjs;
-  setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
-};
+interface CalendarContainerProps {};
 
-const CalendarContainer: FC<CalendarContainerProps> = ({
-  now,
-  setNow,
-}) => {
+const CalendarContainer: FC<CalendarContainerProps> = ({}) => {
   const qc = useQueryClient();
   const userData = qc.getQueryData([GET_USER_KEY]);
-  const currentYear = now.year();
-  const currentMonth = now.month();
-
-  /** 현재 요일 */
-  const currentDate = now.date();
-  const currentDay = now.day();
-  const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-
-  const dates: Array<number|string> = [];
-  const firstDay = now.date(1).day();
-  const lastDate = now.daysInMonth();
-
-  for (let i=0; i<=firstDay; i++) {
-    dates.push(' ');
-  }
-
-  for (let i=1; i<=lastDate; i++) {
-    dates.push(i);
-  }
+  const {
+    currentYear,
+    currentMonth,
+  } = useAppSelector(state => state.calendarTime);
 
   return (
     <Calendar>
@@ -48,27 +27,11 @@ const CalendarContainer: FC<CalendarContainerProps> = ({
           currentMonth={currentMonth} />
         <SearchBar />
         <ControlPanel
-          setNow={setNow}
-          prevMonth={now.month(currentMonth - 1)}
-          nextMonth={now.month(currentMonth + 1)} />
+          currentMonth={currentMonth} />
       </CalendarHeader>
       {userData ?
-        <RenderServerCalendar
-          now={now}
-          currentYear={currentYear}
-          currentMonth={currentMonth}
-          currentDay={currentDay}
-          currentDate={currentDate}
-          days={days}
-          dates={dates} /> :
-        <RenderLocalCalendar
-          now={now}
-          currentYear={currentYear}
-          currentMonth={currentMonth}
-          currentDay={currentDay}
-          currentDate={currentDate}
-          days={days}
-          dates={dates} />}
+        <RenderServerCalendar /> :
+        <RenderLocalCalendar />}
     </Calendar>
   );
 };

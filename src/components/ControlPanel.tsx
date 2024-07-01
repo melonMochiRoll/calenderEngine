@@ -1,28 +1,27 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import ArrowRightIcon from '@mui/icons-material/ArrowForwardRounded';
 import ArrowLeftIcon from '@mui/icons-material/ArrowBackRounded';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { setCalendarTime } from 'Features/calendarTimeSlice';
 
 interface ControlPanelProps {
-  prevMonth: dayjs.Dayjs;
-  nextMonth: dayjs.Dayjs;
-  setNow: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
+  currentMonth: number;
 };
 
 const ControlPanel: FC<ControlPanelProps> = ({
-  setNow,
-  prevMonth,
-  nextMonth,
+  currentMonth,
 }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <Block>
       <ArrowLeftIcon
         sx={{ fontSize: '40px' }}
-        onClick={() => setNow(prevMonth)}/>
+        onClick={() => dispatch(setCalendarTime(currentMonth - 1))}/>
       <ArrowRightIcon
         sx={{ fontSize: '40px' }}
-        onClick={() => setNow(nextMonth)}/>
+        onClick={() => dispatch(setCalendarTime(currentMonth + 1))}/>
     </Block>
   );
 };
