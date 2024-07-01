@@ -2,12 +2,13 @@ import React, { FC, memo } from 'react';
 import styled from '@emotion/styled';
 import TodoItem from 'Components/todo/TodoItem';
 import TodoNull from 'Components/todo/TodoNull';
-import { statusType, todosType } from 'Hooks/useTodos';
+import { statusType } from 'Hooks/useTodos';
+import { TTodo } from 'Typings/types';
 
 interface TodoListProps {
   todoTab: string;
   todosStatus: statusType;
-  todosData: todosType[];
+  todosData: TTodo[];
   shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
@@ -30,7 +31,7 @@ const TodoList: FC<TodoListProps> = ({
 
   const returnTodoItem = (
     i: number,
-    todos: todosType,
+    todos: TTodo,
   ) => {
     return <TodoItem
       key={i}
@@ -43,7 +44,7 @@ const TodoList: FC<TodoListProps> = ({
     <>
       <Block>
         {
-          todosData.map((it: todosType, i: number) => {
+          todosData.map((it: TTodo, i: number) => {
             if (todoTab === 'all') {
               return returnTodoItem(i, it);
             }

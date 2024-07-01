@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
-import { todosType } from 'Hooks/useTodos';
+import { TTodo } from 'Typings/types';
 
 interface TodoItemProps {
-  todos: todosType;
+  todos: TTodo;
   shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
