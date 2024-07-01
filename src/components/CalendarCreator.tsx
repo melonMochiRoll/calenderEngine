@@ -56,7 +56,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
                   return <DateCover
                     key={i + n}
                     setTodoTime={() => setTodoTime(timeKey)}
-                    partialContents={todosListData?.hasOwnProperty(timeKey) ? todosListData[timeKey].partialContents : []}
+                    partialContents={todosListData[timeKey]?.partialContents}
                     isToday={date === currentDate}
                     date={date} />;
                 })}
