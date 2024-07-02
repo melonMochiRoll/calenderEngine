@@ -34,7 +34,7 @@ const TodoList: FC<TodoListProps> = ({
     todos: TTodo,
   ) => {
     return <TodoItem
-      key={i}
+      key={todos.id}
       todos={todos}
       shiftTodo={shiftTodo}
       deleteTodo={deleteTodo} />;

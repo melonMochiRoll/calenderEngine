@@ -31,7 +31,7 @@ const LocalTodoList: FC<LocalTodoListProps> = ({
     todos: TLocalTodo,
   ) => {
     return <LocalTodoItem
-      key={i}
+      key={todos.id}
       todos={todos}
       shiftTodo={shiftTodo}
       deleteTodo={deleteTodo} />;
