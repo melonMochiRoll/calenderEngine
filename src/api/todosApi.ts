@@ -63,3 +63,18 @@ export const deleteDateTodos = async (
     console.error(err);
   }
 };
+
+export const searchTodos = async (
+  query: string,
+  offset: number = 1,
+  limit: number = 10,
+) => {
+  try {
+    const url = `/api/todos/search?query=${query}&offset=${offset}&limit=${limit}`;
+    const { data } = await axiosInstance.get(url);
+    
+    return data;
+  } catch (err: any) {
+    console.error(err);
+  }
+};
