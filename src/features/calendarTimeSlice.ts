@@ -20,7 +20,7 @@ const getDates = (now: Dayjs) => {
 };
 
 const initialState = {
-  calendarTime: now,
+  calendarTime: now.format('YYYY-MM-DD'),
   currentYear: now.year(),
   currentMonth: now.month(),
   currentDate: now.date(),
@@ -35,7 +35,7 @@ export const calendarTimeSlice = createSlice({
     setCalendarTime: (state, actions: PayloadAction<number>) => {
       const currentTime = dayjs().month(actions.payload);
 
-      state.calendarTime = currentTime;
+      state.calendarTime = currentTime.format('YYYY-MM-DD');
       state.currentYear = currentTime.year();
       state.currentMonth = currentTime.month();
       state.currentDate = currentTime.date();
