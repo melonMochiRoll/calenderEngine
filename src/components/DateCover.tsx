@@ -27,8 +27,8 @@ const DateCover: FC<DateCoverProps> = ({
               <BeforeLine
                 key={index + item}
                 date={date}>
-                {item.length > 11 ?
-                  <Partial>{`${item.slice(0, 11).trim()}...`}</Partial> :
+                {item.length > 14 ?
+                  <Partial>{`${item.slice(0, 14).trim()}...`}</Partial> :
                   <Partial>{item}</Partial>
                 }
               </BeforeLine>
