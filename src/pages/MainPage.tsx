@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
 import Header from 'Containers/Header';
+import RenderModal from 'Components/common/RenderModal';
 
 const MainPage: FC = () => {
   return (
@@ -14,6 +15,7 @@ const MainPage: FC = () => {
         </Box>
       </CalendarBlock>
       <TodoContainer />
+      <RenderModal />
     </Block>
   );
 };
