@@ -26,8 +26,7 @@ const CalendarContainer: FC<CalendarContainerProps> = ({}) => {
           currentYear={currentYear}
           currentMonth={currentMonth} />
         <SearchBar />
-        <ControlPanel
-          currentMonth={currentMonth} />
+        <ControlPanel />
       </CalendarHeader>
       {userData ?
         <RenderServerCalendar /> :
