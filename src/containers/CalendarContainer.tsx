@@ -4,16 +4,14 @@ import ControlPanel from 'Components/ControlPanel';
 import CalendarTitle from 'Components/CalendarTitle';
 import SearchBar from 'Components/SearchBar';
 import RenderLocalCalendar from 'Components/RenderLocalCalendar';
-import { useQueryClient } from '@tanstack/react-query';
-import { GET_USER_KEY } from 'Lib/queryKeys';
 import RenderServerCalendar from 'Components/RenderServerCalendar';
 import { useAppSelector } from 'Hooks/reduxHooks';
+import useUser from 'Hooks/useUser';
 
 interface CalendarContainerProps {};
 
 const CalendarContainer: FC<CalendarContainerProps> = ({}) => {
-  const qc = useQueryClient();
-  const userData = qc.getQueryData([GET_USER_KEY]);
+  const [ userData ] = useUser();
   const {
     currentYear,
     currentMonth,
