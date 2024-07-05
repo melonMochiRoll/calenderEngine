@@ -2,19 +2,23 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { useAppSelector } from 'Hooks/reduxHooks';
 import SearchModal from 'Components/modal/search/SearchModal';
+import LocalSearchModal from 'Components/modal/localSearch/LocalSearchModal';
 
 export const enum EModalName {
   Search = 'search',
+  LocalSearch = 'localSearch',
   Close = '',
 };
 
 interface IModals {
   [EModalName.Search]: React.ReactElement,
+  [EModalName.LocalSearch]: React.ReactElement,
   [EModalName.Close]: null,
 };
 
 const Modals: IModals = {
   [EModalName.Search]: <SearchModal />,
+  [EModalName.LocalSearch]: <LocalSearchModal />,
   [EModalName.Close]: null,
 };
 
