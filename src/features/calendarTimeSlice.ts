@@ -33,7 +33,7 @@ export const calendarTimeSlice = createSlice({
   initialState,
   reducers: {
     setCalendarTime: (state, actions: PayloadAction<number>) => {
-      const currentTime = dayjs().month(actions.payload);
+      const currentTime = dayjs().year(state.currentYear).month(actions.payload);
 
       state.calendarTime = currentTime.format('YYYY-MM-DD');
       state.currentYear = currentTime.year();
