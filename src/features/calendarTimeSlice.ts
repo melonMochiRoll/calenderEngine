@@ -32,20 +32,33 @@ export const calendarTimeSlice = createSlice({
   name: 'todoTime',
   initialState,
   reducers: {
-    setCalendarTime: (state, actions: PayloadAction<number>) => {
-      const currentTime = dayjs().year(state.currentYear).month(actions.payload);
+    prevMonth: (state) => {
+      const currentTime = dayjs(state.calendarTime);
+      const prevTime = currentTime.month(currentTime.month() - 1);
 
-      state.calendarTime = currentTime.format('YYYY-MM-DD');
-      state.currentYear = currentTime.year();
-      state.currentMonth = currentTime.month();
-      state.currentDate = currentTime.date();
-      state.currentDay = currentTime.day();
-      state.dates = getDates(currentTime);
+      state.calendarTime = prevTime.format('YYYY-MM-DD');
+      state.currentYear = prevTime.year();
+      state.currentMonth = prevTime.month();
+      state.currentDate = prevTime.date();
+      state.currentDay = prevTime.day();
+      state.dates = getDates(prevTime);
+    },
+    nextMonth: (state) => {
+      const currentTime = dayjs(state.calendarTime);
+      const nextTime = currentTime.month(currentTime.month() + 1);
+
+      state.calendarTime = nextTime.format('YYYY-MM-DD');
+      state.currentYear = nextTime.year();
+      state.currentMonth = nextTime.month();
+      state.currentDate = nextTime.date();
+      state.currentDay = nextTime.day();
+      state.dates = getDates(nextTime);
     },
   },
 });
 
 export const {
-  setCalendarTime,
+  prevMonth,
+  nextMonth,
 } = calendarTimeSlice.actions;
 export default calendarTimeSlice.reducer;
