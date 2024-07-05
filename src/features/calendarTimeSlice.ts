@@ -32,6 +32,16 @@ export const calendarTimeSlice = createSlice({
   name: 'todoTime',
   initialState,
   reducers: {
+    setCalendarTime: (state, actions: PayloadAction<string>) => {
+      const currentTime = dayjs(actions.payload);
+
+      state.calendarTime = actions.payload;
+      state.currentYear = currentTime.year();
+      state.currentMonth = currentTime.month();
+      state.currentDate = currentTime.date();
+      state.currentDay = currentTime.day();
+      state.dates = getDates(currentTime);     
+    },
     prevMonth: (state) => {
       const currentTime = dayjs(state.calendarTime);
       const prevTime = currentTime.month(currentTime.month() - 1);
@@ -58,6 +68,7 @@ export const calendarTimeSlice = createSlice({
 });
 
 export const {
+  setCalendarTime,
   prevMonth,
   nextMonth,
 } = calendarTimeSlice.actions;
