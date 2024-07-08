@@ -6,3 +6,4 @@ export const GET_LOCAL_TODOS_KEY = 'getLocalTodos';
 export const GET_LOCAL_TODOS_LIST_KEY = 'getLocalTodosList';
 
 export const SEARCH_TODOS_KEY = 'searchTodos';
+export const SEARCH_LOCAL_TODOS_KEY = 'searchLocalTodos';
