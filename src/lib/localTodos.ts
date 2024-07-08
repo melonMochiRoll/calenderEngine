@@ -1,5 +1,5 @@
 import { TLocalTodo } from "Typings/types";
-import { getItem, getKeys, removeItem, setItem } from "./localStorage";
+import { getItem, getKeys, getValues, removeItem, setItem } from "./localStorage";
 import { nanoid } from "nanoid";
 import dayjs from "dayjs";
 
@@ -96,4 +96,20 @@ export const getLocalTodosList = (date: string) => {
       }, {});
     
   return todosList;
+};
+
+export const searchLocalTodos = (
+  query: string,
+  offset: number = 1,
+  limit: number = 10,
+) => {
+  offset = (offset - 1) * limit;
+  limit = offset ? offset * limit : 10;
+
+  const todos =
+    getValues()
+      .filter((todo: TLocalTodo) => todo.contents.includes(query))
+      .slice(offset, limit);
+
+  return todos;
 };
