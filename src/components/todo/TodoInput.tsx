@@ -1,6 +1,5 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import styled from '@emotion/styled';
-import useInput from 'Hooks/useInput';
 
 interface TodoInputProps {
   addTodo: (value: string) => void;
@@ -9,7 +8,7 @@ interface TodoInputProps {
 const TodoInput: FC<TodoInputProps> = ({
   addTodo,
 }) => {
-  const [ value, _, setValue ] = useInput('');
+  const [ value, setValue ] = useState('');
 
   const onChangeValueWithMaxLength = useCallback((e: any) => {
     if (e.target.value.length > 30) {
@@ -20,7 +19,7 @@ const TodoInput: FC<TodoInputProps> = ({
   }, [value]);
 
   const onSubmit = (value: string) => {
-    addTodo(value);
+    addTodo(value.trim());
     setValue('');
   };
 
