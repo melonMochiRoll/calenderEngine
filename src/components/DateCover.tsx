@@ -22,7 +22,7 @@ const DateCover: FC<DateCoverProps> = ({
       <Content>
         {date}
         {partialContents ?
-          partialContents.map((item: string, index: number) => 
+          partialContents.slice(0, 3).map((item: string, index: number) => 
             (
               <BeforeLine
                 key={index + item}
