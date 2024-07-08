@@ -1,9 +1,20 @@
-import dayjs from "dayjs";
-import { getItem, getKeys, setItem } from "./localStorage";
+import { TLocalTodo } from "Typings/types";
+import { getItem, getKeys, removeItem, setItem } from "./localStorage";
 import { nanoid } from "nanoid";
+import dayjs from "dayjs";
+
+const generateTodosKey = (date: string, id: string) => {
+  return `${date}-${id}`;
+};
 
 export const getLocalTodos = (date: string) => {
-  return getItem(date);
+  const todos =
+    getKeys()
+      .filter(key => key.includes(date))
+      .map(key => getItem(key))
+      .sort((a: TLocalTodo, b: TLocalTodo) => a.createdAt > b.createdAt ? 1 : -1);
+
+  return todos;
 };
 
 export const createLocalTodos = (
@@ -11,25 +22,19 @@ export const createLocalTodos = (
   date: string,
 ) => {
   try {
-    const newTodo = {
-      id: nanoid(6),
-      contents: contents.trim(),
+    const id = nanoid(6);
+    const key = generateTodosKey(date, id);
+
+    const newTodo: TLocalTodo = {
+      id,
+      contents,
       isComplete: false,
-      date: dayjs(date).toDate(),
+      date: new Date(date),
+      createdAt: new Date(),
     };
 
-    const todos = getItem(date);
-
-    if (todos) {
-      todos.push(newTodo);
-      setItem(date, todos);
-      return todos;
-    }
-    
-    const newTodos = [newTodo];
-
-    setItem(date, newTodos);
-    return newTodos;
+    setItem(key, newTodo);
+    return newTodo;
   } catch (e) {
     console.error(e);
   }
@@ -41,13 +46,13 @@ export const shiftLocalTodos = (
   date: string,
 ) => {
   try {
-    const todos = getItem(date);
+    const key = generateTodosKey(date, todosId);
+    const todo = getItem(key);
 
-    const idx = todos.findIndex((todo: any) => todo.id === todosId);
-    todos[idx].isComplete = Boolean(!isComplete);
+    todo.isComplete = Boolean(!isComplete);
   
-    setItem(date, todos);
-    return todos;
+    setItem(key, todo);
+    return todo;
   } catch (e) {
     console.error(e);
   }
@@ -58,34 +63,34 @@ export const deleteLocalTodos = (
   date: string,
 ) => {
   try {
-    const todos = getItem(date);
-
-    const newTodos = todos.filter((item: any) => item.id !== todosId);
-
-    setItem(date, newTodos);
-    return newTodos;
+    const key = generateTodosKey(date, todosId);
+    
+    removeItem(key);
+    return true;
   } catch (e) {
     console.error(e);
   }
 };
 
 export const getLocalTodosList = (date: string) => {
-  const localStoragekeys = getKeys();
-
-  const [ year, month, _] = date.split('-');
+  const [ year, month, _ ] = date.split('-');
   const pattern = `${year}-${month}`;
 
   const todosList =
-    localStoragekeys
-      .filter(key => key.startsWith(pattern))
-      .reduce((acc: any, key: string) => {
-        const partialContents =
-          getItem(key)
-            .slice(0, 3)
-            .map((item: any) => item.contents);
+    getKeys()
+      .filter(key => key.includes(pattern))
+      .map(key => getItem(key))
+      .sort((a, b) => a.createdAt > b.createdAt ? 1 : -1)
+      .reduce((acc, todo: TLocalTodo) => {
+        const todosDate = dayjs(todo.date).format('YYYY-MM-DD');
 
-        acc[key] = {
-          partialContents,
+        if (acc.hasOwnProperty(todosDate)) {
+          acc[todosDate].partialContents.push(todo.contents);
+          return acc;
+        }
+
+        acc[todosDate] = {
+          partialContents: [ todo.contents ],
         };
         return acc;
       }, {});
