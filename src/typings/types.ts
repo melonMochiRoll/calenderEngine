@@ -14,7 +14,7 @@ export type TLocalTodo = {
   id: string;
   contents: string;
   isComplete: boolean;
-  date: Date;
+  createdAt: Date;
 };
 
 export type TTodo = {
