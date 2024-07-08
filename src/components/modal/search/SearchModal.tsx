@@ -12,7 +12,7 @@ const SearchModal: FC = () => {
   const {
     query,
     onChangeQuery,
-    isLoading,
+    status,
     todos,
     refetch,
     setOffset,
@@ -40,7 +40,7 @@ const SearchModal: FC = () => {
       <SearchResult
         query={query}
         todos={todos}
-        isLoading={isLoading} />
+        status={status} />
       <Footer />
     </Block>
   );

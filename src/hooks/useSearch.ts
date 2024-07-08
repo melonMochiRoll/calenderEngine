@@ -3,12 +3,12 @@ import useInput from "./useInput";
 import { SEARCH_TODOS_KEY } from "Lib/queryKeys";
 import { searchTodos } from "Api/todosApi";
 import { useEffect, useState } from "react";
-import { TTodo } from "Typings/types";
+import { TQueryStatus, TTodo } from "Typings/types";
 
 type TUseSearchReturnData = {
   query: string,
   onChangeQuery: (e: any) => void,
-  isLoading: boolean,
+  status: TQueryStatus,
   todos: TTodo[],
   refetch: () => void,
   setOffset: React.Dispatch<React.SetStateAction<number>>,
@@ -16,13 +16,13 @@ type TUseSearchReturnData = {
 
 const useSearch = (): TUseSearchReturnData => {
   const [ query, onChangeQuery ] = useInput('');
-  const [ isLoading, setIsLoading ] = useState(true);
   const [ offset, setOffset ] = useState(1);
   const {
+    status,
     data,
     refetch,
   } = useQuery({
-    queryKey: [SEARCH_TODOS_KEY, offset],
+    queryKey: [SEARCH_TODOS_KEY, query, offset],
     queryFn: () => searchTodos(query, offset),
     refetchOnWindowFocus: false,
   });
@@ -30,10 +30,7 @@ const useSearch = (): TUseSearchReturnData => {
   useEffect(() => {
     if (query) {
       const delay = setTimeout(() => {
-        setIsLoading(true);
         setOffset(1);
-        refetch()
-          .finally(() => setIsLoading(false));
       }, 500);
   
       return () => {
@@ -45,7 +42,7 @@ const useSearch = (): TUseSearchReturnData => {
   return {
     query,
     onChangeQuery,
-    isLoading,
+    status,
     todos: data,
     refetch,
     setOffset,

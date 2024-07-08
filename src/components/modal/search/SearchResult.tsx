@@ -7,18 +7,18 @@ import { useAppDispatch } from 'Hooks/reduxHooks';
 import { closeModal } from 'Features/modalSlice';
 import { setCalendarTime } from 'Features/calendarTimeSlice';
 import { setTodoTime } from 'Features/todoTimeSlice';
-import { TTodo } from 'Typings/types';
+import { TQueryStatus, TTodo } from 'Typings/types';
 
 interface SearchResultProps {
   query: string,
   todos: TTodo[],
-  isLoading: boolean,
+  status: TQueryStatus,
 }; 
 
 const SearchResult: FC<SearchResultProps> = ({
   query,
   todos,
-  isLoading,
+  status,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -30,7 +30,7 @@ const SearchResult: FC<SearchResultProps> = ({
     );
   }
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <Main>
         <CircularProgress size={70} />
