@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getLocalTodos } from 'Lib/localTodos';
 import { GET_LOCAL_TODOS_KEY } from 'Lib/queryKeys';
 import { TLocalTodo } from 'Typings/types';
-import { useEffect } from 'react';
 
 type UseLocalTodosReturnType = [
   TLocalTodo[],
@@ -16,17 +15,13 @@ const useLocalTodos = (
     data,
     refetch,
   } = useQuery({
-    queryKey: [GET_LOCAL_TODOS_KEY],
+    queryKey: [GET_LOCAL_TODOS_KEY, date],
     queryFn: () => getLocalTodos(date),
     refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [date]);
-
   return [
-    data || {},
+    data || [],
     refetch,
   ];
 };
