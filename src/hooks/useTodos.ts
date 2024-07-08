@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { getTodos } from 'Api/todosApi';
 import { GET_TODOS_KEY } from 'Lib/queryKeys';
-import { TTodo } from 'Typings/types';
-
-export type statusType = 'loading' | 'error' | 'success';
+import { TQueryStatus, TTodo } from 'Typings/types';
 
 type UseTodosReturnType = [
-  statusType,
+  TQueryStatus,
   TTodo[],
   Function,
 ];

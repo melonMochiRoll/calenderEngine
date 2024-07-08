@@ -2,12 +2,11 @@ import React, { FC, memo } from 'react';
 import styled from '@emotion/styled';
 import TodoItem from 'Components/todo/TodoItem';
 import TodoNull from 'Components/todo/TodoNull';
-import { statusType } from 'Hooks/useTodos';
-import { TTodo } from 'Typings/types';
+import { TQueryStatus, TTodo } from 'Typings/types';
 
 interface TodoListProps {
   todoTab: string;
-  todosStatus: statusType;
+  todosStatus: TQueryStatus;
   todosData: TTodo[];
   shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
