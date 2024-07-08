@@ -7,11 +7,12 @@ import { useAppDispatch } from 'Hooks/reduxHooks';
 import { closeModal } from 'Features/modalSlice';
 import { setCalendarTime } from 'Features/calendarTimeSlice';
 import { setTodoTime } from 'Features/todoTimeSlice';
-import { TQueryStatus, TTodo } from 'Typings/types';
+import { TLocalTodo, TQueryStatus, TTodo } from 'Typings/types';
+import dayjs from 'dayjs';
 
 interface SearchResultProps {
   query: string,
-  todos: TTodo[],
+  todos: TTodo[] | TLocalTodo[],
   status: TQueryStatus,
 }; 
 
@@ -50,9 +51,9 @@ const SearchResult: FC<SearchResultProps> = ({
         todos?.length ?
         <Ul>
           {
-            todos.map((ele: TTodo) => {
+            todos.map((ele: TTodo | TLocalTodo) => {
               const { id, contents, date } = ele;
-              const strDate = String(date);
+              const strDate = dayjs(date).format('YYYY-MM-DD');
 
               return (
                 <Li
