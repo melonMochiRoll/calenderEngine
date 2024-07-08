@@ -11,6 +11,10 @@ export const getKeys = () => {
   return Object.keys(localStorage);
 };
 
+export const getValues = () => {
+  return Object.values(localStorage).map(ele => isJSON(ele));
+};
+
 export const getLength = () => {
   return getKeys().length;
 };
