@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getTodos } from 'Api/todosApi';
 import { GET_TODOS_KEY } from 'Lib/queryKeys';
 import { TTodo } from 'Typings/types';
-import { useEffect } from 'react';
 
 export type statusType = 'loading' | 'error' | 'success';
 
@@ -20,14 +19,10 @@ const useTodos = (
     data,
     refetch,
   } = useQuery({
-    queryKey: [GET_TODOS_KEY],
+    queryKey: [GET_TODOS_KEY, date],
     queryFn: () => getTodos(date),
     refetchOnWindowFocus: false,
   });
-
-  useEffect(() => {
-    refetch();
-  }, [date]);
 
   return [
     status,
