@@ -21,8 +21,6 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
   const [ todoTab, onChangeTab ] = useTabs('all');
 
   const addTodo = async (contents: string) => {
-    contents.trim();
-
     if (!contents || contents.length > 30) return;
 
     await createDateTodos(
