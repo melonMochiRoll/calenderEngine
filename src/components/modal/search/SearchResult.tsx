@@ -14,12 +14,16 @@ interface SearchResultProps {
   query: string,
   todos: TTodo[] | TLocalTodo[],
   status: TQueryStatus,
+  canLoadMore: boolean,
+  setOffset: React.Dispatch<React.SetStateAction<number>>,
 }; 
 
 const SearchResult: FC<SearchResultProps> = ({
   query,
   todos,
   status,
+  canLoadMore,
+  setOffset,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -65,6 +69,11 @@ const SearchResult: FC<SearchResultProps> = ({
               );
             })
           }
+          {
+            canLoadMore ?
+              <LoadMore onClick={() => setOffset(prev => prev + 1)}>Load More</LoadMore> :
+              <LoadMore disabled>목록 없음</LoadMore>
+          }
         </Ul> :
         <>
           <ErrorIcon sx={ErrorInlineStyle} />
@@ -87,11 +96,11 @@ const Main = styled.main`
 `;
 
 const Ul = styled.ul`
-  color: #000;
   width: 100%;
   height: 100%;
   padding: 10px;
   margin: 0;
+  text-align: center;
   list-style: none;
   overflow: auto;
 `;
@@ -135,4 +144,22 @@ const WhiteSpan = styled.span`
   color: var(--white);
   font-size: 20px;
   font-weight: 600;
+`;
+
+const LoadMore = styled.button`
+  font-size: 24px;
+  font-weight: 600;
+  padding: 10px 15px;
+  margin: 20px 0;
+  color: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 5px;
+  background-color: var(--black);
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &:hover {
+    background-color: var(--red);
+    border-color: var(--red);
+  }
 `;

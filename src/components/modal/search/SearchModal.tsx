@@ -14,7 +14,7 @@ const SearchModal: FC = () => {
     onChangeQuery,
     status,
     todos,
-    refetch,
+    canLoadMore,
     setOffset,
   } = useSearch();
 
@@ -40,7 +40,9 @@ const SearchModal: FC = () => {
       <SearchResult
         query={query}
         todos={todos}
-        status={status} />
+        status={status}
+        canLoadMore={canLoadMore}
+        setOffset={setOffset} />
       <Footer />
     </Block>
   );
