@@ -75,6 +75,6 @@ export const searchTodos = async (
     
     return data;
   } catch (err: any) {
-    console.error(err);
+    throw new Error(err);
   }
 };
