@@ -14,7 +14,7 @@ const LocalSearchModal: FC = () => {
     onChangeQuery,
     status,
     todos,
-    refetch,
+    canLoadMore,
     setOffset,
   } = useLocalSearch();
   
@@ -40,7 +40,9 @@ const LocalSearchModal: FC = () => {
       <SearchResult
         query={query}
         todos={todos} 
-        status={status} />
+        status={status}
+        canLoadMore={canLoadMore}
+        setOffset={setOffset} />
       <Footer />
     </Block>
   );
