@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useInput from "./useInput";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { SEARCH_LOCAL_TODOS_KEY } from "Lib/queryKeys";
 import { searchLocalTodos } from "Lib/localTodos";
 import { TLocalTodo, TQueryStatus } from "Typings/types";
@@ -10,27 +10,37 @@ type TUseLocalSearchReturnData = {
   onChangeQuery: (e: any) => void,
   status: TQueryStatus,
   todos: TLocalTodo[],
-  refetch: () => void,
+  canLoadMore: boolean,
   setOffset: React.Dispatch<React.SetStateAction<number>>,
 };
 
 const useLocalSearch = (): TUseLocalSearchReturnData => {
+  const qc = useQueryClient();
   const [ query, onChangeQuery ] = useInput('');
   const [ offset, setOffset ] = useState(1);
+  const [ canLoadMore, setCanLoadMore ] = useState(true);
   const {
     status,
     data,
     refetch,
   } = useQuery({
-    queryKey: [SEARCH_LOCAL_TODOS_KEY, query, offset],
-    queryFn: () => searchLocalTodos(query, offset),
+    queryKey: [SEARCH_LOCAL_TODOS_KEY],
+    queryFn: () => searchLocalTodos(query),
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (status === 'success' && data?.length < 10) {
+      setCanLoadMore(false);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (query) {
       const delay = setTimeout(() => {
         setOffset(1);
+        setCanLoadMore(true);
+        refetch();
       }, 500);
   
       return () => {
@@ -39,12 +49,25 @@ const useLocalSearch = (): TUseLocalSearchReturnData => {
     }
   }, [query]);
 
+  useEffect(() => {
+    if (offset > 1) {
+      searchLocalTodos(query, offset)
+        .then(res => {
+          if (res?.length < 10) {
+            setCanLoadMore(false);
+          }
+          qc.setQueryData([SEARCH_LOCAL_TODOS_KEY], [ ...data as TLocalTodo[], ...res ]);
+        })
+        .catch(err => console.error(err));
+    }
+  }, [offset]);
+
   return {
     query,
     onChangeQuery,
     status,
-    todos: data || [],
-    refetch,
+    todos: data as TLocalTodo[],
+    canLoadMore,
     setOffset,
   };
 };
