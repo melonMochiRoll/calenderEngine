@@ -27,6 +27,7 @@ const style = css`
     --pink: #bf94FF;
     --purple: #6c5dd3;
     --white: #efeff1;
+    --red: #f94449;
   }
   
   * {
