@@ -39,6 +39,7 @@ const useSearch = (): TUseSearchReturnData => {
     if (query) {
       const delay = setTimeout(() => {
         setOffset(1);
+        setCanLoadMore(true);
         refetch();
       }, 500);
   
