@@ -98,7 +98,7 @@ export const getLocalTodosList = (date: string) => {
   return todosList;
 };
 
-export const searchLocalTodos = (
+export const searchLocalTodos = async (
   query: string,
   offset: number = 1,
   limit: number = 10,
@@ -106,10 +106,15 @@ export const searchLocalTodos = (
   offset = (offset - 1) * limit;
   limit = offset ? offset * limit : 10;
 
-  const todos =
-    getValues()
-      .filter((todo: TLocalTodo) => todo.contents.includes(query))
-      .slice(offset, limit);
-
-  return todos;
+  try {
+    return await new Promise<TLocalTodo[]>((res) => {
+      const todos =
+        getValues()
+          .filter((todo: TLocalTodo) => todo.contents.includes(query))
+          .slice(offset, limit);
+      res(todos);
+    });
+  } catch (err: any) {
+    throw new Error(err);
+  }
 };
