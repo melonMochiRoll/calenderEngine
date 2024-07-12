@@ -100,18 +100,19 @@ export const getLocalTodosList = (date: string) => {
 
 export const searchLocalTodos = async (
   query: string,
-  offset: number = 1,
+  offset: number = 0,
   limit: number = 10,
 ) => {
-  offset = (offset - 1) * limit;
-  limit = offset ? offset * limit : 10;
+  const offsetIdx = offset * limit;
+  const limitIdx = (offset + 1) * limit;
 
   try {
     return await new Promise<TLocalTodo[]>((res) => {
       const todos =
         getValues()
           .filter((todo: TLocalTodo) => todo.contents.includes(query))
-          .slice(offset, limit);
+          .sort((a, b) => a.date > b.date ? -1 : 1)
+          .slice(offsetIdx, limitIdx);
       res(todos);
     });
   } catch (err: any) {
