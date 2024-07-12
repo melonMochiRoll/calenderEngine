@@ -17,7 +17,7 @@ type TUseLocalSearchReturnData = {
 const useLocalSearch = (): TUseLocalSearchReturnData => {
   const qc = useQueryClient();
   const [ query, onChangeQuery ] = useInput('');
-  const [ offset, setOffset ] = useState(1);
+  const [ offset, setOffset ] = useState(0);
   const [ canLoadMore, setCanLoadMore ] = useState(true);
   const {
     status,
@@ -38,7 +38,7 @@ const useLocalSearch = (): TUseLocalSearchReturnData => {
   useEffect(() => {
     if (query) {
       const delay = setTimeout(() => {
-        setOffset(1);
+        setOffset(0);
         setCanLoadMore(true);
         refetch();
       }, 500);
@@ -50,7 +50,7 @@ const useLocalSearch = (): TUseLocalSearchReturnData => {
   }, [query]);
 
   useEffect(() => {
-    if (offset > 1) {
+    if (offset > 0) {
       searchLocalTodos(query, offset)
         .then(res => {
           if (res?.length < 10) {
