@@ -58,6 +58,23 @@ export const shiftLocalTodos = (
   }
 };
 
+export const editLocalTodos = (
+  todosId: string,
+  contents: string,
+  date: string,
+) => {
+  try {
+    const key = generateTodosKey(date, todosId);
+    const todo = getItem(key);
+
+    todo.contents = contents;
+
+    setItem(key, todo);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const deleteLocalTodos = (
   todosId: string,
   date: string,
