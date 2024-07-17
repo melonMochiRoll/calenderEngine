@@ -5,7 +5,7 @@ import TodoTitle from 'Components/todo/TodoTitle';
 import TodoInput from 'Components/todo/TodoInput';
 import TodoTabs from 'Components/todo/TodoTabs';
 import TodoInit from 'Components/todo/TodoInit';
-import { createLocalTodos, deleteLocalTodos, shiftLocalTodos } from 'Lib/localTodos';
+import { createLocalTodos, deleteLocalTodos, editLocalTodos, shiftLocalTodos } from 'Lib/localTodos';
 import LocalTodoList from 'Components/localTodo/LocalTodoList';
 import useLocalTodos from 'Hooks/useLocalTodos';
 import { useQueryClient } from '@tanstack/react-query';
@@ -24,6 +24,21 @@ const LocalTodoApp: FC<LocalTodoAppProps> = ({}) => {
     if (!contents || contents.length > 30) return;
 
     createLocalTodos(
+      contents,
+      todoTime,
+    );
+    localTodosRefetch();
+    await qc.refetchQueries([GET_LOCAL_TODOS_LIST_KEY]);
+  };
+
+  const editTodo = async (
+    todosId: string,
+    contents: string,
+  ) => {
+    if (!contents || contents.length > 30) return;
+
+    editLocalTodos(
+      todosId,
       contents,
       todoTime,
     );
@@ -67,6 +82,7 @@ const LocalTodoApp: FC<LocalTodoAppProps> = ({}) => {
         <LocalTodoList
           todoTab={todoTab}
           todosData={localTodosData}
+          editTodo={editTodo}
           shiftTodo={shiftTodo}
           deleteTodo={deleteTodo} />
         </> :
