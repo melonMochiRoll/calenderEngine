@@ -4,19 +4,30 @@ import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
 import { TLocalTodo } from 'Typings/types';
+import EditableText from 'Components/common/EditableText';
 
 interface LocalTodoItemProps {
   todos: TLocalTodo;
+  editTodo: (todosId: string, contents: string) => void;
   shiftTodo: (todosId: string, isComplete: boolean) => void;
   deleteTodo: (todosId: string) => void;
 };
 
 const LocalTodoItem: FC<LocalTodoItemProps> = ({
   todos,
+  editTodo,
   shiftTodo,
   deleteTodo,
 }) => {
   const { id: todosId, contents, isComplete } = todos;
+
+  const onSubmit = (editedContents: string) => {
+    if (editedContents === contents) {
+      return;
+    }
+
+    editTodo(todosId, editedContents?.trim());
+  };
 
   return (
     <Block isComplete={isComplete}>
@@ -26,7 +37,9 @@ const LocalTodoItem: FC<LocalTodoItemProps> = ({
           <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
       </Switch>
       <Contents>
-        <span>{contents}</span>
+        <EditableText
+          text={contents}
+          submitEvent={onSubmit}/>
         <BackIcon onClick={() => deleteTodo(todosId)} sx={{ color: '#e66641' }}/>
       </Contents>
     </Block>

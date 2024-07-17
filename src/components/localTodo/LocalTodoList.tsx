@@ -7,6 +7,7 @@ import { TLocalTodo } from 'Typings/types';
 interface LocalTodoListProps {
   todoTab: string;
   todosData: TLocalTodo[];
+  editTodo: (todosId: string, contents: string) => void;
   shiftTodo: (todosId: string, isComplete: boolean) => void;
   deleteTodo: (todosId: string) => void;
 };
@@ -14,6 +15,7 @@ interface LocalTodoListProps {
 const LocalTodoList: FC<LocalTodoListProps> = ({
   todoTab,
   todosData,
+  editTodo,
   shiftTodo,
   deleteTodo,
 }) => {
@@ -27,12 +29,12 @@ const LocalTodoList: FC<LocalTodoListProps> = ({
   }
 
   const returnLocalTodoItem = (
-    i: number,
     todos: TLocalTodo,
   ) => {
     return <LocalTodoItem
       key={todos.id}
       todos={todos}
+      editTodo={editTodo}
       shiftTodo={shiftTodo}
       deleteTodo={deleteTodo} />;
   };
@@ -43,13 +45,13 @@ const LocalTodoList: FC<LocalTodoListProps> = ({
         {
           todosData.map((it: TLocalTodo, i: number) => {
             if (todoTab === 'all') {
-              return returnLocalTodoItem(i, it);
+              return returnLocalTodoItem(it);
             }
             if (todoTab === 'completed' && it.isComplete) {
-              return returnLocalTodoItem(i, it);
+              return returnLocalTodoItem(it);
             }
             if (todoTab === 'pending' && !it.isComplete) {
-              return returnLocalTodoItem(i, it);
+              return returnLocalTodoItem(it);
             }
           })
         }
