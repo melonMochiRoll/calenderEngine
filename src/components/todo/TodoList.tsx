@@ -8,7 +8,7 @@ interface TodoListProps {
   todoTab: string;
   todosStatus: TQueryStatus;
   todosData: TTodo[];
-  shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
+  updateTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
 
@@ -16,7 +16,7 @@ const TodoList: FC<TodoListProps> = ({
   todoTab,
   todosStatus,
   todosData,
-  shiftTodo,
+  updateTodo,
   deleteTodo,
 }) => {
 
@@ -29,13 +29,12 @@ const TodoList: FC<TodoListProps> = ({
   }
 
   const returnTodoItem = (
-    i: number,
     todos: TTodo,
   ) => {
     return <TodoItem
       key={todos.id}
       todos={todos}
-      shiftTodo={shiftTodo}
+      updateTodo={updateTodo}
       deleteTodo={deleteTodo} />;
   };
 
@@ -45,13 +44,13 @@ const TodoList: FC<TodoListProps> = ({
         {
           todosData.map((it: TTodo, i: number) => {
             if (todoTab === 'all') {
-              return returnTodoItem(i, it);
+              return returnTodoItem(it);
             }
             if (todoTab === 'completed' && it.isComplete) {
-              return returnTodoItem(i, it);
+              return returnTodoItem(it);
             }
             if (todoTab === 'pending' && !it.isComplete) {
-              return returnTodoItem(i, it);
+              return returnTodoItem(it);
             }
           })
         }

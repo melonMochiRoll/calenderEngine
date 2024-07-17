@@ -31,7 +31,7 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
     await qc.refetchQueries([GET_TODOS_LIST_KEY]);
   };
 
-  const shiftTodo = async (
+  const updateTodo = async (
     todosId: number,
     contents: string,
     isComplete: boolean,
@@ -71,7 +71,7 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
           todoTab={todoTab}
           todosStatus={todosStatus}
           todosData={todosData}
-          shiftTodo={shiftTodo}
+          updateTodo={updateTodo}
           deleteTodo={deleteTodo} />
         </> :
         <TodoInit />
