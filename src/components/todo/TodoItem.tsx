@@ -4,29 +4,40 @@ import ChkIcon from '@mui/icons-material/CheckCircleRounded';
 import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BackIcon from '@mui/icons-material/BackspaceRounded';
 import { TTodo } from 'Typings/types';
+import EditableText from 'Components/common/EditableText';
 
 interface TodoItemProps {
   todos: TTodo;
-  shiftTodo: (todosId: number, contents: string, isComplete: boolean) => void;
+  updateTodo: (todosId: number, contents: string, isComplete: boolean) => void;
   deleteTodo: (todosId: number) => void;
 };
 
 const TodoItem: FC<TodoItemProps> = ({
   todos,
-  shiftTodo,
+  updateTodo,
   deleteTodo,
 }) => {
   const { id: todosId, contents, isComplete } = todos;
 
+  const onSubmit = (editedContents: string) => {
+    if (editedContents === contents) {
+      return;
+    }
+
+    updateTodo(todosId, editedContents?.trim(), isComplete);
+  };
+
   return (
     <Block isComplete={isComplete}>
-      <Switch onClick={() => shiftTodo(todosId, contents, !isComplete)}>
+      <Switch onClick={() => updateTodo(todosId, contents, !isComplete)}>
         {isComplete ?
           <ChkIcon sx={{ color: 'var(--pink)' }} fontSize='large' /> :
           <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
       </Switch>
       <Contents>
-        <span>{contents}</span>
+        <EditableText
+          text={contents}
+          submitEvent={onSubmit} />
         <BackIcon onClick={() => deleteTodo(todosId)} sx={{ color: '#e66641' }}/>
       </Contents>
     </Block>
