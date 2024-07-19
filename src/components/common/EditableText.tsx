@@ -4,16 +4,16 @@ import useDoubleClick from 'Hooks/useDoubleClick';
 import useInput from 'Hooks/useInput';
 
 type TEditableTextProps = {
-  text: string,
+  initValue: string,
   submitEvent: Function,
 };
 
 const EditableText: FC<TEditableTextProps> = ({
-  text,
+  initValue,
   submitEvent,
 }) => {
   const [ editMode, setEditMode ] = useState(false);
-  const [ value, onChangeValue ] = useInput(text);
+  const [ value, onChangeValue ] = useInput(initValue);
   const onDoubleClick = useDoubleClick(() => setEditMode(true));
 
   const onSubmit = (e: any) => {
@@ -35,7 +35,7 @@ const EditableText: FC<TEditableTextProps> = ({
           </form> :
           <span
             onClick={onDoubleClick}>
-            {text}
+            {initValue}
           </span>
       }
     </>

@@ -36,7 +36,7 @@ const TodoItem: FC<TodoItemProps> = ({
       </Switch>
       <Contents>
         <EditableText
-          text={contents}
+          initValue={contents}
           submitEvent={onSubmit} />
         <BackIcon onClick={() => deleteTodo(todosId)} sx={{ color: '#e66641' }}/>
       </Contents>
