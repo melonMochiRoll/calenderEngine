@@ -11,7 +11,7 @@ type TUseLocalSearchReturnData = {
   status: TQueryStatus,
   todos: TLocalTodo[],
   canLoadMore: boolean,
-  setOffset: React.Dispatch<React.SetStateAction<number>>,
+  nextOffset: () => void,
 };
 
 const useLocalSearch = (): TUseLocalSearchReturnData => {
@@ -68,7 +68,7 @@ const useLocalSearch = (): TUseLocalSearchReturnData => {
     status,
     todos: data as TLocalTodo[],
     canLoadMore,
-    setOffset,
+    nextOffset: () => setOffset(prev => prev + 1),
   };
 };
 

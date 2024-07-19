@@ -11,7 +11,7 @@ type TUseSearchReturnData = {
   status: TQueryStatus,
   todos: TTodo[],
   canLoadMore: boolean,
-  setOffset: React.Dispatch<React.SetStateAction<number>>,
+  nextOffset: () => void,
 };
 
 const useSearch = (): TUseSearchReturnData => {
@@ -67,8 +67,8 @@ const useSearch = (): TUseSearchReturnData => {
     onChangeQuery,
     status,
     todos: data,
-    setOffset,
     canLoadMore,
+    nextOffset: () => setOffset(prev => prev + 1),
   };
 };
 
