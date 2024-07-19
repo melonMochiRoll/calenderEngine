@@ -15,7 +15,7 @@ interface SearchResultProps {
   todos: TTodo[] | TLocalTodo[],
   status: TQueryStatus,
   canLoadMore: boolean,
-  setOffset: React.Dispatch<React.SetStateAction<number>>,
+  nextOffset: () => void,
 }; 
 
 const SearchResult: FC<SearchResultProps> = ({
@@ -23,7 +23,7 @@ const SearchResult: FC<SearchResultProps> = ({
   todos,
   status,
   canLoadMore,
-  setOffset,
+  nextOffset,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -71,7 +71,7 @@ const SearchResult: FC<SearchResultProps> = ({
           }
           {
             canLoadMore ?
-              <LoadMore onClick={() => setOffset(prev => prev + 1)}>Load More</LoadMore> :
+              <LoadMore onClick={nextOffset}>Load More</LoadMore> :
               <LoadMore disabled>목록 없음</LoadMore>
           }
         </Ul> :

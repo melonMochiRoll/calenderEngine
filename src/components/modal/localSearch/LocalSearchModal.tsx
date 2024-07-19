@@ -15,7 +15,7 @@ const LocalSearchModal: FC = () => {
     status,
     todos,
     canLoadMore,
-    setOffset,
+    nextOffset,
   } = useLocalSearch();
   
   return (
@@ -42,7 +42,7 @@ const LocalSearchModal: FC = () => {
         todos={todos} 
         status={status}
         canLoadMore={canLoadMore}
-        setOffset={setOffset} />
+        nextOffset={nextOffset} />
       <Footer />
     </Block>
   );

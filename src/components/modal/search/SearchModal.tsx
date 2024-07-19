@@ -15,7 +15,7 @@ const SearchModal: FC = () => {
     status,
     todos,
     canLoadMore,
-    setOffset,
+    nextOffset,
   } = useSearch();
 
   return (
@@ -42,7 +42,7 @@ const SearchModal: FC = () => {
         todos={todos}
         status={status}
         canLoadMore={canLoadMore}
-        setOffset={setOffset} />
+        nextOffset={nextOffset} />
       <Footer />
     </Block>
   );
