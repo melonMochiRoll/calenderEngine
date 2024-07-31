@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import InputField from 'Components/common/InputField';
 import SubmitButton from 'Components/common/SubmitButton';
 import { ErrorSpan } from './JoinForm';
+import LongSubmitButton, { EButtonIconName } from 'Components/common/LongSubmitButton';
 
 type ErrorType = {
   email: string,
@@ -29,7 +30,7 @@ const LoginForm: FC<LoginFormProps> = ({
   onChangePassword,
 }) => {
   return (
-    <Box onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <Title>로그인</Title>
       <InputField
         id={'email'}
@@ -46,23 +47,30 @@ const LoginForm: FC<LoginFormProps> = ({
         type={'password'} />
       {errors.password ? <ErrorSpan>{errors.password}</ErrorSpan> : <ErrorSpan />}
       <ButtonBox>
-        <SubmitButton
-          type={'submit'}>
+        <LongSubmitButton
+          type='submit'
+          icon={EButtonIconName.LOGIN}>
             로그인
-        </SubmitButton>
+        </LongSubmitButton>
+        <LongSubmitButton
+          type='button'
+          hexCode='var(--naver-green)'
+          icon={EButtonIconName.NAVER}>
+          네이버 로그인
+        </LongSubmitButton>
         <SubmitButton
           onClick={goBack}
-          type={'button'}>
+          type='button'>
             뒤로
         </SubmitButton>
       </ButtonBox>
-    </Box>
+    </Form>
   );
 };
 
 export default LoginForm;
 
-const Box = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -80,6 +88,7 @@ const Title = styled.h1`
 const ButtonBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 15px;
   gap: 15px;
 `;
