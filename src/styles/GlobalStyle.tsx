@@ -28,6 +28,7 @@ const style = css`
     --purple: #6c5dd3;
     --white: #efeff1;
     --red: #f94449;
+    --naver-green: #03c75a;
   }
   
   * {
