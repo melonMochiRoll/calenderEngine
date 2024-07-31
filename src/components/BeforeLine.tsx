@@ -1,9 +1,5 @@
-import React, { FC, ReactNode, useRef } from 'react';
+import React, { FC, ReactNode } from 'react';
 import styled from '@emotion/styled';
-
-const getRamdomInt = (max: number) => {
-  return Math.floor(Math.random() * max);
-};
 
 const hexArray = [
   '#EF404A', '#27AAE1',
