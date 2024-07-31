@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import InputField from 'Components/common/InputField';
 import SubmitButton from 'Components/common/SubmitButton';
+import LongSubmitButton, { EButtonIconName } from 'Components/common/LongSubmitButton';
 
 type ErrorType = {
   email: string,
@@ -33,7 +34,7 @@ const JoinForm: FC<JoinFormProps> = ({
   onChangePasswordChk,
 }) => {
   return (
-    <Box onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <Title>회원가입</Title>
       <InputField
         id={'email'}
@@ -57,23 +58,24 @@ const JoinForm: FC<JoinFormProps> = ({
         type={'password'} />
       {errors.passwordChk ? <ErrorSpan>{errors.passwordChk}</ErrorSpan> : <ErrorSpan />}
       <ButtonBox>
-        <SubmitButton
-          type={'submit'}>
+        <LongSubmitButton
+          type={'submit'}
+          icon={EButtonIconName.JOIN}>
             회원가입
-        </SubmitButton>
+        </LongSubmitButton>
         <SubmitButton
           onClick={goBack}
           type={'button'}>
             뒤로
         </SubmitButton>
       </ButtonBox>
-    </Box>
+    </Form>
   );
 };
 
 export default JoinForm;
 
-const Box = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,6 +93,7 @@ const Title = styled.h1`
 const ButtonBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 15px;
   gap: 15px;
 `;
