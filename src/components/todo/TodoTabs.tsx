@@ -6,7 +6,7 @@ interface TodoTabsProps {
   onChangeTab: (e: React.SyntheticEvent, newValue: string) => void;
 }
 
-const TodoTabs: FC<TodoTabsProps> = ({
+const TodoTabs: FC<TodoTabsProps> = ({ // deprecated
   todoTab,
   onChangeTab,
 }) => {
