@@ -10,8 +10,8 @@ const TodoInput: FC<TodoInputProps> = ({
 }) => {
   const [ value, setValue ] = useState('');
 
-  const onChangeValueWithMaxLength = useCallback((e: any) => {
-    if (e.target.value.length > 30) {
+  const onChangeValueWithMaxSize = useCallback((e: any) => {
+    if (getByteSize(e.target.value) > 65533) {
       return;
     }
 
@@ -28,7 +28,7 @@ const TodoInput: FC<TodoInputProps> = ({
       <Top>
         <Input
           value={value}
-          onChange={onChangeValueWithMaxLength}
+          onChange={onChangeValueWithMaxSize}
           type='text'
           placeholder='새 할일' />
         <Button
@@ -36,9 +36,7 @@ const TodoInput: FC<TodoInputProps> = ({
           추가
         </Button>
       </Top>
-      <Bottom>
-        <span>{`${value.length}/30`}</span>
-      </Bottom>
+      <Bottom></Bottom>
     </Block>
   );
 };
@@ -70,11 +68,6 @@ const Bottom = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 10px;
-
-  span {
-    font-size: 20px;
-    color: var(--white);
-  }
 `;
 
 const Input = styled.input`
@@ -113,3 +106,9 @@ const Button = styled.button`
     background-color: rgba(0, 0, 0, 0);
   }
 `;
+
+const getByteSize = (str: string) => {
+  const encoder = new TextEncoder();
+
+  return encoder.encode(str).length;
+};
