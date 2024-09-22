@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import TodoList from 'Components/todo/TodoList';
-import TodoTabs from 'Components/todo/TodoTabs';
 import TodoInput from 'Components/todo/TodoInput';
-import useTabs from 'Hooks/useTabs';
 import { useQueryClient } from '@tanstack/react-query';
 import { createDateTodos, deleteDateTodos, updateDateTodos } from 'Api/todosApi';
 import TodoTitle from 'Components/todo/TodoTitle';
@@ -18,7 +16,6 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
   const qc = useQueryClient();
   const { todoTime } = useAppSelector(state => state.todoTime);
   const [ todosStatus, todosData, todosDataRefetch ] = useTodos(todoTime);
-  const [ todoTab, onChangeTab ] = useTabs('all');
 
   const addTodo = async (contents: string) => {
     if (!contents || contents.length > 30) return;
@@ -64,11 +61,7 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
           todoTime={todoTime}/>
         <TodoInput
           addTodo={addTodo} />
-        <TodoTabs
-          todoTab={todoTab}
-          onChangeTab={onChangeTab} />
         <TodoList
-          todoTab={todoTab}
           todosStatus={todosStatus}
           todosData={todosData}
           updateTodo={updateTodo}

@@ -5,7 +5,6 @@ import TodoNull from 'Components/todo/TodoNull';
 import { TQueryStatus, TTodo } from 'Typings/types';
 
 interface TodoListProps {
-  todoTab: string;
   todosStatus: TQueryStatus;
   todosData: TTodo[];
   updateTodo: (todosId: number, contents: string, isComplete: boolean) => void;
@@ -13,7 +12,6 @@ interface TodoListProps {
 };
 
 const TodoList: FC<TodoListProps> = ({
-  todoTab,
   todosStatus,
   todosData,
   updateTodo,
@@ -28,31 +26,17 @@ const TodoList: FC<TodoListProps> = ({
     );
   }
 
-  const returnTodoItem = (
-    todos: TTodo,
-  ) => {
-    return <TodoItem
-      key={todos.id}
-      todos={todos}
-      updateTodo={updateTodo}
-      deleteTodo={deleteTodo} />;
-  };
-
   return (
     <>
       <Block>
         {
-          todosData.map((it: TTodo, i: number) => {
-            if (todoTab === 'all') {
-              return returnTodoItem(it);
-            }
-            if (todoTab === 'completed' && it.isComplete) {
-              return returnTodoItem(it);
-            }
-            if (todoTab === 'pending' && !it.isComplete) {
-              return returnTodoItem(it);
-            }
-          })
+          todosData.map((todo: TTodo, i: number) => 
+            <TodoItem
+              key={todo.id}
+              todos={todo}
+              updateTodo={updateTodo}
+              deleteTodo={deleteTodo} />
+          )
         }
       </Block>
       <TodosCount>
