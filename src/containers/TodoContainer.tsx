@@ -38,7 +38,7 @@ const Block = styled.div<{ isTodoShow: boolean }>`
   width: ${({isTodoShow}) => isTodoShow ? '900px' : '50px'};
   height: 100vh;
   padding: 10px;
-  border: 1px solid #2f323b;
+  border: 1px solid var(--light-gray);
   background-color: var(--dark-gray);
 `;
 
