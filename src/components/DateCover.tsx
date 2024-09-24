@@ -1,17 +1,22 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import BeforeLine from './BeforeLine';
+
+const palette = [
+ '#F79552', '#F2728C', '#03c75a', '#4EB8B9', '#27AAE1', '#9E7EB9', '#EF404A',
+];
 
 interface DateCoverProps {
   setTodoTime: () => void;
-  partialContents: any;
+  index: number;
+  todosLength: number;
   isToday: boolean;
   date: number;
 };
 
 const DateCover: FC<DateCoverProps> = ({
   setTodoTime,
-  partialContents,
+  index,
+  todosLength,
   isToday,
   date,
 }) => {
@@ -20,20 +25,12 @@ const DateCover: FC<DateCoverProps> = ({
       isToday={isToday}
       onClick={setTodoTime}>
       <Content>
-        {date}
-        {partialContents ?
-          partialContents.slice(0, 3).map((item: string, index: number) => 
-            (
-              <BeforeLine
-                key={index + item}
-                date={date}>
-                {item.length > 14 ?
-                  <Partial>{`${item.slice(0, 14).trim()}...`}</Partial> :
-                  <Partial>{item}</Partial>
-                }
-              </BeforeLine>
-            )
-          ) : ''}
+        <Top>
+          <span>{date}</span>
+        </Top>
+        <Bottom>
+          {todosLength ? <Count i={index}>{todosLength}</Count> : ''}
+        </Bottom>
       </Content>
     </Block>
   );
@@ -61,12 +58,33 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 5px;
+  width: 100%;
+  height: 100%;
 `;
 
-const Partial = styled.span`
-  font-size: 13px;
-  color: #fff;
-  text-overflow: ellipsis;
-  overflow: hidden;
+const Top = styled.div`
+  width: 100%;
+  height: 50%;
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  height: 50%;
+  padding: 5px;
+`;
+
+const Count = styled.div<{ i: number }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0 1px 0 0;
+  border-radius: 25px;
+  color: var(--white);
+  font-size: 18px;
+  background-color: ${({i}) => palette[i % 7]};
 `;
