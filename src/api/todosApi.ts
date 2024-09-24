@@ -13,12 +13,14 @@ export const getTodos = async (
   }
 };
 
-export const getCurrentMonthTodosList = async (
-  date: string,
+export const getTodosForSpace = async (
+  url: string,
+  year: string,
+  month: string,
   ) => {
   try {
     const { data } = await axiosInstance
-      .get(`/api/todos/list?date=${date}`);
+      .get(`/api/sharedspaces/${url}/todos?date=${year}-${month}`);
       
     return data;
   } catch (err: any) {
@@ -41,12 +43,11 @@ export const createDateTodos = async (
 export const updateDateTodos = async (
   todosId: number,
   contents: string,
-  isComplete: boolean,
   date: string,
   ) => {
   try {
     await axiosInstance
-      .put(`/api/todos`, { todosId, contents, isComplete, date });
+      .put(`/api/todos`, { todosId, contents, date });
   } catch (err: any) {
     console.error(err);
   }
