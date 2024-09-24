@@ -1,14 +1,12 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { useAppSelector } from 'Hooks/reduxHooks';
 
-interface TodoTitleProps {
-  todoTime: string;
-};
+interface TodoTitleProps {};
 
-const TodoTitle: FC<TodoTitleProps> = ({
-  todoTime,
-}) => {
-  const [ year, month, date ] = todoTime.split('-').map(Number);
+const TodoTitle: FC<TodoTitleProps> = () => {
+  const { todoTime } = useAppSelector(state => state.todoTime);
+  const [ year, month, date ] = todoTime.split('-');
   
   return (
     <Title>{`${year}년 ${month}월 ${date}일`}</Title>
