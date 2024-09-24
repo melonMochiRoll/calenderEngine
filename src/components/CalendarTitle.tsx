@@ -1,19 +1,16 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { useAppSelector } from 'Hooks/reduxHooks';
 
-interface CalendarTitleProps {
-  calendarTime: string;
-};
+interface CalendarTitleProps {};
 
-const CalendarTitle: FC<CalendarTitleProps> = ({
-  calendarTime,
-}) => {
-  const [ year, month ] = calendarTime.split('-');
+const CalendarTitle: FC<CalendarTitleProps> = () => {
+  const { calendarYear, calendarMonth } = useAppSelector(state => state.calendarTime);
 
   return (
     <Block>
       <Title>
-        {year}년 {month}월
+        {calendarYear}년 {calendarMonth + 1}월
       </Title>
     </Block>
   );
