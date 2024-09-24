@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { useAppSelector } from 'Hooks/reduxHooks';
 
 const palette = [
  '#F79552', '#F2728C', '#03c75a', '#4EB8B9', '#27AAE1', '#9E7EB9', '#EF404A',
@@ -9,7 +10,6 @@ interface DateCoverProps {
   setTodoTime: () => void;
   index: number;
   todosLength: number;
-  isToday: boolean;
   date: number;
 };
 
@@ -17,12 +17,16 @@ const DateCover: FC<DateCoverProps> = ({
   setTodoTime,
   index,
   todosLength,
-  isToday,
   date,
 }) => {
+  const {
+    nowDate,
+    isNowYearAndMonth,
+  } = useAppSelector(state => state.calendarTime);
+
   return (
     <Block
-      isToday={isToday}
+      isToday={isNowYearAndMonth && (date === Number(nowDate))}
       onClick={setTodoTime}>
       <Content>
         <Top>
