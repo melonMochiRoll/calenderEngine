@@ -20,48 +20,48 @@ const getDates = (now: Dayjs) => {
 };
 
 const initialState = {
-  calendarTime: now.format('YYYY-MM-DD'),
-  currentYear: now.year(),
-  currentMonth: now.month(),
-  currentDate: now.date(),
-  currentDay: now.day(),
+  calendarYear: String(now.year()),
+  calendarMonth: String(now.month() + 1).padStart(2, '0'),
+  nowYear: String(now.year()),
+  nowMonth: String(now.month() + 1).padStart(2, '0'),
+  nowDate: String(now.date()).padStart(2, '0'),
+  nowDay: now.day(),
   dates: getDates(now),
+  isNowYearAndMonth: true,
 };
 
 export const calendarTimeSlice = createSlice({
-  name: 'todoTime',
+  name: 'calendarTime',
   initialState,
   reducers: {
     setCalendarTime: (state, actions: PayloadAction<string>) => {
       const currentTime = dayjs(actions.payload);
+      const strYear = String(currentTime.year());
+      const strMonth = String(currentTime.month() + 1).padStart(2, '0');
 
-      state.calendarTime = actions.payload;
-      state.currentYear = currentTime.year();
-      state.currentMonth = currentTime.month();
-      state.currentDate = currentTime.date();
-      state.currentDay = currentTime.day();
-      state.dates = getDates(currentTime);     
+      state.calendarYear = strYear;
+      state.calendarMonth = strMonth;
+      state.isNowYearAndMonth = (strYear === state.nowYear) && (strMonth === state.nowMonth);
+      state.dates = getDates(currentTime);
     },
     prevMonth: (state) => {
-      const currentTime = dayjs(state.calendarTime);
-      const prevTime = currentTime.month(currentTime.month() - 1);
+      const prevTime = dayjs(`${state.calendarYear}-${state.calendarMonth}`).month(Number(state.calendarMonth) - 2);
+      const strYear = String(prevTime.year());
+      const strMonth = String(prevTime.month() + 1).padStart(2, '0');
 
-      state.calendarTime = prevTime.format('YYYY-MM-DD');
-      state.currentYear = prevTime.year();
-      state.currentMonth = prevTime.month();
-      state.currentDate = prevTime.date();
-      state.currentDay = prevTime.day();
+      state.calendarYear = strYear;
+      state.calendarMonth = strMonth;
+      state.isNowYearAndMonth = (strYear === state.nowYear) && (strMonth === state.nowMonth);
       state.dates = getDates(prevTime);
     },
     nextMonth: (state) => {
-      const currentTime = dayjs(state.calendarTime);
-      const nextTime = currentTime.month(currentTime.month() + 1);
+      const nextTime = dayjs(`${state.calendarYear}-${state.calendarMonth}`).month(Number(state.calendarMonth));
+      const strYear = String(nextTime.year());
+      const strMonth = String(nextTime.month() + 1).padStart(2, '0');
 
-      state.calendarTime = nextTime.format('YYYY-MM-DD');
-      state.currentYear = nextTime.year();
-      state.currentMonth = nextTime.month();
-      state.currentDate = nextTime.date();
-      state.currentDay = nextTime.day();
+      state.calendarYear = strYear;
+      state.calendarMonth = strMonth;
+      state.isNowYearAndMonth = (strYear === state.nowYear) && (strMonth === state.nowMonth);
       state.dates = getDates(nextTime);
     },
   },
