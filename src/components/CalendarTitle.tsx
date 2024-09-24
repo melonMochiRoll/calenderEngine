@@ -2,18 +2,18 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 
 interface CalendarTitleProps {
-  currentYear: number;
-  currentMonth: number;
+  calendarTime: string;
 };
 
 const CalendarTitle: FC<CalendarTitleProps> = ({
-  currentYear,
-  currentMonth,
+  calendarTime,
 }) => {
+  const [ year, month ] = calendarTime.split('-');
+
   return (
     <Block>
       <Title>
-        {currentYear}년 {currentMonth + 1}월
+        {year}년 {month}월
       </Title>
     </Block>
   );
