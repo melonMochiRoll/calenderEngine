@@ -20,8 +20,11 @@ export type TLocalTodo = {
 
 export type TTodo = {
   id: number,
-  contents: string,
-  isComplete: boolean,
-  date: Date,
-  UserId: number,
+  description: string,
+  startTime: string,
+  endTime: string,
+  date: string,
+  AuthorId: number,
+  EditorId: number | null,
+  SharedspaceId: number,
 };
