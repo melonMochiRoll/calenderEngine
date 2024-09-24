@@ -1,18 +1,5 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const getTodos = async (
-  date: string,
-  ) => {
-  try {
-    const { data } = await axiosInstance
-      .get(`/api/todos?date=${date}`);
-
-    return data;
-  } catch (err: any) {
-    console.error(err);
-  }
-};
-
 export const getTodosForSpace = async (
   url: string,
   year: string,
