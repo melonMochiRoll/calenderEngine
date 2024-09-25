@@ -13,7 +13,7 @@ interface HeaderProps {};
 const Header: FC<HeaderProps> = () => {
   const navigator = useNavigate();
   const qc = useQueryClient();
-  const [ userData, refetch ] = useUser();
+  const { userData, refetch } = useUser();
 
   const onLogout = useCallback(() => {
     logout()

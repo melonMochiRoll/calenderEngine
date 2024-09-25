@@ -6,7 +6,7 @@ import JoinContainer from 'Containers/JoinContainer';
 
 const JoinPage: FC = () => {
   const navigate = useNavigate();
-  const [ userData, _, isLoading ] = useUser();
+  const { userData, isLoading } = useUser();
 
   useEffect(() => {
     if (!isLoading && userData) {

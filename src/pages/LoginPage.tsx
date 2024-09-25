@@ -6,7 +6,7 @@ import LoginContainer from 'Containers/LoginContainer';
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
-  const [ userData, _, isLoading ] = useUser();
+  const { userData, isLoading } = useUser();
 
   useEffect(() => {
     if (!isLoading && userData) {
