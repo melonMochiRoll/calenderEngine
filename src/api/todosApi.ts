@@ -37,16 +37,28 @@ export const createTodo = async (
 };
 
 export const updateTodo = async (
-  todosId: number,
-  contents: string,
+  id: number,
+  description: string,
   date: string,
+  startTime: string,
+  endTime: string,
+  EditorId: number,
+  SharedspaceId: number,
   ) => {
-  // try {
-  //   await axiosInstance
-  //     .put(`/api/todos`, { todosId, contents, date });
-  // } catch (err: any) {
-  //   console.error(err);
-  // }
+  try {
+    await axiosInstance
+      .put(`/api/todos`, {
+        id,
+        description,
+        date,
+        startTime,
+        endTime,
+        EditorId,
+        SharedspaceId,
+      });
+  } catch (err: any) {
+    console.error(err);
+  }
 };
 
 export const deleteTodo = async (
