@@ -19,12 +19,12 @@ const MainPage: FC = () => {
 
   return (
     <Block>
-      <CalendarBlock>
-        <Header />
+      <Header />
+      <Main>
         <CalendarContainer />
-      </CalendarBlock>
-      <TodoContainer />
-      <RenderModal />
+        <TodoContainer />
+        <RenderModal />
+      </Main>
     </Block>
   );
 };
@@ -33,13 +33,11 @@ export default MainPage;
 
 const Block = styled.div`
   display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 
-const CalendarBlock = styled.div`
+const Main = styled.main`
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  padding: 20px 100px;
-  background-color: var(--black);
+  height: 100%;
 `;
