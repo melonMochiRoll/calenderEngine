@@ -3,32 +3,19 @@ import styled from '@emotion/styled';
 import ControlPanel from 'Components/ControlPanel';
 import CalendarTitle from 'Components/CalendarTitle';
 import SearchBar from 'Components/SearchBar';
-import RenderLocalCalendar from 'Components/RenderLocalCalendar';
-import RenderServerCalendar from 'Components/RenderServerCalendar';
-import { useAppSelector } from 'Hooks/reduxHooks';
-import useUser from 'Hooks/useUser';
+import CalendarCreator from 'Components/CalendarCreator';
 
 interface CalendarContainerProps {};
 
 const CalendarContainer: FC<CalendarContainerProps> = ({}) => {
-  const [ userData ] = useUser();
-  const {
-    currentYear,
-    currentMonth,
-  } = useAppSelector(state => state.calendarTime);
-
   return (
     <Calendar>
       <CalendarHeader>
-        <CalendarTitle
-          currentYear={currentYear}
-          currentMonth={currentMonth} />
+        <CalendarTitle />
         <SearchBar />
         <ControlPanel />
       </CalendarHeader>
-      {userData ?
-        <RenderServerCalendar /> :
-        <RenderLocalCalendar />}
+      <CalendarCreator />
     </Calendar>
   );
 };
