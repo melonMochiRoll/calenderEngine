@@ -20,10 +20,8 @@ const MainPage: FC = () => {
   return (
     <Block>
       <CalendarBlock>
-        <Box>
-          <Header />
-          <CalendarContainer />
-        </Box>
+        <Header />
+        <CalendarContainer />
       </CalendarBlock>
       <TodoContainer />
       <RenderModal />
@@ -40,15 +38,8 @@ const Block = styled.div`
 const CalendarBlock = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
-  align-items: center;
   width: 100%;
   height: 100vh;
-  padding: 20px;
+  padding: 20px 100px;
   background-color: var(--black);
-`;
-
-const Box = styled.div`
-  width: 1000px;
-  height: 100%;
 `;
