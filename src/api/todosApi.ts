@@ -61,16 +61,12 @@ export const updateTodo = async (
   }
 };
 
-export const deleteTodo = async (
-  todosId: number,
-  date: string,
-  ) => {
-  // try {
-  //   await axiosInstance
-  //     .delete(`/api/todos?ti=${todosId}&date=${date}`);
-  // } catch (err: any) {
-  //   console.error(err);
-  // }
+export const deleteTodo = async (todoId: number) => {
+  try {
+    await axiosInstance.delete(`/api/todos?ti=${todoId}`);
+  } catch (err: any) {
+    console.error(err);
+  }
 };
 
 export const searchTodos = async (
