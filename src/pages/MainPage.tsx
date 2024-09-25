@@ -1,11 +1,22 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
 import Header from 'Containers/Header';
 import RenderModal from 'Components/common/RenderModal';
+import useUser from 'Hooks/useUser';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage: FC = () => {
+  const navigate = useNavigate();
+  const [ userData, _, isLoading ] = useUser();
+
+  useEffect(() => {
+    if (!isLoading && !userData) {
+      navigate('/login');
+    }
+  }, [userData]);
+
   return (
     <Block>
       <CalendarBlock>
