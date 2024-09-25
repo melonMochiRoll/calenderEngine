@@ -3,19 +3,28 @@ import { getUser } from 'Api/usersApi';
 import { GET_USER_KEY } from 'Lib/queryKeys';
 import { IUser } from 'src/typings/types';
 
-type UseUserReturnType = [
-  IUser,
-  Function,
-];
+type UseUserReturnType = {
+  userData: IUser,
+  refetch: Function,
+  isLoading: boolean,
+};
 
 const useUser = (): UseUserReturnType => {
-  const { data: userData, refetch } = useQuery({
+  const {
+    data: userData,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: [GET_USER_KEY],
     queryFn: () => getUser(),
     refetchOnWindowFocus: false,
   });
 
-  return [ userData, refetch ];
+  return {
+    userData,
+    refetch,
+    isLoading,
+  };
 };
 
 export default useUser;
