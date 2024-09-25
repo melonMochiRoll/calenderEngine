@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MainPage: FC = () => {
   const navigate = useNavigate();
-  const [ userData, _, isLoading ] = useUser();
+  const { userData, isLoading } = useUser();
 
   useEffect(() => {
     if (!isLoading && !userData) {
