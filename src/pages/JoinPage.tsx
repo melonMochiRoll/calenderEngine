@@ -6,10 +6,10 @@ import JoinContainer from 'Containers/JoinContainer';
 
 const JoinPage: FC = () => {
   const navigate = useNavigate();
-  const [ userData ] = useUser();
+  const [ userData, _, isLoading ] = useUser();
 
   useEffect(() => {
-    if (userData) {
+    if (!isLoading && userData) {
       navigate('/');
     }
   }, [userData]);
