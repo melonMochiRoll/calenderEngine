@@ -15,41 +15,50 @@ export const getTodosForSpace = async (
   }
 };
 
-export const createDateTodos = async (
-  contents: string,
+export const createTodo = async (
+  description: string,
   date: string,
+  startTime: string,
+  endTime: string,
+  AuthorId: number,
   ) => {
   try {
     await axiosInstance
-      .post(`api/todos`, { contents, date });
+      .post(`/api/todos`, {
+        description,
+        date,
+        startTime,
+        endTime,
+        AuthorId,
+      });
   } catch (err: any) {
     console.error(err);
   }
 };
 
-export const updateDateTodos = async (
+export const updateTodo = async (
   todosId: number,
   contents: string,
   date: string,
   ) => {
-  try {
-    await axiosInstance
-      .put(`/api/todos`, { todosId, contents, date });
-  } catch (err: any) {
-    console.error(err);
-  }
+  // try {
+  //   await axiosInstance
+  //     .put(`/api/todos`, { todosId, contents, date });
+  // } catch (err: any) {
+  //   console.error(err);
+  // }
 };
 
-export const deleteDateTodos = async (
+export const deleteTodo = async (
   todosId: number,
   date: string,
   ) => {
-  try {
-    await axiosInstance
-      .delete(`/api/todos?ti=${todosId}&date=${date}`);
-  } catch (err: any) {
-    console.error(err);
-  }
+  // try {
+  //   await axiosInstance
+  //     .delete(`/api/todos?ti=${todosId}&date=${date}`);
+  // } catch (err: any) {
+  //   console.error(err);
+  // }
 };
 
 export const searchTodos = async (
