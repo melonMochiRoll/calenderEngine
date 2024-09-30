@@ -35,7 +35,7 @@ const Block = styled.div`
   transition: all 0.1s linear;
 
   &:hover {
-    border-color: var(--pink)
+    border-color: var(--blue);
   }
 
   span {
