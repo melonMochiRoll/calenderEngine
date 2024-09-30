@@ -1,12 +1,12 @@
 import React, { FC, useCallback } from 'react';
 import styled from '@emotion/styled';
-import MenuButton from 'Components/common/MenuButton';
 import { logout } from 'Api/usersApi';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import useUser from 'Hooks/useUser';
 import gravatar from 'gravatar';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
+import TextButton from 'Components/common/TextButton';
 
 const RenderUserProfile: FC = () => {
   const navigator = useNavigate();
@@ -32,25 +32,24 @@ const RenderUserProfile: FC = () => {
           <>
             <ProfileImg src={gravatar.url(userData?.email, { s: '25px', d: 'retro' })} />
             <EmailSpan>{userData.email}</EmailSpan>
-            <MenuButton
+            <TextButton
               onClick={() => onLogout()}
               type={'button'}>
                 로그아웃
-            </MenuButton>
+            </TextButton>
           </>
           :
           <>
-            <MenuButton
+            <TextButton
               onClick={() => navigator('/login')}
-              type={'button'}
-              filled>
+              type={'button'}>
                 로그인
-            </MenuButton>
-            <MenuButton
+            </TextButton>
+            <TextButton
               onClick={() => navigator('/join')}
               type={'button'}>
                 회원가입
-            </MenuButton>
+            </TextButton>
           </>
       }
     </>
