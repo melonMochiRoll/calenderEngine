@@ -22,7 +22,8 @@ const Block = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 10px 5%;
-  background-color: var(--light-gray);
+  border-bottom: 1px solid var(--light-gray);
+  background-color: var(--black);
 `;
 
 const Left = styled.div`
