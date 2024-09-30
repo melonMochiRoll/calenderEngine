@@ -4,20 +4,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
 import { EModalName } from 'Components/common/RenderModal';
-import useUser from 'Hooks/useUser';
 
 interface SearchBarProps {};
 
 const SearchBar: FC<SearchBarProps> = ({}) => {
   const dispatch = useAppDispatch();
-  const [ userData ] = useUser();
-  const modalName = userData ? EModalName.Search : EModalName.LocalSearch;
   
   return (
     <Block
-      onClick={() => dispatch(openModal(modalName))}>
+      onClick={() => dispatch(openModal(EModalName.Search))}>
       <SearchIcon
-        sx={{ color: '#66B3FF' }}/>
+        sx={{ color: 'var(--blue)' }}/>
       <span>Search...</span>
     </Block>
   );
