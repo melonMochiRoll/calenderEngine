@@ -7,7 +7,7 @@ import RenderModal from 'Components/common/RenderModal';
 import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 
-const MainPage: FC = () => {
+const SharedspacesPage: FC = () => {
   const navigate = useNavigate();
   const { userData, isLoading } = useUser();
 
@@ -29,7 +29,7 @@ const MainPage: FC = () => {
   );
 };
 
-export default MainPage;
+export default SharedspacesPage;
 
 const Block = styled.div`
   display: flex;
