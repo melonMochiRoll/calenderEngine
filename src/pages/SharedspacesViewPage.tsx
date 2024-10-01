@@ -1,22 +1,11 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
-import Header from 'Containers/Header';
 import RenderModal from 'Components/common/RenderModal';
-import useUser from 'Hooks/useUser';
-import { useNavigate } from 'react-router-dom';
+import Header from 'Containers/Header';
 
-const SharedspacesPage: FC = () => {
-  const navigate = useNavigate();
-  const { userData, isLoading } = useUser();
-
-  useEffect(() => {
-    if (!isLoading && !userData) {
-      navigate('/login');
-    }
-  }, [userData]);
-
+const SharedspacesViewPage: FC = () => {
   return (
     <Block>
       <Header />
@@ -29,12 +18,13 @@ const SharedspacesPage: FC = () => {
   );
 };
 
-export default SharedspacesPage;
+export default SharedspacesViewPage;
 
 const Block = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: var(--black);
 `;
 
 const Main = styled.main`
