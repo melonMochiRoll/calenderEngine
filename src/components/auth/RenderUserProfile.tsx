@@ -65,7 +65,7 @@ const EmailSpan = styled.span`
 `;
 
 const ProfileImg = styled.img`
-  width: 25px;
-  height: 25px;
-  border-radius: 20px;
+  width: 35px;
+  height: 35px;
+  border-radius: 35px;
 `;
