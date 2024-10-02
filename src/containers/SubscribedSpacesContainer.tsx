@@ -43,7 +43,7 @@ const SubscribedSpacesContainer: FC = () => {
   };
 
   return (
-    <Main>
+    <>
       <Top>
         <Title>스페이스 목록</Title>
         <AddButton>
@@ -106,17 +106,11 @@ const SubscribedSpacesContainer: FC = () => {
         }
         </Body>
       </Middle>
-    </Main>
+    </>
   );
 };
 
 export default SubscribedSpacesContainer;
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
 
 const Top = styled.div`
   display: flex;

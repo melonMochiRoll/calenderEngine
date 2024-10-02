@@ -18,7 +18,9 @@ const SubscribedSpacesPage: FC = () => {
   return (
     <Block>
       <Header />
-      <SubscribedSpacesContainer />
+      <Main>
+        <SubscribedSpacesContainer />
+      </Main>
     </Block>
   );
 };
@@ -30,4 +32,10 @@ const Block = styled.div`
   flex-direction: column;
   height: 100vh;
   background-color: var(--black);
+`;
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
