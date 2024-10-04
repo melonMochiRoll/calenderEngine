@@ -3,19 +3,19 @@ export type InputTypeAttribute = 'button' | 'checkbox' | 'color' | 'date' | 'dat
 
 export type TQueryStatus = 'error' | 'success' | 'loading';
 
-export interface IUser {
-  id: string;
-  email: string;
-  createdAt: Date;
-  deletedAt: Date;
+export type TUser = {
+  id: string,
+  email: string,
+  createdAt: Date,
+  deletedAt: Date,
 };
 
 export type TLocalTodo = {
-  id: string;
-  contents: string;
-  isComplete: boolean;
-  date: Date;
-  createdAt: Date;
+  id: string,
+  contents: string,
+  isComplete: boolean,
+  date: Date,
+  createdAt: Date,
 };
 
 export type TTodo = {

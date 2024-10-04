@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from 'Api/usersApi';
 import { GET_USER_KEY } from 'Lib/queryKeys';
-import { IUser } from 'src/typings/types';
+import { TUser } from 'src/typings/types';
 
 type UseUserReturnType = {
-  userData: IUser,
+  userData: TUser,
   refetch: Function,
   isLoading: boolean,
 };
