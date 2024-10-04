@@ -41,3 +41,14 @@ export type TSharedspaceMembers = {
   createdAt: Date,
   role: ESharedspaceMembersRoles,
 };
+
+export type TSubscribedspaces = {
+  Sharedspace: {
+    name: string,
+    url: string,
+    private: boolean,
+    Owner: {
+      email: string
+    },
+  }
+} & TSharedspaceMembers;
