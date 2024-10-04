@@ -3,6 +3,12 @@ export type InputTypeAttribute = 'button' | 'checkbox' | 'color' | 'date' | 'dat
 
 export type TQueryStatus = 'error' | 'success' | 'loading';
 
+export const enum ESharedspaceMembersRoles {
+  OWNER = 'owner',
+  MEMBER = 'member',
+  VIEWER = 'viewer',
+};
+
 export type TUser = {
   id: string,
   email: string,
@@ -27,4 +33,11 @@ export type TTodo = {
   AuthorId: number,
   EditorId: number | null,
   SharedspaceId: number,
+};
+
+export type TSharedspaceMembers = {
+  SharedspaceId: number,
+  UserId: number,
+  createdAt: Date,
+  role: ESharedspaceMembersRoles,
 };
