@@ -5,7 +5,7 @@ import { TUser } from 'src/typings/types';
 
 type UseUserReturnType = {
   userData: TUser,
-  refetch: Function,
+  refetch: () => void,
   isLoading: boolean,
 };
 
