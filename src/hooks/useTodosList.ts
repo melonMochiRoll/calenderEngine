@@ -10,7 +10,7 @@ export type TTodosList = {
 
 type UseTodosListReturnType = {
   todosListData: TTodosList,
-  refetch: Function,
+  refetch: () => void,
 }
 
 const useTodosList = (
