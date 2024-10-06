@@ -3,11 +3,13 @@ export type InputTypeAttribute = 'button' | 'checkbox' | 'color' | 'date' | 'dat
 
 export type TQueryStatus = 'error' | 'success' | 'loading';
 
-export const enum ESharedspaceMembersRoles {
-  OWNER = 'owner',
-  MEMBER = 'member',
-  VIEWER = 'viewer',
+export const SharedspaceMembersRoles = {
+  OWNER: 'owner',
+  MEMBER: 'member',
+  VIEWER: 'viewer',
 };
+
+export type TSharedspaceMembersRoles = typeof SharedspaceMembersRoles[keyof typeof SharedspaceMembersRoles];
 
 export type TUser = {
   id: string,
@@ -39,7 +41,7 @@ export type TSharedspaceMembers = {
   SharedspaceId: number,
   UserId: number,
   createdAt: Date,
-  role: ESharedspaceMembersRoles,
+  role: TSharedspaceMembersRoles,
 };
 
 export type TSubscribedspaces = {
