@@ -1,5 +1,16 @@
 import { axiosInstance } from "./axiosInstance";
 
+export const getSubscribedspaces = async (filter: string) => {
+  try {
+    const { data } = await axiosInstance
+      .get(`/api/sharedspaces?filter=${filter}`);
+
+    return data;
+  } catch (err) {
+    console.dir(err);
+  }
+};
+
 export const getTodosForSpace = async (
   url: string,
   year: string,
@@ -11,7 +22,7 @@ export const getTodosForSpace = async (
       
     return data;
   } catch (err: any) {
-    console.error(err);
+    console.dir(err);
   }
 };
 
@@ -32,7 +43,7 @@ export const createTodo = async (
         AuthorId,
       });
   } catch (err: any) {
-    console.error(err);
+    console.dir(err);
   }
 };
 
@@ -57,7 +68,7 @@ export const updateTodo = async (
         SharedspaceId,
       });
   } catch (err: any) {
-    console.error(err);
+    console.dir(err);
   }
 };
 
@@ -65,7 +76,7 @@ export const deleteTodo = async (todoId: number) => {
   try {
     await axiosInstance.delete(`/api/todos?ti=${todoId}`);
   } catch (err: any) {
-    console.error(err);
+    console.dir(err);
   }
 };
 
@@ -82,6 +93,6 @@ export const searchTodos = async (
     
     return data;
   } catch (err: any) {
-    throw new Error(err);
+    console.dir(err);
   }
 };
