@@ -4,7 +4,7 @@ import { getUser, login } from 'Api/usersApi';
 import { NavigateFunction } from 'react-router-dom';
 import LoginForm from 'Components/auth/LoginForm';
 import { useQueryClient } from '@tanstack/react-query';
-import { getCurrentMonthTodosList } from 'Api/todosApi';
+import { getTodosForSpace } from 'Api/sharedspacesApi';
 import dayjs from 'dayjs';
 import { GET_TODOS_LIST_KEY, GET_USER_KEY } from 'Lib/queryKeys';
 
@@ -81,9 +81,12 @@ const LoginContainer: FC<LoginContainerProps> = ({
     }
   
     login(emailConfirmResult.email, passwordConfirmResult.password)
-      .then(async () => {
+      .then(async () => { // prefetch 수정 필요
+        const now = dayjs();
         await qc.prefetchQuery([GET_USER_KEY], () => getUser());
-        await qc.prefetchQuery([GET_TODOS_LIST_KEY], () => getCurrentMonthTodosList(dayjs().format('YYYY-MM-DD')));
+        await qc.prefetchQuery([GET_TODOS_LIST_KEY], () =>
+          getTodosForSpace('D5d9a', String(now.year()), String(now.month() + 1).padStart(2, '0')));
+        
         navigate('/');
       })
       .catch(() => {

@@ -10,3 +10,18 @@ export const getSubscribedspaces = async (filter: string) => {
     console.dir(err);
   }
 };
+
+export const getTodosForSpace = async (
+  url: string,
+  year: string,
+  month: string,
+  ) => {
+  try {
+    const { data } = await axiosInstance
+      .get(`/api/sharedspaces/${url}/todos?date=${year}-${month}`);
+      
+    return data;
+  } catch (err: any) {
+    console.dir(err);
+  }
+};

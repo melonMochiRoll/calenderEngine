@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getTodosForSpace } from 'Api/todosApi';
+import { getTodosForSpace } from 'Api/sharedspacesApi';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 import { useEffect } from 'react';
 import { TTodo } from 'Typings/types';
