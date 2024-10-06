@@ -54,3 +54,11 @@ export type TSubscribedspaces = {
     },
   }
 } & TSharedspaceMembers;
+
+export const SubscribedspacesFilter = {
+  ALL: 'all',
+  OWNED: 'owned',
+  UNOWNED: 'unowned',
+} as const;
+
+export type TSubscribedspacesFilter = typeof SubscribedspacesFilter[keyof typeof SubscribedspacesFilter];
