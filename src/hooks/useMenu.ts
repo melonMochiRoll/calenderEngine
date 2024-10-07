@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-type TUseTooltipReturnType = {
+type TUseMenuReturnType = {
   anchorEl: null | HTMLElement,
   open: boolean,
   onClick: (e: any) => void,
   onClose: () => void,
 };
 
-const useTooltip = (): TUseTooltipReturnType => {
+const useMenu = (): TUseMenuReturnType => {
   const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -27,4 +27,4 @@ const useTooltip = (): TUseTooltipReturnType => {
   };
 };
 
-export default useTooltip;
+export default useMenu;
