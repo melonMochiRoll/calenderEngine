@@ -4,10 +4,10 @@ import AddIcon from '@mui/icons-material/Add';
 import HelpIcon from '@mui/icons-material/HelpRounded';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Menu, MenuItem, Tooltip } from '@mui/material';
-import useTooltip from 'Hooks/useTooltip';
+import useMenu from 'Hooks/useMenu';
 import { privateTooltip } from 'Lib/noticeConstants';
-import SubscribedspacesResult from 'Components/SubscribedspacesResult';
 import { SubscribedspacesFilter } from 'Typings/types';
+import SubscribedSpacesResult from 'Components/SubscribedspacesResult';
 
 const sortOptions = [
   {
@@ -32,7 +32,7 @@ const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서�
     open,
     onClick,
     onClose,
-  } = useTooltip();
+  } = useMenu();
   
   const onMenuClick = (value: { text: string, filter: string }) => {
     setOption(value);
@@ -48,7 +48,7 @@ const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서�
           <span>새 스페이스</span>
         </AddButton>
       </Top>
-      <Middle>
+      <Bottom>
         <Body>
         <ItemHead>
           <Tooltip title={privateTooltip} sx={{ fontSize: '24px' }} arrow>
@@ -89,11 +89,12 @@ const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서�
               })
             }
           </Menu>
+          <ItemMoreMenu />
         </ItemHead>
-        <SubscribedspacesResult
+        <SubscribedSpacesResult
           option={option} />
         </Body>
-      </Middle>
+      </Bottom>
     </>
   );
 };
@@ -135,7 +136,7 @@ const AddButton = styled.div`
   }
 `;
 
-const Middle = styled.div`
+const Bottom = styled.div`
   width: 100%;
   border-bottom: 1px solid var(--light-gray);
 `;
@@ -158,22 +159,6 @@ const ItemHead = styled.div`
   color: #fff;
   font-weight: 600;
   border-bottom: 1px solid var(--light-gray);
-`;
-
-const Item = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 20px 30px;
-  color: var(--white);
-  border-bottom: 1px solid var(--light-gray);
-  transition: all 0.3s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--light-gray);
-  }
 `;
 
 const ItemPrivate = styled.div`
@@ -200,5 +185,13 @@ const ItemOwner = styled.div`
   width: 25%;
   font-size: 20px;
   text-align: center;
+  cursor: pointer;
+`;
+
+const ItemMoreMenu = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5%;
   cursor: pointer;
 `;
