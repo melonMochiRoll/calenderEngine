@@ -12,10 +12,12 @@ import { TSubscribedspaces } from 'Typings/types';
 
 interface TSubscribedspacesItemProps {
   space: TSubscribedspaces,
+  onDeleteSharedspace: (SharedspaceId: number) => void,
 };
 
 const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
   space,
+  onDeleteSharedspace,
 }) => {
   const navigate = useNavigate();
   const { SharedspaceId, Sharedspace } = space;
@@ -38,11 +40,9 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
     onClose();
   };
 
-  const onDeleteSharedspace = async (e: any, SharedspaceId: number) => {
-    e.stopPropagation();
-
-    await deleteSharedspace(SharedspaceId);
-    onClose();
+  const onClickDelete = (e: any, SharedspaceId: number) => {
+    onDeleteSharedspace(SharedspaceId);
+    onCloseMoreMenu(e);
   };
   
   return (
@@ -69,7 +69,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
         }}
         sx={{ marginTop: '10px' }}>
           <MenuItem
-            onClick={(e) => onDeleteSharedspace(e, SharedspaceId)}
+            onClick={(e) => onClickDelete(e, SharedspaceId)}
             sx={{ gap: '5px' }}>
             <DeleteIcon />
             <span>삭제</span>
