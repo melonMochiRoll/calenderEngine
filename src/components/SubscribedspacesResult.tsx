@@ -6,17 +6,23 @@ import UnlockIcon from '@mui/icons-material/LockOpen';
 import { CircularProgress } from '@mui/material';
 import { emptyspaces } from 'Lib/noticeConstants';
 import { useNavigate } from 'react-router-dom';
+import useSubscribedspace from 'Hooks/useSubscribedspaces';
 
 interface TSubscribedspacesResultProps {
-  subscribedspaceData: TSubscribedspaces[],
-  isLoading: boolean,
+  option: {
+    text: string,
+    filter: string,
+  },
 };
 
 const SubscribedspacesResult: FC<TSubscribedspacesResultProps> = ({
-  subscribedspaceData,
-  isLoading,
+  option,
 }) => {
   const navigate = useNavigate();
+  const {
+    data: subscribedspaceData,
+    isLoading,
+  } = useSubscribedspace(option.filter);
 
   if (isLoading) {
     return <CircularProgress size={100} sx={{ marginTop: '100px' }}/>;

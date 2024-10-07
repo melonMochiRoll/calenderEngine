@@ -1,35 +1,32 @@
 import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import AddIcon from '@mui/icons-material/Add';
-import LockIcon from '@mui/icons-material/Lock';
-import UnlockIcon from '@mui/icons-material/LockOpen';
 import HelpIcon from '@mui/icons-material/HelpRounded';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Menu, MenuItem, Tooltip } from '@mui/material';
 import useTooltip from 'Hooks/useTooltip';
 import { privateTooltip } from 'Lib/noticeConstants';
+import SubscribedspacesResult from 'Components/SubscribedspacesResult';
+import { SubscribedspacesFilter } from 'Typings/types';
 
-const tempArray = [ // TODO: 서버 데이터로 대체
+const sortOptions = [
   {
-    private: 1,
-    title: '스페이스',
-    OwnerId: 1,
+    text: '모든 스페이스',
+    filter: SubscribedspacesFilter.ALL,
   },
   {
-    private: 0,
-    title: '테스트 스페이스',
-    OwnerId: 1,
+    text: '소유한 스페이스',
+    filter: SubscribedspacesFilter.OWNED,
   },
   {
-    private: 0,
-    title: '새 스페이스',
-    OwnerId: 1,
-  },
+    text: '소유하지 않은 스페이스',
+    filter: SubscribedspacesFilter.UNOWNED,
+  }
 ];
 
-const SubscribedSpacesContainer: FC = () => {
-  const sortOptions = ['모든 스페이스', '소유한 스페이스', '소유하지 않은 스페이스'];
-  const [ optionIdx, setOptionIdx ] = useState<number>(0);
+const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서드 및 UI 정의
+  const [ option, setOption ] = useState<{ text: string, filter: string }>(sortOptions[0]);
+
   const {
     anchorEl,
     open,
@@ -37,8 +34,8 @@ const SubscribedSpacesContainer: FC = () => {
     onClose,
   } = useTooltip();
   
-  const onMenuClick = (idx: number) => {
-    setOptionIdx(idx);
+  const onMenuClick = (value: { text: string, filter: string }) => {
+    setOption(value);
     onClose();
   };
 
@@ -63,7 +60,7 @@ const SubscribedSpacesContainer: FC = () => {
           <ItemTitle>스페이스 이름</ItemTitle>
           <ItemOwner
             onClick={onClick}>
-            {sortOptions[optionIdx]}
+            {option.text}
             <ArrowDropDownIcon fontSize='large' />
           </ItemOwner>
           <Menu
@@ -81,29 +78,20 @@ const SubscribedSpacesContainer: FC = () => {
             }}
             sx={{ marginTop: '10px' }}>
             {
-              sortOptions.map((option: string, idx: number) => {
+              sortOptions.map((option: { text: string, filter: string }, idx: number) => {
                 return (
                   <MenuItem
-                    key={option}
-                    onClick={() => onMenuClick(idx)}>
-                    <span>{option}</span>
+                    key={option.text}
+                    onClick={() => onMenuClick(sortOptions[idx])}>
+                    <span>{option.text}</span>
                   </MenuItem>
                 );
               })
             }
           </Menu>
         </ItemHead>
-        {
-          tempArray.map((e: typeof tempArray[0]) => {
-            return (
-              <Item key={e.title}>
-                <ItemPrivate>{e.private ? <LockIcon /> : <UnlockIcon />}</ItemPrivate>
-                <ItemTitle>{e.title}</ItemTitle>
-                <ItemOwner>{e.OwnerId}</ItemOwner>
-              </Item>
-            );
-          })
-        }
+        <SubscribedspacesResult
+          option={option} />
         </Body>
       </Middle>
     </>
