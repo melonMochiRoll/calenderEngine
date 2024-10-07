@@ -25,3 +25,12 @@ export const getTodosForSpace = async (
     console.dir(err);
   }
 };
+
+export const deleteSharedspace = async (SharedspaceId: number) => {
+  try {
+    await axiosInstance
+      .delete(`/api/sharedspaces/${SharedspaceId}`);
+  } catch (err) {
+    console.dir(err);
+  }
+};
