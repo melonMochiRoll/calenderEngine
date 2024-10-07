@@ -44,15 +44,18 @@ export type TSharedspaceMembers = {
   role: TSharedspaceMembersRoles,
 };
 
+export type TSharedspace = {
+  id: number,
+  name: string,
+  private: boolean,
+  createdAt: Date,
+  deletedAt: Date | null,
+  OwnerId: number,
+  url: string,
+};
+
 export type TSubscribedspaces = {
-  Sharedspace: {
-    name: string,
-    url: string,
-    private: boolean,
-    Owner: {
-      email: string
-    },
-  }
+  Sharedspace: Pick<TSharedspace, 'name' | 'url' | 'private'> & { Owner: Pick<TUser, 'email'> },
 } & TSharedspaceMembers;
 
 export const SubscribedspacesFilter = {
