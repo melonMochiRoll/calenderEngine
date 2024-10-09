@@ -6,10 +6,10 @@ import LoginContainer from 'Containers/LoginContainer';
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
-  const { userData, isLoading } = useUser();
+  const { userData, isLogin } = useUser();
 
   useEffect(() => {
-    if (!isLoading && userData) {
+    if (isLogin) {
       navigate('/');
     }
   }, [userData]);
