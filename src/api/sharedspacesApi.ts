@@ -26,10 +26,26 @@ export const getTodosForSpace = async (
   }
 };
 
+export const createSharedspace = async (UserId: number) => {
+  try {
+    await axiosInstance
+      .post(`api/sharedspaces`, {
+        OwnerId: UserId,
+      });
+  } catch (err) {
+    console.dir(err);
+  }
+};
+
 export const deleteSharedspace = async (SharedspaceId: number) => {
   try {
     await axiosInstance
-      .delete(`/api/sharedspaces/${SharedspaceId}`);
+      .delete(`/api/sharedspaces`, {
+          headers: {
+            'sharedspace-id': SharedspaceId,
+          },
+        }
+      );
   } catch (err) {
     console.dir(err);
   }
