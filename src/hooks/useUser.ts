@@ -8,6 +8,7 @@ type UseUserReturnType = {
   refetch: () => void,
   isLoading: boolean,
   isLogin: boolean,
+  isNotLogin: boolean,
 };
 
 const useUser = (): UseUserReturnType => {
@@ -26,6 +27,7 @@ const useUser = (): UseUserReturnType => {
     refetch,
     isLoading,
     isLogin: Boolean(!isLoading && userData),
+    isNotLogin: Boolean(!isLoading && !userData),
   };
 };
 
