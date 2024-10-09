@@ -12,7 +12,7 @@ export const SharedspaceMembersRoles = {
 export type TSharedspaceMembersRoles = typeof SharedspaceMembersRoles[keyof typeof SharedspaceMembersRoles];
 
 export type TUser = {
-  id: string,
+  id: number,
   email: string,
   createdAt: Date,
   deletedAt: Date,
