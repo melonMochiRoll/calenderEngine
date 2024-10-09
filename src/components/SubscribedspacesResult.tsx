@@ -6,6 +6,8 @@ import useSubscribedspace from 'Hooks/useSubscribedspaces';
 import { CircularProgress } from '@mui/material';
 import { emptyspaces } from 'Lib/noticeConstants';
 import { deleteSharedspace } from 'Api/sharedspacesApi';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_SUBSCRIBED_SPACES_KEY } from 'Lib/queryKeys';
 
 interface SubscribedSpacesResultProps {
   option: { text: string, filter: string },
@@ -14,15 +16,15 @@ interface SubscribedSpacesResultProps {
 const SubscribedSpacesResult: FC<SubscribedSpacesResultProps> = ({
   option,
 }) => {
+  const qc = useQueryClient();
   const {
     data: subscribedspaceData,
     isLoading,
-    refetch,
   } = useSubscribedspace(option.filter);
 
   const onDeleteSharedspace = async (SharedspaceId: number) => {
     await deleteSharedspace(SharedspaceId);
-    refetch();
+    await qc.refetchQueries([GET_SUBSCRIBED_SPACES_KEY]);
   };
 
   if (isLoading) {
