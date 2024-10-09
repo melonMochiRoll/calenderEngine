@@ -8,6 +8,10 @@ import useMenu from 'Hooks/useMenu';
 import { privateTooltip } from 'Lib/noticeConstants';
 import { SubscribedspacesFilter } from 'Typings/types';
 import SubscribedSpacesResult from 'Components/SubscribedspacesResult';
+import { createSharedspace } from 'Api/sharedspacesApi';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_SUBSCRIBED_SPACES_KEY } from 'Lib/queryKeys';
+import useUser from 'Hooks/useUser';
 
 const sortOptions = [
   {
@@ -25,6 +29,8 @@ const sortOptions = [
 ];
 
 const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서드 및 UI 정의
+  const qc = useQueryClient();
+  const { userData, isLogin } = useUser();
   const [ option, setOption ] = useState<{ text: string, filter: string }>(sortOptions[0]);
 
   const {
@@ -39,14 +45,22 @@ const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서�
     onClose();
   };
 
+  const onCreateSharedspace = async (UserId: number) => {
+    await createSharedspace(UserId);
+    await qc.refetchQueries([GET_SUBSCRIBED_SPACES_KEY]);
+  };
+
   return (
     <>
       <Top>
         <Title>스페이스 목록</Title>
-        <AddButton>
-          <AddIcon fontSize='large' sx={{ color: 'var(--blue)' }}/>
-          <span>새 스페이스</span>
-        </AddButton>
+        {
+          isLogin &&
+          <AddButton onClick={() => onCreateSharedspace(userData?.id)}>
+            <AddIcon fontSize='large' sx={{ color: 'var(--blue)' }}/>
+            <span>새 스페이스</span>
+          </AddButton>
+        }
       </Top>
       <Bottom>
         <Body>
