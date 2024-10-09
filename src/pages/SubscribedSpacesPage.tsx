@@ -7,10 +7,10 @@ import useUser from 'Hooks/useUser';
 
 const SubscribedSpacesPage: FC = () => {
   const navigate = useNavigate();
-  const { userData, isLoading } = useUser();
+  const { userData, isNotLogin } = useUser();
 
   useEffect(() => {
-    if (!isLoading && !userData) {
+    if (isNotLogin) {
       navigate('/login');
     }
   }, [userData]);
