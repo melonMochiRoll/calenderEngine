@@ -36,6 +36,10 @@ const MainRouter = createBrowserRouter([
     ],
   },
   {
+    path: 'not-found',
+    element: <NotFoundPage />,
+  },
+  {
     path: '*',
     element: <NotFoundPage />,
   }
