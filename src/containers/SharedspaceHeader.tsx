@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import gravatar from 'gravatar';
 import { TSharedspaceMetaData } from 'Typings/types';
 import SkeletonSharedspaceHeader from 'Components/skeleton/SkeletonSharedspaceHeader';
+import EditableText from 'Components/common/EditableText';
+import { updateSharedspaceName } from 'Api/sharedspacesApi';
+import useUser from 'Hooks/useUser';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -17,10 +22,21 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
   isLoading,
 }) => {
   const navigate = useNavigate();
+  const qc = useQueryClient();
+  const { userData, isLogin } = useUser();
 
   if (isLoading) {
     return <SkeletonSharedspaceHeader />;
   }
+
+  const onUpdateSharedspaceName = async (name: string) => {
+    if (spaceData?.name === name) {
+      return;
+    }
+
+    updateSharedspaceName(name, spaceData?.id);
+    await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
+  };
   
   return (
     <Block>
@@ -30,7 +46,16 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
             onClick={() => navigate('/sharedspaces/subscribed')}
             fontSize='large'
             sx={{ color: 'var(--blue)', cursor: 'pointer', marginRight: '10px' }}/>
-          <SpaceTitle>{spaceData?.name}</SpaceTitle>
+          {
+          isLogin && (userData?.email === spaceData?.Owner.email) ?
+            <EditableText
+              initValue={spaceData?.name}
+              submitEvent={onUpdateSharedspaceName}>
+              <SpaceTitle>{spaceData?.name}</SpaceTitle>
+            </EditableText>
+              :
+            <SpaceTitle>{spaceData?.name}</SpaceTitle>
+          }
         </FlexBox>
         {spaceData?.Sharedspacemembers &&
           <FlexBox>
@@ -38,7 +63,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
               spaceData?.Sharedspacemembers.map((member: typeof spaceData.Sharedspacemembers[0], idx: number) => {
                 if (idx < 5) {
                   return (
-                    <ProfileImg src={gravatar.url(member.User.email, { s: '25px', d: 'retro' })}/>
+                    <ProfileImg key={member.User.email} src={gravatar.url(member.User.email, { s: '25px', d: 'retro' })}/>
                   );
                 }
               })
