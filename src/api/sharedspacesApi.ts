@@ -50,6 +50,24 @@ export const createSharedspace = async (UserId: number) => {
   }
 };
 
+export const updateSharedspaceName = async (
+  name: string,
+  SharedspaceId: number,
+) => {
+  try {
+    await axiosInstance
+      .patch(`api/sharedspaces/name`, {
+        name,
+      }, {
+        headers: {
+          'sharedspace-id': SharedspaceId,
+        },
+      });
+  } catch (err) {
+    console.dir(err);
+  }
+};
+
 export const deleteSharedspace = async (SharedspaceId: number) => {
   try {
     await axiosInstance
