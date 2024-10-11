@@ -9,11 +9,11 @@ export type TTodosList = {
 };
 
 type UseTodosListReturnType = {
-  todosListData: TTodosList,
-  refetch: () => void,
+  data: TTodosList,
 }
 
 const useTodosList = (
+  url: string,
   year: string,
   month: string,
   ): UseTodosListReturnType => {
@@ -22,17 +22,16 @@ const useTodosList = (
     refetch,
   } = useQuery({
     queryKey: [GET_TODOS_LIST_KEY],
-    queryFn: () => getTodosForSpace('D5d9a', year, month),
+    queryFn: () => getTodosForSpace(url, year, month),
     refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
     refetch();
-  }, [year, month]);
+  }, [url, year, month]);
 
   return {
-    todosListData: data || {},
-    refetch,
+    data,
   };
 };
 
