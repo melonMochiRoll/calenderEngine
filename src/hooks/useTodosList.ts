@@ -26,6 +26,7 @@ const useTodosList = (
     queryKey: [GET_TODOS_LIST_KEY],
     queryFn: () => getTodosForSpace(url, year, month),
     refetchOnWindowFocus: false,
+    refetchInterval: 1000,
   });
 
   useEffect(() => {
