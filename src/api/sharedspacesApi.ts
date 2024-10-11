@@ -28,10 +28,12 @@ export const getTodosForSpace = async (
 
 export const createSharedspace = async (UserId: number) => {
   try {
-    await axiosInstance
+    const { data } = await axiosInstance
       .post(`api/sharedspaces`, {
         OwnerId: UserId,
       });
+
+    return data;
   } catch (err) {
     console.dir(err);
   }
