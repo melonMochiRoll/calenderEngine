@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import useDoubleClick from 'Hooks/useDoubleClick';
 import useInput from 'Hooks/useInput';
@@ -6,15 +6,21 @@ import useInput from 'Hooks/useInput';
 type TEditableTextProps = {
   initValue: string,
   submitEvent: Function,
+  children: React.ReactNode,
 };
 
 const EditableText: FC<TEditableTextProps> = ({
   initValue,
   submitEvent,
+  children,
 }) => {
   const [ editMode, setEditMode ] = useState(false);
-  const [ value, onChangeValue ] = useInput(initValue);
+  const [ value, onChangeValue, setValue ] = useInput(initValue);
   const onDoubleClick = useDoubleClick(() => setEditMode(true));
+
+  useEffect(() => {
+    setValue(initValue);
+  }, [initValue]);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -33,10 +39,10 @@ const EditableText: FC<TEditableTextProps> = ({
               value={value}
               onChange={onChangeValue} />
           </form> :
-          <span
+          <div
             onClick={onDoubleClick}>
-            {initValue}
-          </span>
+            {children}
+          </div>
       }
     </>
 
