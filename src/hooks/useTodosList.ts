@@ -10,6 +10,7 @@ export type TTodosList = {
 
 type UseTodosListReturnType = {
   data: TTodosList,
+  isLoading: boolean,
 }
 
 const useTodosList = (
@@ -19,6 +20,7 @@ const useTodosList = (
   ): UseTodosListReturnType => {
   const {
     data,
+    isLoading,
     refetch,
   } = useQuery({
     queryKey: [GET_TODOS_LIST_KEY],
@@ -32,6 +34,7 @@ const useTodosList = (
 
   return {
     data,
+    isLoading,
   };
 };
 
