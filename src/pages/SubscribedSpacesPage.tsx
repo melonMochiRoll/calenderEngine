@@ -13,7 +13,7 @@ const SubscribedSpacesPage: FC = () => {
     if (isNotLogin) {
       navigate('/login');
     }
-  }, [userData]);
+  }, [userData, isNotLogin]);
   
   return (
     <Block>
