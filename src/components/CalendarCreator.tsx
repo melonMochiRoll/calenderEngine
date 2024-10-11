@@ -1,35 +1,35 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import DateCover from './DateCover';
-import { todosListType } from 'Hooks/useTodosList';
+import useTodosList from 'Hooks/useTodosList';
 import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
 import { DAYS } from 'Lib/calendarConstants';
+import { useParams } from 'react-router-dom';
 
-interface CalendarCreatorProps {
-  todosListData: todosListType;
-};
+interface CalendarCreatorProps {};
 
-const CalendarCreator: FC<CalendarCreatorProps> = ({
-  todosListData,
-}) => {
+const CalendarCreator: FC<CalendarCreatorProps> = () => {
   const dispatch = useAppDispatch();
+  const { url = '' } = useParams();
   const {
-    currentYear,
-    currentMonth,
-    currentDate,
-    currentDay,
+    calendarYear,
+    calendarMonth,
+    nowDay,
     dates,
+    isNowYearAndMonth,
   } = useAppSelector(state => state.calendarTime);
-  const isNowMonth = dayjs().month() === currentMonth;
+  
+  const {
+    data: todosListData,
+  } = useTodosList(url, calendarYear, calendarMonth);
 
   return (
     <Block>
       <WeekBlock>
         <tr>
           {DAYS.map((ele: string, i: number) =>
-            <Day key={i + ele} isToday={isNowMonth && (i === currentDay)}>{ele}</Day>
+            <Day key={i + ele} isToday={isNowYearAndMonth && (i === nowDay)}>{ele}</Day>
           )}
         </tr>
       </WeekBlock>
@@ -38,22 +38,20 @@ const CalendarCreator: FC<CalendarCreatorProps> = ({
           if (i % 7 === 0) {
             return (
               <tr key={i}>
-                {[1, 2, 3, 4, 5, 6, 7].map(n => {
+                {[1, 2, 3, 4, 5, 6, 7].map((n, idx) => {
                   const date = dates[i + n];
 
                   if (!date || typeof date === 'string') {
                     return <td key={i + n} />
                   };
 
-                  const timeKey =
-                    dayjs(`${currentYear}-${currentMonth + 1}-${date}`)
-                    .format('YYYY-MM-DD');
+                  const timeKey = `${calendarYear}-${calendarMonth}-${String(date).padStart(2, '0')}`;
                     
                   return <DateCover
                     key={i + n}
+                    index={idx}
                     setTodoTime={() => dispatch(setTodoTime(timeKey))}
-                    partialContents={todosListData[timeKey]?.partialContents}
-                    isToday={isNowMonth && (date === currentDate)}
+                    todosLength={todosListData[timeKey]?.length}
                     date={date} />;
                 })}
               </tr>
