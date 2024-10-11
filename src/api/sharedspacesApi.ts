@@ -1,9 +1,20 @@
 import { axiosInstance } from "./axiosInstance";
 
+export const getSharedspace = async (url: string) => {
+  try {
+    const { data } = await axiosInstance
+      .get(`/api/sharedspaces/view/${url}`);
+
+    return data;
+  } catch (err) {
+    console.dir(err);
+  }
+};
+
 export const getSubscribedspaces = async (filter: string) => {
   try {
     const { data } = await axiosInstance
-      .get(`/api/sharedspaces?filter=${filter}`);
+      .get(`/api/sharedspaces/subscribed?filter=${filter}`);
 
     return data;
   } catch (err) {
