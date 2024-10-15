@@ -7,8 +7,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Menu, MenuItem } from '@mui/material';
 import useMenu from 'Hooks/useMenu';
 import DeleteIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { deleteSharedspace } from 'Api/sharedspacesApi';
 import { TSubscribedspaces } from 'Typings/types';
+import useUser from 'Hooks/useUser';
 
 interface TSubscribedspacesItemProps {
   space: TSubscribedspaces,
@@ -22,6 +22,8 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
   const navigate = useNavigate();
   const { SharedspaceId, Sharedspace } = space;
   const { name, url, private: privateBool, Owner } = Sharedspace;
+
+  const { userData, isLogin } = useUser();
 
   const {
     anchorEl,
@@ -51,9 +53,13 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
       <ItemPrivate>{privateBool ? <LockIcon /> : <UnlockIcon />}</ItemPrivate>
       <ItemTitle>{name}</ItemTitle>
       <ItemOwner>{Owner.email}</ItemOwner>
-      <ItemMoreMenu onClick={onClickMoreMenu}>
-        <MoreVertIcon fontSize='large' />
-      </ItemMoreMenu>
+      {
+        isLogin && Owner.email === userData.email ?
+        <ItemMoreMenu onClick={onClickMoreMenu}>
+          <MoreVertIcon fontSize='large' />
+        </ItemMoreMenu> :
+        <ItemMoreMenu />
+      }
       <Menu
         aria-labelledby='demo-positioned-button'
         anchorEl={anchorEl}
@@ -74,7 +80,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
             <DeleteIcon />
             <span>삭제</span>
           </MenuItem>
-        </Menu>
+      </Menu>
     </Item>
   );
 };
