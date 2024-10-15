@@ -9,8 +9,6 @@ import { privateTooltip } from 'Lib/noticeConstants';
 import { SubscribedspacesFilter } from 'Typings/types';
 import SubscribedSpacesResult from 'Components/SubscribedspacesResult';
 import { createSharedspace } from 'Api/sharedspacesApi';
-import { useQueryClient } from '@tanstack/react-query';
-import { GET_SUBSCRIBED_SPACES_KEY } from 'Lib/queryKeys';
 import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,9 +27,8 @@ const sortOptions = [
   }
 ];
 
-const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서드 및 UI 정의
+const SubscribedSpacesContainer: FC = () => {
   const navigate = useNavigate();
-  const qc = useQueryClient();
   const { userData, isLogin } = useUser();
   const [ option, setOption ] = useState<{ text: string, filter: string }>(sortOptions[0]);
 
@@ -49,7 +46,7 @@ const SubscribedSpacesContainer: FC = () => { // TODO: 스페이스 CRUD 메서�
 
   const onCreateSharedspace = async (UserId: number) => {
     const spaceUrl = await createSharedspace(UserId);
-    
+
     navigate(`/sharedspaces/view/${spaceUrl}`);
   };
 
