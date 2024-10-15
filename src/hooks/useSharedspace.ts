@@ -18,12 +18,11 @@ const useSharedspace = (url: string): TUseSharedspaceReturnType => {
     queryKey: [GET_SHAREDSPACE_KEY],
     queryFn: () => getSharedspace(url),
     refetchOnWindowFocus: false,
-    refetchInterval: 1000,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [url]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [url]);
 
   return {
     data,
