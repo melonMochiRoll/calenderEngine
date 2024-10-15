@@ -1,15 +1,14 @@
 import React, { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
+import "react-toastify/dist/ReactToastify.css";
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
 import RenderModal from 'Components/common/RenderModal';
 import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import useSharedspace from 'Hooks/useSharedspace';
 import { useNavigate, useParams } from 'react-router-dom';
-
-// Header
-// TODO: 스페이스 제목 더블 클릭시 제목 수정 기능 추가
-// TODO: 스페이스에 대한 권한이 없을시 대응 추가
+import { toast, ToastContainer } from 'react-toastify';
+import { defaultToastOption, forbiddenErrorMessage, waitingMessage } from 'Lib/noticeConstants';
 
 const SharedspacesViewPage: FC = () => {
   const { url = '' } = useParams();
@@ -18,11 +17,24 @@ const SharedspacesViewPage: FC = () => {
   const {
     data: spaceData,
     isLoading,
+    errorResponse,
   } = useSharedspace(url);
 
   useEffect(() => {
+    if (errorResponse?.statusCode === 403) {
+      toast.error(forbiddenErrorMessage, {
+        ...defaultToastOption,
+        onClose: () => navigate('/'),
+      });
+    }
+  }, [errorResponse]);
+
+  useEffect(() => {
     if (!isLoading && !spaceData) {
-      navigate('/not-found');
+      toast.error(waitingMessage, {
+        ...defaultToastOption,
+        onClose: () => navigate('/'),
+      });
     }
   }, [isLoading, spaceData]);
   
@@ -36,6 +48,7 @@ const SharedspacesViewPage: FC = () => {
         <TodoContainer />
         <RenderModal />
       </Main>
+      <ToastContainer />
     </Block>
   );
 };
