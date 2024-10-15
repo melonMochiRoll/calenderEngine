@@ -25,7 +25,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
   const qc = useQueryClient();
   const { userData, isLogin } = useUser();
 
-  if (isLoading) {
+  if (isLoading || !spaceData) {
     return <SkeletonSharedspaceHeader />;
   }
 
