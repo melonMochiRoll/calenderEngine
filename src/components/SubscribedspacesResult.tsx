@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 import { TSubscribedspaces } from 'Typings/types';
 import SubscribedspacesItem from './SubscribedspacesItem';
 import useSubscribedspace from 'Hooks/useSubscribedspaces';
-import { CircularProgress } from '@mui/material';
 import { emptyspaces } from 'Lib/noticeConstants';
 import { deleteSharedspace } from 'Api/sharedspacesApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SUBSCRIBED_SPACES_KEY } from 'Lib/queryKeys';
+import SkeletonSubscribedspacesItem from './skeleton/SkeletonSubscribedspacesItem';
 
 interface SubscribedSpacesResultProps {
   option: { text: string, filter: string },
@@ -28,7 +28,9 @@ const SubscribedSpacesResult: FC<SubscribedSpacesResultProps> = ({
   };
 
   if (isLoading) {
-    return <CircularProgress size={100} sx={{ marginTop: '100px' }}/>;
+    return Array.from({ length: 3 }, (_, i) => i).map((_, i) => 
+      <SkeletonSubscribedspacesItem key={i} />
+    );
   }
 
   if (!subscribedspaceData || !subscribedspaceData.length) {
