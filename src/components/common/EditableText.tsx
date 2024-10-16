@@ -3,13 +3,13 @@ import styled from '@emotion/styled';
 import useDoubleClick from 'Hooks/useDoubleClick';
 import useInput from 'Hooks/useInput';
 
-type TEditableTextProps = {
+interface EditableTextProps {
   initValue: string,
   submitEvent: Function,
   children: React.ReactNode,
 };
 
-const EditableText: FC<TEditableTextProps> = ({
+const EditableText: FC<EditableTextProps> = ({
   initValue,
   submitEvent,
   children,
@@ -45,7 +45,6 @@ const EditableText: FC<TEditableTextProps> = ({
           </div>
       }
     </>
-
   );
 };
 
