@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import gravatar from 'gravatar';
 import { TSharedspaceMetaData } from 'Typings/types';
 import SkeletonSharedspaceHeader from 'Components/skeleton/SkeletonSharedspaceHeader';
-import EditableText from 'Components/common/EditableText';
 import { updateSharedspaceName } from 'Api/sharedspacesApi';
 import useUser from 'Hooks/useUser';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
+import EditableTitle from 'Components/common/EditableTitle';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -48,11 +48,9 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
             sx={{ color: 'var(--blue)', cursor: 'pointer', marginRight: '10px' }}/>
           {
           isLogin && (userData?.email === spaceData?.Owner.email) ?
-            <EditableText
+            <EditableTitle
               initValue={spaceData?.name}
-              submitEvent={onUpdateSharedspaceName}>
-              <SpaceTitle>{spaceData?.name}</SpaceTitle>
-            </EditableText>
+              submitEvent={onUpdateSharedspaceName}/>
               :
             <SpaceTitle>{spaceData?.name}</SpaceTitle>
           }
