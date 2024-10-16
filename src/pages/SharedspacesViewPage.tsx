@@ -24,6 +24,7 @@ const SharedspacesViewPage: FC = () => {
     if (errorResponse?.statusCode === 403) {
       toast.error(forbiddenErrorMessage, {
         ...defaultToastOption,
+        containerId: 'SharedspaceViewPage',
         onClose: () => navigate('/'),
       });
     }
@@ -33,6 +34,7 @@ const SharedspacesViewPage: FC = () => {
     if (!isLoading && !spaceData) {
       toast.error(waitingMessage, {
         ...defaultToastOption,
+        containerId: 'SharedspaceViewPage',
         onClose: () => navigate('/'),
       });
     }
@@ -48,7 +50,8 @@ const SharedspacesViewPage: FC = () => {
         <TodoContainer />
         <RenderModal />
       </Main>
-      <ToastContainer />
+      <ToastContainer
+        containerId={'SharedspaceViewPage'} />
     </Block>
   );
 };
