@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
 import { DAYS } from 'Lib/calendarConstants';
 import { useParams } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import SkeletonCalendar from './skeleton/SkeletonCalendar';
 
 interface CalendarCreatorProps {};
 
@@ -22,7 +24,14 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
   
   const {
     data: todosListData,
+    isLoading,
   } = useTodosList(url, calendarYear, calendarMonth);
+
+  if (isLoading) {
+    return (
+      <SkeletonCalendar />
+    );
+  }
 
   return (
     <Block>
@@ -51,7 +60,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
                     key={i + n}
                     index={idx}
                     setTodoTime={() => dispatch(setTodoTime(timeKey))}
-                    todosLength={todosListData[timeKey]?.length}
+                    todosLength={todosListData ? todosListData[timeKey]?.length : 0}
                     date={date} />;
                 })}
               </tr>
