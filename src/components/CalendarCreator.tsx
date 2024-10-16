@@ -1,17 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
 import DateCover from './DateCover';
 import useTodosList from 'Hooks/useTodosList';
 import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
 import { DAYS } from 'Lib/calendarConstants';
-import { useParams } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonCalendar from './skeleton/SkeletonCalendar';
+import { toast } from 'react-toastify';
+import { defaultToastOption, waitingMessage } from 'Lib/noticeConstants';
 
 interface CalendarCreatorProps {};
 
 const CalendarCreator: FC<CalendarCreatorProps> = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { url = '' } = useParams();
   const {
@@ -25,7 +27,18 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
   const {
     data: todosListData,
     isLoading,
+    error,
   } = useTodosList(url, calendarYear, calendarMonth);
+
+  useEffect(() => {
+    if (!isLoading && error) {
+      toast.error(waitingMessage, {
+        ...defaultToastOption,
+        containerId: 'SharedspaceViewPage',
+        onClose: () => navigate('/'),
+      });
+    }
+  }, [isLoading, error]);
 
   if (isLoading) {
     return (
