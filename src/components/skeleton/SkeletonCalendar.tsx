@@ -20,9 +20,11 @@ const SkeletonCalendar: FC = () => {
               return (
                 <tr key={i}>
                   {[1, 2, 3, 4, 5, 6, 7].map((n, idx) => {          
-                    return <Box>
-                      <Skeleton key={idx} sx={{ bgcolor: 'grey.800' }} animation='wave' variant='rectangular' width='100%' height='100%' />
-                    </Box>
+                    return (
+                      <Box key={idx}>
+                        <Skeleton sx={{ bgcolor: 'grey.800' }} animation='wave' variant='rectangular' width='100%' height='100%' />
+                      </Box>
+                    );
                   })}
                 </tr>
               )
