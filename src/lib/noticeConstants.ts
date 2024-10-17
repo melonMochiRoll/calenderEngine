@@ -18,3 +18,7 @@ export const defaultToastOption: ToastOptions = {
   theme: 'dark',
   transition: Bounce,
 };
+
+export const toastContainerId = {
+  SharedspaceViewPage: 'SharedspaceViewPage',
+};
