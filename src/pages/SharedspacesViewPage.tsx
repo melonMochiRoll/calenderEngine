@@ -8,7 +8,7 @@ import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import useSharedspace from 'Hooks/useSharedspace';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { defaultToastOption, forbiddenErrorMessage, waitingMessage } from 'Lib/noticeConstants';
+import { defaultToastOption, forbiddenErrorMessage, toastContainerId, waitingMessage } from 'Lib/noticeConstants';
 
 const SharedspacesViewPage: FC = () => {
   const { url = '' } = useParams();
@@ -24,8 +24,11 @@ const SharedspacesViewPage: FC = () => {
     if (errorResponse?.statusCode === 403) {
       toast.error(forbiddenErrorMessage, {
         ...defaultToastOption,
-        containerId: 'SharedspaceViewPage',
-        onClose: () => navigate('/'),
+        containerId: toastContainerId.SharedspaceViewPage,
+        onClose: () => {
+          toast.clearWaitingQueue({ containerId: toastContainerId.SharedspaceViewPage });
+          navigate('/');
+        },
       });
     }
   }, [errorResponse]);
@@ -34,8 +37,11 @@ const SharedspacesViewPage: FC = () => {
     if (!isLoading && !spaceData) {
       toast.error(waitingMessage, {
         ...defaultToastOption,
-        containerId: 'SharedspaceViewPage',
-        onClose: () => navigate('/'),
+        containerId: toastContainerId.SharedspaceViewPage,
+        onClose: () => {
+          toast.clearWaitingQueue({ containerId: toastContainerId.SharedspaceViewPage });
+          navigate('/');
+        },
       });
     }
   }, [isLoading, spaceData]);
@@ -51,7 +57,7 @@ const SharedspacesViewPage: FC = () => {
         <RenderModal />
       </Main>
       <ToastContainer
-        containerId={'SharedspaceViewPage'} />
+        containerId={toastContainerId.SharedspaceViewPage} />
     </Block>
   );
 };

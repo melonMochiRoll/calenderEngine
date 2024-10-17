@@ -8,7 +8,7 @@ import { DAYS } from 'Lib/calendarConstants';
 import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonCalendar from './skeleton/SkeletonCalendar';
 import { toast } from 'react-toastify';
-import { defaultToastOption, waitingMessage } from 'Lib/noticeConstants';
+import { defaultToastOption, toastContainerId, waitingMessage } from 'Lib/noticeConstants';
 
 interface CalendarCreatorProps {};
 
@@ -34,8 +34,11 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
     if (!isLoading && error) {
       toast.error(waitingMessage, {
         ...defaultToastOption,
-        containerId: 'SharedspaceViewPage',
-        onClose: () => navigate('/'),
+        containerId: toastContainerId.SharedspaceViewPage,
+        onClose: () => {
+          toast.clearWaitingQueue({ containerId: toastContainerId.SharedspaceViewPage });
+          navigate('/');
+        },
       });
     }
   }, [isLoading, error]);
