@@ -22,7 +22,7 @@ export const getSubscribedspaces = async (filter: string) => {
   }
 };
 
-export const getTodosForSpace = async (
+export const getTodosBySpace = async (
   url: string,
   year: string,
   month: string,
