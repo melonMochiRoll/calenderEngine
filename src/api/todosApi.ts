@@ -1,5 +1,20 @@
 import { axiosInstance } from "./axiosInstance";
 
+export const getTodosBySpace = async (
+  url: string,
+  year: string,
+  month: string,
+  ) => {
+  try {
+    const { data } = await axiosInstance
+      .get(`/api/sharedspaces/${url}/todos?date=${year}-${month}`);
+      
+    return data;
+  } catch (err: any) {
+    return Promise.reject(err);
+  }
+};
+
 export const createTodo = async (
   description: string,
   date: string,
