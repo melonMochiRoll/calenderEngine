@@ -22,8 +22,8 @@ const SubscribedSpacesResult: FC<SubscribedSpacesResultProps> = ({
     isLoading,
   } = useSubscribedspace(option.filter);
 
-  const onDeleteSharedspace = async (SharedspaceId: number) => {
-    await deleteSharedspace(SharedspaceId);
+  const onDeleteSharedspace = async (url: string) => {
+    await deleteSharedspace(url);
     await qc.refetchQueries([GET_SUBSCRIBED_SPACES_KEY]);
   };
 

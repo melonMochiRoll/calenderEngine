@@ -12,7 +12,7 @@ import useUser from 'Hooks/useUser';
 
 interface TSubscribedspacesItemProps {
   space: TSubscribedspaces,
-  onDeleteSharedspace: (SharedspaceId: number) => void,
+  onDeleteSharedspace: (url: string) => void,
 };
 
 const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
@@ -42,8 +42,8 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
     onClose();
   };
 
-  const onClickDelete = (e: any, SharedspaceId: number) => {
-    onDeleteSharedspace(SharedspaceId);
+  const onClickDelete = (e: any, url: string) => {
+    onDeleteSharedspace(url);
     onCloseMoreMenu(e);
   };
   
@@ -75,7 +75,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
         }}
         sx={{ marginTop: '10px' }}>
           <MenuItem
-            onClick={(e) => onClickDelete(e, SharedspaceId)}
+            onClick={(e) => onClickDelete(e, url)}
             sx={{ gap: '5px' }}>
             <DeleteIcon />
             <span>삭제</span>

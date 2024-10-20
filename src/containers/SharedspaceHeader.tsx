@@ -34,7 +34,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       return;
     }
 
-    updateSharedspaceName(name, spaceData?.id);
+    updateSharedspaceName(name, spaceData?.url);
     await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
   };
   
