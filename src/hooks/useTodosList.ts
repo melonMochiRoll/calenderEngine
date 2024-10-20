@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getTodosForSpace } from 'Api/sharedspacesApi';
+import { getTodosBySpace } from 'Api/sharedspacesApi';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 import { useEffect } from 'react';
 import { TTodo } from 'Typings/types';
@@ -11,6 +11,7 @@ export type TTodosList = {
 type UseTodosListReturnType = {
   data: TTodosList,
   isLoading: boolean,
+  error: unknown,
 }
 
 const useTodosList = (
@@ -22,9 +23,10 @@ const useTodosList = (
     data,
     isLoading,
     refetch,
+    error,
   } = useQuery({
     queryKey: [GET_TODOS_LIST_KEY],
-    queryFn: () => getTodosForSpace(url, year, month),
+    queryFn: () => getTodosBySpace(url, year, month),
     refetchOnWindowFocus: false,
   });
 
@@ -35,6 +37,7 @@ const useTodosList = (
   return {
     data,
     isLoading,
+    error,
   };
 };
 
