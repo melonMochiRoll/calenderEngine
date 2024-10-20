@@ -18,7 +18,7 @@ export const getSubscribedspaces = async (filter: string) => {
 
     return data;
   } catch (err) {
-    console.dir(err);
+    return Promise.reject(err);
   }
 };
 
@@ -46,38 +46,29 @@ export const createSharedspace = async (UserId: number) => {
 
     return data;
   } catch (err) {
-    console.dir(err);
+    return Promise.reject(err);
   }
 };
 
 export const updateSharedspaceName = async (
   name: string,
-  SharedspaceId: number,
+  url: string,
 ) => {
   try {
     await axiosInstance
-      .patch(`api/sharedspaces/name`, {
+      .patch(`api/sharedspaces/${url}/name`, {
         name,
-      }, {
-        headers: {
-          'sharedspace-id': SharedspaceId,
-        },
       });
   } catch (err) {
-    console.dir(err);
+    return Promise.reject(err);
   }
 };
 
-export const deleteSharedspace = async (SharedspaceId: number) => {
+export const deleteSharedspace = async (url: string) => {
   try {
     await axiosInstance
-      .delete(`/api/sharedspaces`, {
-          headers: {
-            'sharedspace-id': SharedspaceId,
-          },
-        }
-      );
+      .delete(`/api/sharedspaces/${url}`);
   } catch (err) {
-    console.dir(err);
+    return Promise.reject(err);
   }
 };
