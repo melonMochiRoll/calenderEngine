@@ -3,11 +3,11 @@ import { axiosInstance } from "./axiosInstance";
 export const getSharedspace = async (url: string) => {
   try {
     const { data } = await axiosInstance
-      .get(`/api/sharedspaces/view/${url}`);
+      .get(`/api/sharedspaces/${url}/view`);
 
     return data;
   } catch (err) {
-    console.dir(err);
+    return Promise.reject(err);
   }
 };
 
@@ -33,7 +33,7 @@ export const getTodosForSpace = async (
       
     return data;
   } catch (err: any) {
-    console.dir(err);
+    return Promise.reject(err);
   }
 };
 
