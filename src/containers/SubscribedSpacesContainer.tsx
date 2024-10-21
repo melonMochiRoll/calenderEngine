@@ -40,6 +40,10 @@ const SubscribedSpacesContainer: FC = () => {
   } = useMenu();
   
   const onMenuClick = (value: { text: string, filter: string }) => {
+    if (option.filter === value.filter) {
+      return;
+    }
+    
     setOption(value);
     onClose();
   };
