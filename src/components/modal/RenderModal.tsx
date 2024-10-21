@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import SearchModal from 'Components/modal/search/SearchModal';
-import SharedspaceManagerModal from 'Components/modal/SharedspaceManagerModal';
+import SharedspaceManagerModal from 'Components/modal/sharedspaceManager/SharedspaceManagerModal';
 import { closeModal } from 'Features/modalSlice';
 
 export const ModalName = {

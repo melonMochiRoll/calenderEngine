@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
-import { ModalName } from 'Components/common/RenderModal';
+import { ModalName } from './modal/RenderModal';
 
 interface SearchBarProps {};
 

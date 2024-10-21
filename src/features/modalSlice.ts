@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ModalName, TModalName } from "Components/common/RenderModal";
+import { ModalName, TModalName } from "Components/modal/RenderModal";
 
 type TModalState = {
   modalName: TModalName,

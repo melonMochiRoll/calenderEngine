@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import "react-toastify/dist/ReactToastify.css";
 import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
-import RenderModal from 'Components/common/RenderModal';
 import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import useSharedspace from 'Hooks/useSharedspace';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { defaultToastOption, forbiddenErrorMessage, toastContainerId, waitingMessage } from 'Lib/noticeConstants';
+import RenderModal from 'Components/modal/RenderModal';
 
 const SharedspacesViewPage: FC = () => {
   const { url = '' } = useParams();
