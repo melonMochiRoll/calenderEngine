@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
-import { EModalName } from 'Components/common/RenderModal';
+import { ModalName } from 'Components/common/RenderModal';
 
 interface SearchBarProps {};
 
@@ -12,7 +12,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   
   return (
     <Block
-      onClick={() => dispatch(openModal(EModalName.Search))}>
+      onClick={() => dispatch(openModal(ModalName.SEARCH))}>
       <SearchIcon
         sx={{ color: 'var(--blue)' }}/>
       <span>Search...</span>
