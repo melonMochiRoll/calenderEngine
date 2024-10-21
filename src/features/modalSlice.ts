@@ -1,23 +1,23 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { EModalName } from "Components/common/RenderModal";
+import { ModalName, TModalName } from "Components/common/RenderModal";
 
 type TModalState = {
-  modalName: EModalName,
+  modalName: TModalName,
 };
 
 const initialState: TModalState = {
-  modalName: EModalName.Close,
+  modalName: ModalName.CLOSE,
 };
 
 export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (state, action: PayloadAction<EModalName>) => {
+    openModal: (state, action: PayloadAction<TModalName>) => {
       state.modalName = action.payload;
     },
     closeModal: (state) => {
-      state.modalName = EModalName.Close;
+      state.modalName = ModalName.CLOSE;
     },
   },
 });

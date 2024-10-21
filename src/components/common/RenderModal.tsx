@@ -1,25 +1,29 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { useAppSelector } from 'Hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import SearchModal from 'Components/modal/search/SearchModal';
+import SharedspaceManagerModal from 'Components/modal/SharedspaceManagerModal';
+import { closeModal } from 'Features/modalSlice';
 
-export const enum EModalName {
-  Search = 'search',
-  Close = '',
-};
+export const ModalName = {
+  SEARCH: 'SEARCH',
+  SHAREDSPACEMANAGER: 'SHAREDSPACEMANAGER',
+  CLOSE: '',
+} as const;
 
-interface IModals {
-  [EModalName.Search]: React.ReactElement,
-  [EModalName.Close]: null,
-};
+export type TModalName = typeof ModalName[keyof typeof ModalName];
 
-const Modals: IModals = {
-  [EModalName.Search]: <SearchModal />,
-  [EModalName.Close]: null,
+type TModals = Record<keyof typeof ModalName, React.ReactNode | null>;
+
+const Modals: TModals = {
+  SEARCH: <SearchModal />,
+  SHAREDSPACEMANAGER: <SharedspaceManagerModal />,
+  CLOSE: null,
 };
 
 const RenderModal: FC = () => {
   const { modalName } = useAppSelector(state => state.modal);
+  const dispatch = useAppDispatch();
   if (!modalName || !Modals.hasOwnProperty(modalName)) return;
 
   const renderModal = () => {
@@ -27,7 +31,8 @@ const RenderModal: FC = () => {
   };
 
   return (
-    <Block>
+    <Block
+      onClick={() => dispatch(closeModal())}>
       {renderModal()}
     </Block>
   );
