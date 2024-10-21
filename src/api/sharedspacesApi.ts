@@ -1,3 +1,4 @@
+import { TSharedspaceMembersRoles } from "Typings/types";
 import { axiosInstance } from "./axiosInstance";
 
 export const getSharedspace = async (url: string) => {
@@ -53,6 +54,22 @@ export const deleteSharedspace = async (url: string) => {
   try {
     await axiosInstance
       .delete(`/api/sharedspaces/${url}`);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const createSharedspaceMembers = async (
+  url: string,
+  UserId: number,
+  role: TSharedspaceMembersRoles,
+) => {
+  try {
+    await axiosInstance
+      .post(`/api/sharedspaces/${url}/members`, {
+        UserId,
+        role,
+      });
   } catch (err) {
     return Promise.reject(err);
   }
