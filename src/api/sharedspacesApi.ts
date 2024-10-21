@@ -74,3 +74,19 @@ export const createSharedspaceMembers = async (
     return Promise.reject(err);
   }
 };
+
+export const updateSharedspaceMembers = async (
+  url: string,
+  UserId: number,
+  role: TSharedspaceMembersRoles,
+) => {
+  try {
+    await axiosInstance
+      .patch(`/api/sharedspaces/${url}/members`, {
+        UserId,
+        role,
+      })
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
