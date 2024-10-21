@@ -91,6 +91,20 @@ export const updateSharedspaceMembers = async (
   }
 };
 
+export const updateSharedspacePrivate = async (
+  url: string,
+  Private: boolean,
+) => {
+  try {
+    await axiosInstance
+      .patch(`/api/sharedspaces/${url}/private`, {
+        private: Private,
+      });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 export const deleteSharedspaceMembers = async (
   url: string,
   UserId: number,
