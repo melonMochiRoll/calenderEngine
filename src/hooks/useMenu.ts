@@ -3,7 +3,7 @@ import { useState } from "react";
 type TUseMenuReturnType = {
   anchorEl: null | HTMLElement,
   open: boolean,
-  onClick: (e: any) => void,
+  onOpen: (e: any) => void,
   onClose: () => void,
 };
 
@@ -11,7 +11,7 @@ const useMenu = (): TUseMenuReturnType => {
   const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const onClick = (e: any) => {
+  const onOpen = (e: any) => {
     setAnchorEl(e.currentTarget);
   };
 
@@ -22,7 +22,7 @@ const useMenu = (): TUseMenuReturnType => {
   return {
     anchorEl,
     open,
-    onClick,
+    onOpen,
     onClose,
   };
 };

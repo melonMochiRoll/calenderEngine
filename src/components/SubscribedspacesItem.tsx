@@ -28,13 +28,13 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
   const {
     anchorEl,
     open,
-    onClick,
+    onOpen,
     onClose,
   } = useMenu();
 
   const onClickMoreMenu = (e: any) => {
     e.stopPropagation();
-    onClick(e);
+    onOpen(e);
   };
 
   const onCloseMoreMenu = (e: any) => {

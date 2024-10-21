@@ -35,7 +35,7 @@ const SubscribedSpacesContainer: FC = () => {
   const {
     anchorEl,
     open,
-    onClick,
+    onOpen,
     onClose,
   } = useMenu();
   
@@ -73,7 +73,7 @@ const SubscribedSpacesContainer: FC = () => {
           </Tooltip>
           <ItemTitle>스페이스 이름</ItemTitle>
           <ItemOwner
-            onClick={onClick}>
+            onClick={onOpen}>
             {option.text}
             <ArrowDropDownIcon fontSize='large' />
           </ItemOwner>
