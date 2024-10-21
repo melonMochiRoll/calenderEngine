@@ -90,3 +90,15 @@ export const updateSharedspaceMembers = async (
     return Promise.reject(err);
   }
 };
+
+export const deleteSharedspaceMembers = async (
+  url: string,
+  UserId: number,
+) => {
+  try {
+    await axiosInstance
+      .delete(`/api/sharedspaces/${url}/members/${UserId}`)
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
