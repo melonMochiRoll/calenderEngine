@@ -11,6 +11,10 @@ import useUser from 'Hooks/useUser';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 import EditableTitle from 'Components/common/EditableTitle';
+import TextButton from 'Components/common/TextButton';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { openModal } from 'Features/modalSlice';
+import { ModalName } from 'Components/modal/RenderModal';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -23,7 +27,9 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const dispatch = useAppDispatch();
   const { userData, isLogin } = useUser();
+  const isOwner = isLogin && (userData?.email === spaceData?.Owner.email);
 
   if (isLoading || !spaceData) {
     return <SkeletonSharedspaceHeader />;
@@ -34,7 +40,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       return;
     }
 
-    updateSharedspaceName(name, spaceData?.url);
+    await updateSharedspaceName(name, spaceData?.url);
     await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
   };
   
@@ -47,7 +53,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
             fontSize='large'
             sx={{ color: 'var(--blue)', cursor: 'pointer', marginRight: '10px' }}/>
           {
-          isLogin && (userData?.email === spaceData?.Owner.email) ?
+            isOwner ?
             <EditableTitle
               initValue={spaceData?.name}
               submitEvent={onUpdateSharedspaceName}/>
@@ -74,6 +80,16 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
           </FlexBox>}
       </Left>
       <Right>
+        {
+          isOwner ?
+          <TextButton
+            type='button'
+            onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
+              스페이스 관리
+          </TextButton>
+          :
+          ''
+        }
         <RenderUserProfile />
       </Right>
     </Block>
