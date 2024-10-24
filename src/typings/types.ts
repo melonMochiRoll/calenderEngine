@@ -11,6 +11,12 @@ export type TErrorResponse = {
 
 export type TQueryStatus = 'error' | 'success' | 'loading';
 
+export const RoleDictionary = {
+  OWNER: '소유자',
+  MEMBER: '멤버',
+  VIEWER: '뷰어',
+} as const;
+
 export const SharedspaceMembersRoles = {
   OWNER: 'owner',
   MEMBER: 'member',
