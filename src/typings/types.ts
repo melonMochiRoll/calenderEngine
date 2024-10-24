@@ -93,7 +93,7 @@ export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'r
 
 export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'private'> &
 {
-  Owner: Pick<TUser, 'email'>,
+  Owner: Pick<TUser, 'id' | 'email'>,
 } &
 {
   Sharedspacemembers: TSharedspaceMembersAndUser[],
