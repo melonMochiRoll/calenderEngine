@@ -53,13 +53,13 @@ export const updateSharedspaceName = async (
 export const updateSharedspaceOwner = async (
   url: string,
   OwnerId: number,
-  NewOwnerId: number,
+  newOwnerId: number,
 ) => {
   try {
     await axiosInstance
       .patch(`api/sharedspaces/${url}/owner`, {
         OwnerId,
-        NewOwnerId
+        newOwnerId
       });
   } catch (err) {
     return Promise.reject(err);
