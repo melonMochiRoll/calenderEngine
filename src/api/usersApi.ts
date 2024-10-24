@@ -53,7 +53,7 @@ export const searchUsers = async (query: string) => {
   const trimmedQuery = query?.trim();
 
   if (!trimmedQuery) {
-    return;
+    return [];
   }
   
   try {
