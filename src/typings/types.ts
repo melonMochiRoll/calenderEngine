@@ -86,7 +86,7 @@ export const SubscribedspacesFilter = {
 
 export type TSubscribedspacesFilter = typeof SubscribedspacesFilter[keyof typeof SubscribedspacesFilter];
 
-type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'role' | 'createdAt'> &
+export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'role' | 'createdAt'> &
 {
   User: Pick<TUser, 'email'>
 };
