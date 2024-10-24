@@ -19,6 +19,12 @@ export const SharedspaceMembersRoles = {
 
 export type TSharedspaceMembersRoles = typeof SharedspaceMembersRoles[keyof typeof SharedspaceMembersRoles];
 
+export const MemberOptions = {
+  UPDATE_MEMBER: 'update_member',
+  UPDATE_OWNER: 'update_owner',
+  DELETE_MEMBER: 'delete_member',
+} as const;
+
 export type TUser = {
   id: number,
   email: string,
