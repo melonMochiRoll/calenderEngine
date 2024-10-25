@@ -101,5 +101,5 @@ export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'p
 
 export type TSearchUsers = Pick<TUser, 'id' | 'email'> &
 {
-  Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'role'>
+  Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'role'>[]
 };
