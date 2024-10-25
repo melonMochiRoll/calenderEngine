@@ -9,8 +9,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { defaultToastOption, forbiddenErrorMessage, toastContainerId, waitingMessage } from 'Lib/noticeConstants';
 import RenderModal from 'Components/modal/RenderModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 
 const SharedspacesViewPage: FC = () => {
+  const qc = useQueryClient();
   const { url = '' } = useParams();
   const navigate = useNavigate();
 
@@ -26,7 +29,9 @@ const SharedspacesViewPage: FC = () => {
         ...defaultToastOption,
         containerId: toastContainerId.SharedspaceViewPage,
         onClose: () => {
-          toast.clearWaitingQueue({ containerId: toastContainerId.SharedspaceViewPage });
+          qc.removeQueries([GET_SHAREDSPACE_KEY]);
+          toast.dismiss();
+          toast.clearWaitingQueue();
           navigate('/');
         },
       });
@@ -39,7 +44,9 @@ const SharedspacesViewPage: FC = () => {
         ...defaultToastOption,
         containerId: toastContainerId.SharedspaceViewPage,
         onClose: () => {
-          toast.clearWaitingQueue({ containerId: toastContainerId.SharedspaceViewPage });
+          qc.removeQueries([GET_SHAREDSPACE_KEY]);
+          toast.dismiss();
+          toast.clearWaitingQueue();
           navigate('/');
         },
       });
