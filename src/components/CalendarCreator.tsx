@@ -9,10 +9,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonCalendar from './skeleton/SkeletonCalendar';
 import { toast } from 'react-toastify';
 import { defaultToastOption, toastContainerId, waitingMessage } from 'Lib/noticeConstants';
+import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface CalendarCreatorProps {};
 
 const CalendarCreator: FC<CalendarCreatorProps> = () => {
+  const qc = useQueryClient();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { url = '' } = useParams();
@@ -36,7 +39,9 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
         ...defaultToastOption,
         containerId: toastContainerId.SharedspaceViewPage,
         onClose: () => {
-          toast.clearWaitingQueue({ containerId: toastContainerId.SharedspaceViewPage });
+          qc.removeQueries([GET_TODOS_LIST_KEY]);
+          toast.dismiss();
+          toast.clearWaitingQueue();
           navigate('/');
         },
       });
