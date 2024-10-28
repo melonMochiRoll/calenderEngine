@@ -11,7 +11,7 @@ const MainPage: FC = () => {
     if (matches.length < 2) {
       navigate('/sharedspaces/subscribed');
     }
-  }, []);
+  }, [matches]);
   
   return (
     <>
