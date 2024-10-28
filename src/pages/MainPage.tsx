@@ -1,14 +1,24 @@
 import React, { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useMatches, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const MainPage: FC = () => {
   const navigate = useNavigate();
+  const matches = useMatches();
 
   useEffect(() => {
-    navigate('/sharedspaces/subscribed');
+    if (matches.length < 2) {
+      navigate('/sharedspaces/subscribed');
+    }
   }, []);
   
-  return <></>;
+  return (
+    <>
+      <Outlet />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default MainPage;

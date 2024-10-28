@@ -13,36 +13,38 @@ const MainRouter = createBrowserRouter([
   {
     path: '/',
     element: <MainPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/join',
-    element: <JoinPage />,
-  },
-  {
-    path: '/sharedspaces',
-    element: <SharedspacesPage />,
     children: [
       {
-        path: 'subscribed',
-        element: <SubscribedSpacesPage />,
+        path: '/login',
+        element: <LoginPage />,
       },
       {
-        path: 'view/:url',
-        element: <SharedspacesViewPage />
+        path: '/join',
+        element: <JoinPage />,
+      },
+      {
+        path: '/sharedspaces',
+        element: <SharedspacesPage />,
+        children: [
+          {
+            path: 'subscribed',
+            element: <SubscribedSpacesPage />,
+          },
+          {
+            path: 'view/:url',
+            element: <SharedspacesViewPage />
+          },
+        ],
+      },
+      {
+        path: 'not-found',
+        element: <NotFoundPage />,
+      },
+      {
+        path: 'internal',
+        element: <InternalServerErrorPage />,
       },
     ],
-  },
-  {
-    path: 'not-found',
-    element: <NotFoundPage />,
-  },
-  {
-    path: 'internal',
-    element: <InternalServerErrorPage />,
   },
   {
     path: '*',
