@@ -1,22 +1,16 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import DateCover from './DateCover';
 import useTodosList from 'Hooks/useTodosList';
 import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
 import { DAYS } from 'Lib/calendarConstants';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import SkeletonCalendar from './skeleton/SkeletonCalendar';
-import { toast } from 'react-toastify';
-import { defaultToastOption, toastContainerId, waitingMessage } from 'Lib/noticeConstants';
-import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface CalendarCreatorProps {};
 
 const CalendarCreator: FC<CalendarCreatorProps> = () => {
-  const qc = useQueryClient();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { url = '' } = useParams();
   const {
@@ -30,23 +24,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
   const {
     data: todosListData,
     isLoading,
-    error,
   } = useTodosList(url, calendarYear, calendarMonth);
-
-  useEffect(() => {
-    if (!isLoading && error) {
-      toast.error(waitingMessage, {
-        ...defaultToastOption,
-        containerId: toastContainerId.SharedspaceViewPage,
-        onClose: () => {
-          qc.removeQueries([GET_TODOS_LIST_KEY]);
-          toast.dismiss();
-          toast.clearWaitingQueue();
-          navigate('/');
-        },
-      });
-    }
-  }, [isLoading, error]);
 
   if (isLoading) {
     return (
