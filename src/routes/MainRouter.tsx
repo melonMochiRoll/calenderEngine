@@ -49,12 +49,12 @@ const MainRouter = createBrowserRouter([
         path: 'internal',
         element: <InternalServerErrorPage />,
       },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      }
     ],
   },
-  {
-    path: '*',
-    element: <NotFoundPage />,
-  }
 ]);
 
 export default MainRouter;
