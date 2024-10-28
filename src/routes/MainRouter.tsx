@@ -8,6 +8,7 @@ import MainPage from 'Pages/MainPage';
 import SharedspacesViewPage from 'Pages/SharedspacesViewPage';
 import SharedspacesPage from 'Pages/SharedspacesPage';
 import InternalServerErrorPage from 'Pages/InternalServerErrorPage';
+import ForbiddenPage from 'Pages/ForbiddenPage';
 
 const MainRouter = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const MainRouter = createBrowserRouter([
             element: <SharedspacesViewPage />
           },
         ],
+      },
+      {
+        path: 'forbidden',
+        element: <ForbiddenPage />,
       },
       {
         path: 'not-found',
