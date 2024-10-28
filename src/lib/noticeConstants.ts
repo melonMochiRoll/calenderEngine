@@ -17,8 +17,4 @@ export const defaultToastOption: ToastOptions = {
   progress: undefined,
   theme: 'dark',
   transition: Bounce,
-};
-
-export const toastContainerId = {
-  SharedspaceViewPage: 'SharedspaceViewPage',
-};
+}; 
