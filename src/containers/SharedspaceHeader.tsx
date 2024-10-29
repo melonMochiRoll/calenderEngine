@@ -4,7 +4,7 @@ import RenderUserProfile from 'Components/auth/RenderUserProfile';
 import SatelliteIcon from '@mui/icons-material/SatelliteAlt';
 import { useNavigate } from 'react-router-dom';
 import gravatar from 'gravatar';
-import { TSharedspaceMetaData } from 'Typings/types';
+import { ModalName, TSharedspaceMetaData } from 'Typings/types';
 import SkeletonSharedspaceHeader from 'Components/skeleton/SkeletonSharedspaceHeader';
 import { updateSharedspaceName } from 'Api/sharedspacesApi';
 import useUser from 'Hooks/useUser';
@@ -14,7 +14,6 @@ import EditableTitle from 'Components/common/EditableTitle';
 import TextButton from 'Components/common/TextButton';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
-import { ModalName } from 'Components/modal/RenderModal';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,

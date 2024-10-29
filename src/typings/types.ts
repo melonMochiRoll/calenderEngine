@@ -11,6 +11,16 @@ export type TErrorResponse = {
 
 export type TQueryStatus = 'error' | 'success' | 'loading';
 
+export const ModalName = {
+  SEARCH: 'SEARCH',
+  SHAREDSPACEMANAGER: 'SHAREDSPACEMANAGER',
+  CLOSE: '',
+} as const;
+
+export type TModalName = typeof ModalName[keyof typeof ModalName];
+
+export type TModals = Record<keyof typeof ModalName, React.ReactNode | null>;
+
 export const RoleDictionary = {
   OWNER: '소유자',
   MEMBER: '멤버',

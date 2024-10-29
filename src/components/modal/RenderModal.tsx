@@ -4,16 +4,7 @@ import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import SearchModal from 'Components/modal/search/SearchModal';
 import SharedspaceManagerModal from 'Components/modal/sharedspaceManager/SharedspaceManagerModal';
 import { closeModal } from 'Features/modalSlice';
-
-export const ModalName = {
-  SEARCH: 'SEARCH',
-  SHAREDSPACEMANAGER: 'SHAREDSPACEMANAGER',
-  CLOSE: '',
-} as const;
-
-export type TModalName = typeof ModalName[keyof typeof ModalName];
-
-type TModals = Record<keyof typeof ModalName, React.ReactNode | null>;
+import { TModals } from 'Typings/types';
 
 const Modals: TModals = {
   SEARCH: <SearchModal />,
