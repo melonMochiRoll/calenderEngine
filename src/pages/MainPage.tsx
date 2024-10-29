@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { Outlet, useMatches, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import RenderModal from 'Components/modal/RenderModal';
 
 const MainPage: FC = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const MainPage: FC = () => {
     <>
       <Outlet />
       <ToastContainer />
+      <RenderModal />
     </>
   );
 };

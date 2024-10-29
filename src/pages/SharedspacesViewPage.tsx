@@ -5,7 +5,6 @@ import TodoContainer from 'Containers/TodoContainer';
 import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import useSharedspace from 'Hooks/useSharedspace';
 import { useParams } from 'react-router-dom';
-import RenderModal from 'Components/modal/RenderModal';
 
 const SharedspacesViewPage: FC = () => {
   const { url = '' } = useParams();
@@ -23,7 +22,6 @@ const SharedspacesViewPage: FC = () => {
       <Main>
         <CalendarContainer />
         <TodoContainer />
-        <RenderModal />
       </Main>
     </Block>
   );
