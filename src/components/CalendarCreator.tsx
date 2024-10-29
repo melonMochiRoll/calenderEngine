@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
 import { DAYS } from 'Lib/calendarConstants';
 import { useParams } from 'react-router-dom';
-import SkeletonCalendar from './skeleton/SkeletonCalendar';
+import LoadingCircularCalendar from './skeleton/LoadingCircularCalendar';
 
 interface CalendarCreatorProps {};
 
@@ -28,7 +28,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
 
   if (isLoading) {
     return (
-      <SkeletonCalendar />
+      <LoadingCircularCalendar />
     );
   }
 
