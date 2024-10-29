@@ -22,7 +22,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
   } = useAppSelector(state => state.calendarTime);
   
   const {
-    data: todosListData,
+    data: todosData,
     isLoading,
   } = useTodosList(url, calendarYear, calendarMonth);
 
@@ -59,7 +59,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
                     key={i + n}
                     index={idx}
                     setTodoTime={() => dispatch(setTodoTime(timeKey))}
-                    todosLength={todosListData ? todosListData[timeKey]?.length : 0}
+                    todosLength={todosData ? todosData[timeKey]?.length : 0}
                     date={date} />;
                 })}
               </tr>
