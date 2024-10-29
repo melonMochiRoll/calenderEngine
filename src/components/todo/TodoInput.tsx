@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import styled from '@emotion/styled';
+import { TODO_MAX_SIZE } from 'Lib/calendarConstants';
 
 interface TodoInputProps {
   addTodo: (value: string) => void;
@@ -11,7 +12,7 @@ const TodoInput: FC<TodoInputProps> = ({
   const [ value, setValue ] = useState('');
 
   const onChangeValueWithMaxSize = useCallback((e: any) => {
-    if (getByteSize(e.target.value) > 65533) {
+    if (getByteSize(e.target.value) > TODO_MAX_SIZE) {
       return;
     }
 
@@ -47,6 +48,7 @@ const Block = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
   margin-bottom: 15px;
 `;
 
