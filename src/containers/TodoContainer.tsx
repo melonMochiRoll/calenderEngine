@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import HideIcon from '@mui/icons-material/LastPage';
 import ShowIcon from '@mui/icons-material/FirstPage';
-import RenderTodoApp from 'Components/RenderTodoApp';
+import TodoApp from './todo/TodoApp';
 
 interface TodoContainerProps {};
 
@@ -25,7 +25,7 @@ const TodoContainer: FC<TodoContainerProps> = ({}) => {
             sx={{ fontSize: '30px' }} />}
       </TodoHeader>
       {isTodoShow ?
-        <RenderTodoApp /> : ''}
+        <TodoApp /> : ''}
     </Block>
   );
 };
@@ -36,7 +36,7 @@ const Block = styled.div<{ isTodoShow: boolean }>`
   display: flex;
   flex-direction: column;
   width: ${({isTodoShow}) => isTodoShow ? '900px' : '50px'};
-  height: 100vh;
+  height: 100%;
   padding: 10px;
   border: 1px solid var(--light-gray);
   background-color: var(--dark-gray);
