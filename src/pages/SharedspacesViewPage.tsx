@@ -4,15 +4,12 @@ import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
 import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import useSharedspace from 'Hooks/useSharedspace';
-import { useParams } from 'react-router-dom';
 
 const SharedspacesViewPage: FC = () => {
-  const { url = '' } = useParams();
-
   const {
     data: spaceData,
     isLoading,
-  } = useSharedspace(url);
+  } = useSharedspace();
   
   return (
     <Block>

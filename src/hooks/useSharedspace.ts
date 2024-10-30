@@ -3,7 +3,7 @@ import { getSharedspace } from "Api/sharedspacesApi";
 import { AxiosError } from "axios";
 import { GET_SHAREDSPACE_KEY } from "Lib/queryKeys";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TErrorResponse, TSharedspaceMetaData } from "Typings/types";
 import handleHooksError from "Lib/handleHooksError";
 
@@ -13,8 +13,9 @@ type TUseSharedspaceReturnType = {
   isLoading: boolean,
 };
 
-const useSharedspace = (url: string): TUseSharedspaceReturnType => {
+const useSharedspace = (): TUseSharedspaceReturnType => {
   const navigate = useNavigate();
+  const { url = '' } = useParams();
   const {
     data,
     isLoading,

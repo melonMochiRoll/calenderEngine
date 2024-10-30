@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { CircularProgress } from '@mui/material';
 import useSharedspace from 'Hooks/useSharedspace';
-import { useParams } from 'react-router-dom';
 import useSearchUsers from 'Hooks/useSearchUsers';
 import SharedspaceManagerInitPage from './SharedspaceManagerInitPage';
 import UserItem from './UserItem';
@@ -10,8 +9,7 @@ import UserItem from './UserItem';
 interface SharedspaceManagerMainProps {};
 
 const SharedspaceManagerMain: FC<SharedspaceManagerMainProps> = ({}) => {
-  const { url = '' } = useParams();
-  const { data: spaceData, isLoading: isSharedspaceLoading } = useSharedspace(url);
+  const { data: spaceData, isLoading: isSharedspaceLoading } = useSharedspace();
   const { data: searchUsersData, isLoading: isSearchUsersLoading } = useSearchUsers();
 
   if (isSharedspaceLoading || isSearchUsersLoading) {
