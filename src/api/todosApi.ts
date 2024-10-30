@@ -21,10 +21,11 @@ export const createTodo = async (
   startTime: string,
   endTime: string,
   AuthorId: number,
+  url: string,
   ) => {
   try {
     await axiosInstance
-      .post(`/api/todos`, {
+      .post(`/api/sharedspaces/${url}/todos`, {
         description,
         date,
         startTime,
@@ -32,7 +33,8 @@ export const createTodo = async (
         AuthorId,
       });
   } catch (err: any) {
-    console.dir(err);
+    console.error(err);
+    return Promise.reject(err);
   }
 };
 
