@@ -3,7 +3,9 @@ import { getSharedspace } from "Api/sharedspacesApi";
 import { AxiosError } from "axios";
 import { GET_SHAREDSPACE_KEY } from "Lib/queryKeys";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { TErrorResponse, TSharedspaceMetaData } from "Typings/types";
+import handleHooksError from "Lib/handleHooksError";
 
 type TUseSharedspaceReturnType = {
   data: TSharedspaceMetaData,
@@ -12,9 +14,11 @@ type TUseSharedspaceReturnType = {
 };
 
 const useSharedspace = (url: string): TUseSharedspaceReturnType => {
+  const navigate = useNavigate();
   const {
     data,
     isLoading,
+    isError,
     refetch,
     error,
   } = useQuery({
@@ -26,6 +30,12 @@ const useSharedspace = (url: string): TUseSharedspaceReturnType => {
   useEffect(() => {
     refetch();
   }, [url]);
+
+  useEffect(() => {
+    if (isError) {
+      handleHooksError(error, navigate);
+    }
+  }, [isError]);
 
   return {
     data,
