@@ -22,8 +22,6 @@ const handleHooksError = (error: unknown, navigate: NavigateFunction) => {
     if (statusCode === 403) {
       return navigate('forbidden');
     }
-
-    return navigate('/');
   }
 
   toast.error(waitingMessage, {
