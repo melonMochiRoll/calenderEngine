@@ -5,6 +5,7 @@ import { GET_SUBSCRIBED_SPACES_KEY } from "Lib/queryKeys";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TSubscribedspaces } from "Typings/types";
+import { useAppSelector } from "./reduxHooks";
 
 type TUseSubscribedspaceReturnType = {
   data: TSubscribedspaces[],
@@ -12,8 +13,9 @@ type TUseSubscribedspaceReturnType = {
   refetch: () => void,
 };
 
-const useSubscribedspace = (filter: string): TUseSubscribedspaceReturnType => {
+const useSubscribedspace = (): TUseSubscribedspaceReturnType => {
   const navigate = useNavigate();
+  const { filter } = useAppSelector(state => state.subscribedspaceFilter);
   const {
     error,
     data,

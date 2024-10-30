@@ -9,18 +9,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import { GET_SUBSCRIBED_SPACES_KEY } from 'Lib/queryKeys';
 import SkeletonSubscribedspacesItem from './skeleton/SkeletonSubscribedspacesItem';
 
-interface SubscribedSpacesResultProps {
-  option: { text: string, filter: string },
-};
+interface SubscribedSpacesResultProps {};
 
-const SubscribedSpacesResult: FC<SubscribedSpacesResultProps> = ({
-  option,
-}) => {
+const SubscribedSpacesResult: FC<SubscribedSpacesResultProps> = ({}) => {
   const qc = useQueryClient();
   const {
     data: subscribedspaceData,
     isLoading,
-  } = useSubscribedspace(option.filter);
+  } = useSubscribedspace();
 
   const onDeleteSharedspace = async (url: string) => {
     await deleteSharedspace(url);
