@@ -6,13 +6,15 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Menu, MenuItem, Tooltip } from '@mui/material';
 import useMenu from 'Hooks/useMenu';
 import { privateTooltip } from 'Lib/noticeConstants';
-import { SubscribedspacesFilter } from 'Typings/types';
+import { SubscribedspacesFilter, TSubscribedspacesFilter } from 'Typings/types';
 import SubscribedSpacesResult from 'Components/SubscribedspacesResult';
 import { createSharedspace } from 'Api/sharedspacesApi';
 import useUser from 'Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { setFilter } from 'Features/subscribedspacesFilterSlice';
 
-const sortOptions = [
+const sortOptions: { text: string, filter: TSubscribedspacesFilter }[] = [
   {
     text: '모든 스페이스',
     filter: SubscribedspacesFilter.ALL,
@@ -29,8 +31,9 @@ const sortOptions = [
 
 const SubscribedSpacesContainer: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { userData, isLogin } = useUser();
-  const [ option, setOption ] = useState<{ text: string, filter: string }>(sortOptions[0]);
+  const [ option, setOption ] = useState<typeof sortOptions[0]>(sortOptions[0]);
 
   const {
     anchorEl,
@@ -39,12 +42,13 @@ const SubscribedSpacesContainer: FC = () => {
     onClose,
   } = useMenu();
   
-  const onMenuClick = (value: { text: string, filter: string }) => {
+  const onMenuClick = (value: typeof sortOptions[0]) => {
     if (option.filter === value.filter) {
       return;
     }
     
     setOption(value);
+    dispatch(setFilter({ filter: value.filter }));
     onClose();
   };
 
@@ -109,8 +113,7 @@ const SubscribedSpacesContainer: FC = () => {
           </Menu>
           <ItemMoreMenu />
         </ItemHead>
-        <SubscribedSpacesResult
-          option={option} />
+        <SubscribedSpacesResult />
         </Body>
       </Bottom>
     </>
