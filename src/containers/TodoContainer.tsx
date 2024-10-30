@@ -24,8 +24,7 @@ const TodoContainer: FC<TodoContainerProps> = ({}) => {
             onClick={toggleMenu}
             sx={{ fontSize: '30px' }} />}
       </TodoHeader>
-      {isTodoShow ?
-        <TodoApp /> : ''}
+      {isTodoShow && <TodoApp />}
     </Block>
   );
 };
