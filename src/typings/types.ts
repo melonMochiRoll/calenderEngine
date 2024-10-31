@@ -84,6 +84,7 @@ export type TSharedspace = {
   name: string,
   private: boolean,
   createdAt: Date,
+  updatedAt: Date,
   deletedAt: Date | null,
   OwnerId: number,
   url: string,
