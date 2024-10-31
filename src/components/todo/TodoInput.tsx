@@ -28,7 +28,7 @@ const TodoInput: FC<TodoInputProps> = ({}) => {
   const { userData } = useUser();
   const { todoTime } = useAppSelector(state => state.todoTime);
 
-  const initialTime = { hour: '', minute: '' };
+  const initialTime = { hour: '', minute: '00' };
   const [ startTime, setStartTime ] = useState(initialTime);
   const [ endTime, setEndTime ] = useState(initialTime);
   const [ description, setDescription ] = useState('');
