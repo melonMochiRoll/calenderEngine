@@ -75,6 +75,7 @@ export type TSharedspaceMembers = {
   SharedspaceId: number,
   UserId: number,
   createdAt: Date,
+  updatedAt: Date,
   role: TSharedspaceMembersRoles,
 };
 
