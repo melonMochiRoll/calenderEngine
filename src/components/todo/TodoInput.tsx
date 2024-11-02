@@ -102,8 +102,8 @@ const TodoInput: FC<TodoInputProps> = ({}) => {
 
     const startTimeFormat = `${trimmedStartTime[0].padStart(2, '0')}:${trimmedStartTime[1].padEnd(2, '0')}:00`;
     const endTimeFormat = `${trimmedEndTime[0].padStart(2, '0')}:${trimmedEndTime[1].padEnd(2, '0')}:00`;
-    const dayjs_startTime = dayjs(startTimeFormat, 'HH:mm:ss', true).tz(timeZone);
-    const dayjs_endTime = dayjs(endTimeFormat, 'HH:mm:ss', true).tz(timeZone);
+    const dayjs_startTime = dayjs(startTimeFormat, 'HH:mm:ss').tz(timeZone);
+    const dayjs_endTime = dayjs(endTimeFormat === '00:00:00' ? '24:00:00' : endTimeFormat, 'HH:mm:ss').tz(timeZone);
 
     if (
       !dayjs_startTime.isValid() ||
