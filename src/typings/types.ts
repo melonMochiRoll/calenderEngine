@@ -14,6 +14,7 @@ export type TQueryStatus = 'error' | 'success' | 'loading';
 export const ModalName = {
   SEARCH: 'SEARCH',
   SHAREDSPACEMANAGER: 'SHAREDSPACEMANAGER',
+  TODO_DETAIL: 'TODO_DETAIL',
   CLOSE: '',
 } as const;
 
