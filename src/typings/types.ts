@@ -70,6 +70,12 @@ export type TTodo = {
   AuthorId: number,
   EditorId: number | null,
   SharedspaceId: number,
+  Author: {
+    email: Pick<TUser, 'email'>
+  },
+  Editor: {
+    email: Pick<TUser, 'email'>,
+  } | null,
 };
 
 export type TSharedspaceMembers = {
