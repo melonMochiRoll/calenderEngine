@@ -5,10 +5,12 @@ import SearchModal from 'Components/modal/search/SearchModal';
 import SharedspaceManagerModal from 'Components/modal/sharedspaceManager/SharedspaceManagerModal';
 import { closeModal } from 'Features/modalSlice';
 import { TModals } from 'Typings/types';
+import TodoDetail from './todo/TodoDetail';
 
 const Modals: TModals = {
   SEARCH: <SearchModal />,
   SHAREDSPACEMANAGER: <SharedspaceManagerModal />,
+  TODO_DETAIL: <TodoDetail />,
   CLOSE: null,
 };
 
