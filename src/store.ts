@@ -4,6 +4,7 @@ import calendarTimeReducer from 'Features/calendarTimeSlice';
 import todoTimeReducer from 'Features/todoTimeSlice';
 import searchUsersReducer from 'Features/searchUsersSlice';
 import subscribedspaceFilterReducer from 'Features/subscribedspacesFilterSlice';
+import todoDetailReducer from "Features/todoDetailSlice";
 
 export const reduxStore = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const reduxStore = configureStore({
     todoTime: todoTimeReducer,
     searchUsers: searchUsersReducer,
     subscribedspaceFilter: subscribedspaceFilterReducer,
+    todoDetail: todoDetailReducer,
   },
 })
 
