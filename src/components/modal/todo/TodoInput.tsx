@@ -134,7 +134,7 @@ const TodoInput: FC = () => {
       });
     }
 
-    const isOverlappingResult = todosData[todoTime].reduce((acc: boolean, todo: TTodo) => {
+    const isOverlappingResult = todosData[todoTime]?.reduce((acc: boolean, todo: TTodo) => {
       if (acc) {
         return acc;
       }
