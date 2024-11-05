@@ -25,3 +25,15 @@ export const renderTime = (time: string) => {
 
   return `${hour}:${minute}`;
 };
+
+export const getTodoHeight = (startTime: string, endTime: string) => {
+  const thirtyMinuteHeight = 30;
+  const [ startTime_hour, startTime_minute ] = startTime.split(':');
+  const [ endTime_hour, endTime_minute ] = endTime.split(':');
+
+  const ratio =
+    (Number(`${endTime_hour === '0' || endTime_hour === '00' ? '24' : endTime_hour}`) - Number(startTime_hour)) * 2 +
+    (Number(endTime_minute) - Number(startTime_minute)) / 30;
+
+  return ratio * thirtyMinuteHeight;
+};
