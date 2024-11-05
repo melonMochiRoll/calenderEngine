@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { closeModal } from 'Features/modalSlice';
@@ -15,32 +15,33 @@ import { useParams } from 'react-router-dom';
 import useUser from 'Hooks/useUser';
 import { createTodo } from 'Api/todosApi';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
-import { checkContent } from 'Lib/noticeConstants';
-
-const getByteSize = (str: string) => {
-  const encoder = new TextEncoder();
-
-  return encoder.encode(str).length;
-};
+import { checkContent, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
+import useTodosList from 'Hooks/useTodosList';
+import { getByteSize, isOverlapping } from 'Lib/utilFunction';
+import { TTodo } from 'Typings/types';
 
 const TodoInput: FC = () => {
-  dayjs.extend(utc)
-  dayjs.extend(timezone)
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   dayjs.extend(customParseFormat);
-  dayjs.extend(isSameOrBefore);
+  dayjs.extend(isSameOrAfter);
   const timeZone = dayjs.tz.guess();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
 
   const { url = '' } = useParams();
   const { userData } = useUser();
+  const { data: todosData } = useTodosList();
   const { todoTime } = useAppSelector(state => state.todoTime);
 
   const initialTime = { hour: '', minute: '00' };
   const [ startTime, setStartTime ] = useState(initialTime);
   const [ endTime, setEndTime ] = useState(initialTime);
   const [ description, setDescription ] = useState('');
-  const [ error, setError ] = useState(false);
+  const [ error, setError ] = useState({
+    isError: false,
+    message: '',
+  });
 
   const onChangeStartTime = (e: any) => {
     if (e.target.value.length > 2) return;
@@ -90,10 +91,16 @@ const TodoInput: FC = () => {
     UserId: number,
     url: string,
   ) => {
-    setError(false);
+    setError({
+      isError: false,
+      message: '',
+    });
 
     if (!userData || !url) {
-      return setError(true);
+      return setError({
+        isError: true,
+        message: waitingMessage
+      });
     }
 
     const trimmedStartTime = Object.values(start).map((value) => value.trim());
@@ -105,7 +112,10 @@ const TodoInput: FC = () => {
       trimmedEndTime.includes('') ||
       !trimmedDescription
     ) {
-      return setError(true);
+      return setError({
+        isError: true,
+        message: checkContent,
+      });
     }
 
     const startTimeFormat = `${trimmedStartTime[0].padStart(2, '0')}:${trimmedStartTime[1].padEnd(2, '0')}:00`;
@@ -114,12 +124,29 @@ const TodoInput: FC = () => {
     const dayjs_endTime = dayjs(endTimeFormat === '00:00:00' ? '24:00:00' : endTimeFormat, 'HH:mm:ss').tz(timeZone);
 
     if (
-      startTimeFormat === endTimeFormat ||
       !dayjs_startTime.isValid() ||
       !dayjs_endTime.isValid() ||
-      !dayjs(dayjs_startTime).isBefore(dayjs_endTime)
+      dayjs(dayjs_startTime).isSameOrAfter(dayjs_endTime)
     ) {
-      return setError(true);
+      return setError({
+        isError: true,
+        message: checkContent,
+      });
+    }
+
+    const isOverlappingResult = todosData[todoTime].reduce((acc: boolean, todo: TTodo) => {
+      if (acc) {
+        return acc;
+      }
+
+      return isOverlapping(startTimeFormat, endTimeFormat, todo.startTime, todo.endTime) ? true : false;
+    }, false);
+
+    if (isOverlappingResult) {
+      return setError({
+        isError: true,
+        message: overlappingErrorMessage,
+      });
     }
 
     createTodo(
@@ -138,7 +165,10 @@ const TodoInput: FC = () => {
       await qc.refetchQueries([GET_TODOS_LIST_KEY]);
     })
     .catch(() => {
-      setError(true);
+      setError({
+        isError: true,
+        message: waitingMessage,
+      });
     });
   };
 
@@ -208,7 +238,7 @@ const TodoInput: FC = () => {
         <SubmitDiv>
           <Left></Left>
           <Center>
-            {error && <ErrorSpan>{checkContent}</ErrorSpan>}
+            {error.isError && <ErrorSpan>{error.message}</ErrorSpan>}
           </Center>
           <Right>
             <TextButton
