@@ -7,11 +7,15 @@ import TodoInit from 'Components/todo/TodoInit';
 import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { openModal } from 'Features/modalSlice';
 import { ModalName } from 'Typings/types';
+import useUser from 'Hooks/useUser';
+import useSharedspace from 'Hooks/useSharedspace';
 
 interface TodoAppProps {};
 
 const TodoApp: FC<TodoAppProps> = ({}) => {
   const dispatch = useAppDispatch();
+  const { hasPermission } = useUser();
+  const { data: spaceData } = useSharedspace();
   const { todoTime } = useAppSelector(state => state.todoTime);
   
   if (!todoTime) {
@@ -21,11 +25,13 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
   return (
     <Container>
       <TodoTitle />
-      <FlexBox
-        onClick={() => dispatch(openModal(ModalName.TODO_INPUT))}>
-        <AddIcon fontSize='large' sx={{ color: 'var(--blue)' }}/>
-        <Span>새 Todo 작성</Span>
-      </FlexBox>
+      {hasPermission(spaceData?.id) &&
+        <FlexBox
+          onClick={() => dispatch(openModal(ModalName.TODO_INPUT))}>
+          <AddIcon fontSize='large' sx={{ color: 'var(--blue)' }}/>
+          <Span>새 Todo 작성</Span>
+        </FlexBox>
+      }
       <TodoList />
     </Container>
   );
