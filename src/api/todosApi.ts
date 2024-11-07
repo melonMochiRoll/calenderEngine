@@ -41,25 +41,23 @@ export const createTodo = async (
 export const updateTodo = async (
   id: number,
   description: string,
-  date: string,
   startTime: string,
   endTime: string,
   EditorId: number,
-  SharedspaceId: number,
+  url: string,
   ) => {
   try {
     await axiosInstance
-      .put(`/api/todos`, {
+      .put(`/api/sharedspaces/${url}/todos`, {
         id,
         description,
-        date,
         startTime,
         endTime,
         EditorId,
-        SharedspaceId,
       });
   } catch (err: any) {
     console.dir(err);
+    return Promise.reject(err);
   }
 };
 
