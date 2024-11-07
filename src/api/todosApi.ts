@@ -61,11 +61,16 @@ export const updateTodo = async (
   }
 };
 
-export const deleteTodo = async (todoId: number) => {
+export const deleteTodo = async (
+  todoId: number,
+  url: string,
+) => {
   try {
-    await axiosInstance.delete(`/api/todos?ti=${todoId}`);
+    await axiosInstance
+      .delete(`api/sharedspaces/${url}/todos/${todoId}`);
   } catch (err: any) {
     console.dir(err);
+    return Promise.reject(err);
   }
 };
 
