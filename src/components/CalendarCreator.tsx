@@ -5,14 +5,12 @@ import useTodosList from 'Hooks/useTodosList';
 import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { setTodoTime } from 'Features/todoTimeSlice';
 import { DAYS } from 'Lib/calendarConstants';
-import { useParams } from 'react-router-dom';
 import LoadingCircularCalendar from './skeleton/LoadingCircularCalendar';
 
 interface CalendarCreatorProps {};
 
 const CalendarCreator: FC<CalendarCreatorProps> = () => {
   const dispatch = useAppDispatch();
-  const { url = '' } = useParams();
   const {
     calendarYear,
     calendarMonth,
@@ -24,7 +22,7 @@ const CalendarCreator: FC<CalendarCreatorProps> = () => {
   const {
     data: todosData,
     isLoading,
-  } = useTodosList(url, calendarYear, calendarMonth);
+  } = useTodosList();
 
   if (isLoading) {
     return (
