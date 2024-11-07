@@ -42,7 +42,7 @@ export const SharedspaceMembersRoles = {
   OWNER: 'owner',
   MEMBER: 'member',
   VIEWER: 'viewer',
-};
+} as const;
 
 export type TSharedspaceMembersRoles = typeof SharedspaceMembersRoles[keyof typeof SharedspaceMembersRoles];
 
