@@ -6,3 +6,5 @@ export const TODO_MAX_SIZE = 65533;
 export const TODO_PALETTE = [
   '#F79552', '#F2728C', '#03c75a', '#4EB8B9', '#27AAE1', '#9E7EB9', '#EF404A',
 ];
+
+export const TODO_MAX_HEIGHT = 180;
