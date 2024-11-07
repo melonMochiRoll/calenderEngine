@@ -1,89 +1,106 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import ChkIcon from '@mui/icons-material/CheckCircleRounded';
-import ChkLineIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import BackIcon from '@mui/icons-material/BackspaceRounded';
-import { TTodo } from 'Typings/types';
-import EditableText from 'Components/common/EditableText';
+import { ModalName, TTodo } from 'Typings/types';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { openModal } from 'Features/modalSlice';
+import { setTodoDetail } from 'Features/todoDetailSlice';
+import { getTodoHeight, renderTime } from 'Lib/utilFunction';
+import { TODO_MAX_HEIGHT } from 'Lib/calendarConstants';
 
 interface TodoItemProps {
-  todos: TTodo;
-  updateTodo: (todosId: number, contents: string, isComplete: boolean) => void;
-  deleteTodo: (todosId: number) => void;
+  todo: TTodo;
+  bgColor: string;
 };
 
 const TodoItem: FC<TodoItemProps> = ({
-  todos,
-  updateTodo,
-  deleteTodo,
+  todo,
+  bgColor,
 }) => {
-  const { id: todosId, contents, isComplete } = todos;
+  const dispatch = useAppDispatch();
+  const { description, startTime, endTime } = todo;
+  const todoHeight = getTodoHeight(startTime, endTime); 
 
-  const onSubmit = (editedContents: string) => {
-    if (editedContents === contents) {
-      return;
-    }
-
-    updateTodo(todosId, editedContents?.trim(), isComplete);
+  const onClickDescription = () => {
+    dispatch(setTodoDetail(todo));
+    dispatch(openModal(ModalName.TODO_DETAIL));
   };
 
   return (
-    <Block isComplete={isComplete}>
-      <Switch onClick={() => updateTodo(todosId, contents, !isComplete)}>
-        {isComplete ?
-          <ChkIcon sx={{ color: 'var(--pink)' }} fontSize='large' /> :
-          <ChkLineIcon sx={{ color: '#b6bac1' }} fontSize='large' />}
-      </Switch>
-      <Contents>
-        <EditableText
-          initValue={contents}
-          submitEvent={onSubmit} />
-        <BackIcon onClick={() => deleteTodo(todosId)} sx={{ color: '#e66641' }}/>
-      </Contents>
-    </Block>
+    <Article
+      todoHeight={todoHeight > TODO_MAX_HEIGHT ? TODO_MAX_HEIGHT : todoHeight}
+      borderBottomColor={bgColor}>
+      <Left>
+        <TimeDiv>
+          <TimeSpan>{renderTime(endTime)}</TimeSpan>
+        </TimeDiv>
+      </Left>
+      <Right>
+        <DescriptionDiv
+          onClick={() => onClickDescription()}
+          bgColor={bgColor}>
+          <DescriptionSpan>{description}</DescriptionSpan>
+        </DescriptionDiv>
+      </Right>
+    </Article>
   );
 };
 
 export default TodoItem;
 
-const Block = styled.div<{ isComplete: boolean }>`
+const Article = styled.article<{ todoHeight: number, borderBottomColor: string }>`
   display: flex;
-  align-items: center;
   width: 100%;
-  padding: 13px 15px;
-  border: ${({isComplete}) => isComplete ? `2px solid var(--pink)` : `2px solid var(--light-gray)`};
-  border-radius: 6px;
+  height: ${({ todoHeight }) => todoHeight}px;
+  border-bottom: 1px solid ${({ borderBottomColor }) => borderBottomColor};
 `;
 
-const Switch = styled.div`
+const Left = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-right: 15px;
+  width: 15%;
+  height: 100%;
+`;
+
+const Right = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  height: 100%;
+  background-color: var(--white);
+`;
+
+const TimeDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const TimeSpan = styled.span`
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+const DescriptionDiv = styled.div<{ bgColor: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ bgColor }) => bgColor ? bgColor : ''};
   cursor: pointer;
 `;
 
-const Contents = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
+const DescriptionSpan = styled.span`
   color: var(--white);
-
-  span {
-    font-size: 20px;
-    font-weight: 500;
-  }
-
-  svg {
-    opacity: 0;
-    cursor: pointer;
-    transition: all 0.1s;
-  }
-  
-  &:hover {
-    svg {
-      opacity: 1;
-    }
-  }
+  font-size: 22px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
