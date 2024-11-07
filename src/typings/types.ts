@@ -23,6 +23,15 @@ export type TModalName = typeof ModalName[keyof typeof ModalName];
 
 export type TModals = Record<keyof typeof ModalName, React.ReactNode | null>;
 
+export const NestedModalName = {
+  TODO_UPDATE: 'TODO_UPDATE',
+  CLOSE: '',
+} as const;
+
+export type TNestedModalName = typeof NestedModalName[keyof typeof NestedModalName];
+
+export type TNestedModals = Record<keyof typeof NestedModalName, React.ReactNode | null>;
+
 export const RoleDictionary = {
   OWNER: '소유자',
   MEMBER: '멤버',
