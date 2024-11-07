@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { renderTime } from 'Lib/utilFunction';
+import { TODO_MAX_HEIGHT } from 'Lib/calendarConstants';
 
 interface TodoBlankProps {
   blankHeight: number;
@@ -15,7 +16,7 @@ const TodoBlank: FC<TodoBlankProps> = ({
 }) => {
   return (
     <Article
-      blankHeight={blankHeight > 180 ? 180 : blankHeight}
+      blankHeight={blankHeight > TODO_MAX_HEIGHT ? TODO_MAX_HEIGHT : blankHeight}
       borderBottomColor={borderBottomColor}>
       <Left>
         <TimeDiv>
