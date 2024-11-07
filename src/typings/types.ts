@@ -55,9 +55,7 @@ export const MemberOptions = {
 export type TUser = {
   id: number,
   email: string,
-  createdAt: Date,
-  updatedAt: Date,
-  deletedAt: Date,
+  Sharedspacemembers: TSharedspaceMembers[],
 };
 
 export type TLocalTodo = {
