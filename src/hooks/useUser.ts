@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from 'Api/usersApi';
 import { GET_USER_KEY } from 'Lib/queryKeys';
-import { TUser } from 'src/typings/types';
+import { SharedspaceMembersRoles, TSharedspaceMembers, TUser } from 'Typings/types';
 
 type UseUserReturnType = {
   userData: TUser,
@@ -9,6 +9,7 @@ type UseUserReturnType = {
   isLoading: boolean,
   isLogin: boolean,
   isNotLogin: boolean,
+  hasPermission: (SharedspaceId: number) => boolean,
 };
 
 const useUser = (): UseUserReturnType => {
@@ -22,12 +23,28 @@ const useUser = (): UseUserReturnType => {
     refetchOnWindowFocus: false,
   });
 
+  const hasPermission = (SharedspaceId: number): boolean => {
+    if (userData) {
+      return userData
+        .Sharedspacemembers
+        .filter((it: TSharedspaceMembers) => it.SharedspaceId === SharedspaceId)
+        .reduce((acc: boolean, it: TSharedspaceMembers) => {
+          const hasPermission = it.role === SharedspaceMembersRoles.MEMBER || it.role === SharedspaceMembersRoles.OWNER;
+    
+          return hasPermission ? true : acc;
+        }, false);
+    }
+
+    return false;
+  };
+
   return {
     userData,
     refetch,
     isLoading,
     isLogin: Boolean(!isLoading && userData),
     isNotLogin: Boolean(!isLoading && !userData),
+    hasPermission,
   };
 };
 
