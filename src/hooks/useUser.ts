@@ -9,6 +9,7 @@ type UseUserReturnType = {
   isLoading: boolean,
   isLogin: boolean,
   isNotLogin: boolean,
+  isOwner: (SharedspaceId: number) => boolean,
   hasPermission: (SharedspaceId: number) => boolean,
 };
 
@@ -59,6 +60,7 @@ const useUser = (): UseUserReturnType => {
     isLoading,
     isLogin: Boolean(!isLoading && userData),
     isNotLogin: Boolean(!isLoading && !userData),
+    isOwner,
     hasPermission,
   };
 };
