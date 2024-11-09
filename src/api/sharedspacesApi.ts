@@ -78,13 +78,13 @@ export const deleteSharedspace = async (url: string) => {
 export const createSharedspaceMembers = async (
   url: string,
   UserId: number,
-  role: TSharedspaceMembersRoles,
+  RoleName: TSharedspaceMembersRoles,
 ) => {
   try {
     await axiosInstance
       .post(`/api/sharedspaces/${url}/members`, {
         UserId,
-        role,
+        RoleName,
       });
   } catch (err) {
     return Promise.reject(err);
@@ -94,13 +94,13 @@ export const createSharedspaceMembers = async (
 export const updateSharedspaceMembers = async (
   url: string,
   UserId: number,
-  role: TSharedspaceMembersRoles,
+  RoleName: TSharedspaceMembersRoles,
 ) => {
   try {
     await axiosInstance
       .patch(`/api/sharedspaces/${url}/members`, {
         UserId,
-        role,
+        RoleName,
       })
   } catch (err) {
     return Promise.reject(err);
