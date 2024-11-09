@@ -9,6 +9,7 @@ import { deleteSharedspaceMembers, updateSharedspaceMembers, updateSharedspaceOw
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
+import useUser from 'Hooks/useUser';
 
 const updateRoleOption = [
   {
@@ -35,15 +36,18 @@ const accessOption = [
 ];
 
 interface MemberItemProps {
-  OwnerData: Pick<TUser, 'id' | 'email'>,
-  SharedspaceMembersAndUser: TSharedspaceMembersAndUser,
+  SharedspaceId: number;
+  OwnerData: Pick<TUser, 'id' | 'email'>;
+  SharedspaceMembersAndUser: TSharedspaceMembersAndUser;
 };
 
 const MemberItem: FC<MemberItemProps> = ({
+  SharedspaceId,
   OwnerData,
   SharedspaceMembersAndUser,
 }) => {
   const qc = useQueryClient();
+  const { isOwner } = useUser();
   const { url = '' } = useParams();
   const { role, UserId, User } = SharedspaceMembersAndUser;
 
@@ -104,15 +108,15 @@ const MemberItem: FC<MemberItemProps> = ({
         <Email>{User.email}</Email>
       </Center>
       {
-        role === SharedspaceMembersRoles.OWNER ?
-        <DisableRight>
-          <CurrentOption>{RoleDictionary.OWNER}</CurrentOption>
-        </DisableRight>
-        :
+        isOwner(SharedspaceId) && role !== SharedspaceMembersRoles.OWNER ?
         <Right onClick={onOpenWithEvent}>
           <CurrentOption>{renderRole(role)}</CurrentOption>
           <ArrowDropDownIcon fontSize='large' />
         </Right>
+        :
+        <DisableRight>
+          <CurrentOption>{renderRole(role)}</CurrentOption>
+        </DisableRight>
       }
       <Menu
         aria-labelledby='demo-positioned-button'
