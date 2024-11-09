@@ -61,7 +61,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
           }
         </FlexBox>
         {spaceData?.Sharedspacemembers &&
-          <FlexBox>
+          <FlexBox onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMEMBERLIST))}>
             {
               spaceData?.Sharedspacemembers.map((member: typeof spaceData.Sharedspacemembers[0], idx: number) => {
                 if (idx < 5) {
