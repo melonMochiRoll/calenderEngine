@@ -27,8 +27,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
   const navigate = useNavigate();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
-  const { userData, isLogin } = useUser();
-  const isOwner = isLogin && (userData?.email === spaceData?.Owner.email);
+  const { isOwner } = useUser();
 
   if (isLoading || !spaceData) {
     return <SkeletonSharedspaceHeader />;
@@ -52,7 +51,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
             fontSize='large'
             sx={{ color: 'var(--blue)', cursor: 'pointer', marginRight: '10px' }}/>
           {
-            isOwner ?
+            isOwner(spaceData.id) ?
             <EditableTitle
               initValue={spaceData?.name}
               submitEvent={onUpdateSharedspaceName}/>
@@ -80,7 +79,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       </Left>
       <Right>
         {
-          isOwner ?
+          isOwner(spaceData.id) ?
           <TextButton
             type='button'
             onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
