@@ -23,6 +23,21 @@ const useUser = (): UseUserReturnType => {
     refetchOnWindowFocus: false,
   });
 
+  const isOwner = (SharedspaceId: number): boolean => {
+    if (userData) {
+      return userData
+        .Sharedspacemembers
+        .filter((it: TSharedspaceMembers) => it.SharedspaceId === SharedspaceId)
+        .reduce((acc: boolean, it: TSharedspaceMembers) => {
+          const isOwner = it.role === SharedspaceMembersRoles.OWNER;
+    
+          return isOwner;
+        }, false);
+    }
+
+    return false;
+  };
+
   const hasPermission = (SharedspaceId: number): boolean => {
     if (userData) {
       return userData
@@ -31,7 +46,7 @@ const useUser = (): UseUserReturnType => {
         .reduce((acc: boolean, it: TSharedspaceMembers) => {
           const hasPermission = it.role === SharedspaceMembersRoles.MEMBER || it.role === SharedspaceMembersRoles.OWNER;
     
-          return hasPermission ? true : acc;
+          return hasPermission;
         }, false);
     }
 
