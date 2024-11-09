@@ -14,12 +14,12 @@ import useUser from 'Hooks/useUser';
 const updateRoleOption = [
   {
     text: RoleDictionary.MEMBER,
-    role: SharedspaceMembersRoles.MEMBER,
+    roleName: SharedspaceMembersRoles.MEMBER,
     method: MemberOptions.UPDATE_MEMBER,
   },
   {
     text: RoleDictionary.VIEWER,
-    role: SharedspaceMembersRoles.VIEWER,
+    roleName: SharedspaceMembersRoles.VIEWER,
     method: MemberOptions.UPDATE_MEMBER,
   },
 ];
@@ -63,10 +63,10 @@ const MemberItem: FC<MemberItemProps> = ({
     onOpen(e);
   };
 
-  const renderRole = (role: string) => {
+  const renderRole = (roleName: string) => {
     const result = Object
       .entries(RoleDictionary)
-      .find((ele) => ele[0] === role.toUpperCase());
+      .find((ele) => ele[0] === roleName.toUpperCase());
 
     return result ? result[1] : '';
   };
@@ -74,12 +74,12 @@ const MemberItem: FC<MemberItemProps> = ({
   const onRolesUpdateMenuClick = async (e: any, option: typeof updateRoleOption[0]) => {
     e.stopPropagation();
 
-    if (RoleName === option.role) {
+    if (RoleName === option.roleName) {
       onClose();
       return;
     }
 
-    await updateSharedspaceMembers(url, UserId, option.role);
+    await updateSharedspaceMembers(url, UserId, option.roleName);
     await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
     onClose();
   };

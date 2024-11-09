@@ -15,11 +15,11 @@ import { clearQuery } from 'Features/searchUsersSlice';
 const createRoleOption = [
   {
     text: RoleDictionary.MEMBER,
-    role: SharedspaceMembersRoles.MEMBER,
+    roleName: SharedspaceMembersRoles.MEMBER,
   },
   {
     text: RoleDictionary.VIEWER,
-    role: SharedspaceMembersRoles.VIEWER,
+    roleName: SharedspaceMembersRoles.VIEWER,
   },
 ];
 
@@ -53,7 +53,7 @@ const UserItem: FC<UserItemProps> = ({
     e.stopPropagation();
 
     dispatch(clearQuery());
-    await createSharedspaceMembers(url, UserId, option.role);
+    await createSharedspaceMembers(url, UserId, option.roleName);
     await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
     onClose();
   };
