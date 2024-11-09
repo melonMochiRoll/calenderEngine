@@ -90,9 +90,9 @@ export type TTodo = {
 export type TSharedspaceMembers = {
   SharedspaceId: number,
   UserId: number,
+  RoleName: TSharedspaceMembersRoles,
   createdAt: Date,
   updatedAt: Date,
-  role: TSharedspaceMembersRoles,
 };
 
 export type TSharedspace = {
@@ -118,7 +118,7 @@ export const SubscribedspacesFilter = {
 
 export type TSubscribedspacesFilter = typeof SubscribedspacesFilter[keyof typeof SubscribedspacesFilter];
 
-export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'role' | 'createdAt'> &
+export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'RoleName' | 'createdAt'> &
 {
   User: Pick<TUser, 'email'>
 };
@@ -133,5 +133,5 @@ export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'p
 
 export type TSearchUsers = Pick<TUser, 'id' | 'email'> &
 {
-  Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'role'>[]
+  Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleName'>[]
 };

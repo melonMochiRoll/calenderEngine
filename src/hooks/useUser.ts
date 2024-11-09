@@ -30,7 +30,7 @@ const useUser = (): UseUserReturnType => {
         .Sharedspacemembers
         .filter((it: TSharedspaceMembers) => it.SharedspaceId === SharedspaceId)
         .reduce((acc: boolean, it: TSharedspaceMembers) => {
-          const isOwner = it.role === SharedspaceMembersRoles.OWNER;
+          const isOwner = it.RoleName === SharedspaceMembersRoles.OWNER;
     
           return isOwner;
         }, false);
@@ -45,7 +45,7 @@ const useUser = (): UseUserReturnType => {
         .Sharedspacemembers
         .filter((it: TSharedspaceMembers) => it.SharedspaceId === SharedspaceId)
         .reduce((acc: boolean, it: TSharedspaceMembers) => {
-          const hasPermission = it.role === SharedspaceMembersRoles.MEMBER || it.role === SharedspaceMembersRoles.OWNER;
+          const hasPermission = it.RoleName === SharedspaceMembersRoles.MEMBER || it.RoleName === SharedspaceMembersRoles.OWNER;
     
           return hasPermission;
         }, false);
