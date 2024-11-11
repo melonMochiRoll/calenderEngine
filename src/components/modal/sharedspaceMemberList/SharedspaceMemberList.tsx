@@ -37,7 +37,6 @@ const SharedspaceMemberList: FC = () => {
               return (
                 <MemberItem
                   key={user.UserId}
-                  SharedspaceId={spaceData.id}
                   OwnerData={spaceData.Owner}
                   SharedspaceMembersAndUser={user} />
               );

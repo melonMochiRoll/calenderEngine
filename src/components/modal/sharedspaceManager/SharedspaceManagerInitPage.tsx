@@ -59,7 +59,6 @@ const SharedspaceManagerInitPage: FC<SharedspaceManagerInitPageProps> = ({
             return (
               <MemberItem
                 key={user.UserId}
-                SharedspaceId={spaceData.id}
                 OwnerData={spaceData.Owner}
                 SharedspaceMembersAndUser={user} />
             );
