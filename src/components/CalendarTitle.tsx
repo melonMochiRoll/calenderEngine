@@ -10,7 +10,7 @@ const CalendarTitle: FC<CalendarTitleProps> = () => {
   return (
     <Block>
       <Title>
-        {calendarYear}년 {calendarMonth + 1}월
+        {calendarYear}년 {calendarMonth}월
       </Title>
     </Block>
   );
