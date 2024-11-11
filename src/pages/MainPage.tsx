@@ -3,6 +3,7 @@ import { Outlet, useMatches, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import RenderModal from 'Components/modal/RenderModal';
+import NestedModal from 'Components/modal/NestedModal';
 
 const MainPage: FC = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const MainPage: FC = () => {
       <Outlet />
       <ToastContainer />
       <RenderModal />
+      <NestedModal />
     </>
   );
 };
