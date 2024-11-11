@@ -57,8 +57,8 @@ export type TUser = {
   id: number,
   email: string,
   Sharedspacemembers:
-    Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleName'> &
-    Pick<TSharedspace, 'url'>[],
+    Pick<TSharedspaceMembers, 'RoleName'> &
+    Pick<TSharedspace, 'url' | 'private'>[],
 };
 
 export type TLocalTodo = {
