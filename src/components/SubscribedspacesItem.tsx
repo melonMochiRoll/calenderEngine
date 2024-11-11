@@ -23,7 +23,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
   const { SharedspaceId, Sharedspace } = space;
   const { name, url, private: privateBool, Owner } = Sharedspace;
 
-  const { userData, isLogin } = useUser();
+  const { isOwner } = useUser();
 
   const {
     anchorEl,
@@ -54,7 +54,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
       <ItemTitle>{name}</ItemTitle>
       <ItemOwner>{Owner.email}</ItemOwner>
       {
-        isLogin && Owner.email === userData.email ?
+        isOwner(url) ?
         <ItemMoreMenu onClick={onClickMoreMenu}>
           <MoreVertIcon fontSize='large' />
         </ItemMoreMenu> :

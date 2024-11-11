@@ -36,13 +36,11 @@ const accessOption = [
 ];
 
 interface MemberItemProps {
-  SharedspaceId: number;
   OwnerData: Pick<TUser, 'id' | 'email'>;
   SharedspaceMembersAndUser: TSharedspaceMembersAndUser;
 };
 
 const MemberItem: FC<MemberItemProps> = ({
-  SharedspaceId,
   OwnerData,
   SharedspaceMembersAndUser,
 }) => {
@@ -108,7 +106,7 @@ const MemberItem: FC<MemberItemProps> = ({
         <Email>{User.email}</Email>
       </Center>
       {
-        isOwner(SharedspaceId) && RoleName !== SharedspaceMembersRoles.OWNER ?
+        isOwner(url) && RoleName !== SharedspaceMembersRoles.OWNER ?
         <Right onClick={onOpenWithEvent}>
           <CurrentOption>{renderRole(RoleName)}</CurrentOption>
           <ArrowDropDownIcon fontSize='large' />
