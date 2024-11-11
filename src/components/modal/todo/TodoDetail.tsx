@@ -8,7 +8,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import PencilIcon from '@mui/icons-material/Create';
 import dayjs from 'dayjs';
 import MenuIcon from '@mui/icons-material/MoreHoriz';
-import { NestedModalName, SharedspaceMembersRoles, TSharedspaceMembers, TUser } from 'Typings/types';
+import { NestedModalName } from 'Typings/types';
 import useMenu from 'Hooks/useMenu';
 import { Menu, MenuItem } from '@mui/material';
 import { deleteTodo } from 'Api/todosApi';
@@ -16,7 +16,6 @@ import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 import useUser from 'Hooks/useUser';
-import useSharedspace from 'Hooks/useSharedspace';
 
 const TodoDetail: FC = () => {
   const qc = useQueryClient();
@@ -24,7 +23,6 @@ const TodoDetail: FC = () => {
   const { url = '' } = useParams();
   const { todo } = useAppSelector(state => state.todoDetail);
   const { hasPermission } = useUser();
-  const { data: spaceData } = useSharedspace();
 
   const {
     anchorEl,
@@ -47,7 +45,7 @@ const TodoDetail: FC = () => {
       onClick={e => e.stopPropagation()}>
       <Header>
         <Left>
-          {hasPermission(spaceData?.id) &&
+          {hasPermission(url) &&
             <MenuIcon
               onClick={onOpen}
               fontSize='large'
