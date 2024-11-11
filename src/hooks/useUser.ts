@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from 'Api/usersApi';
 import { GET_USER_KEY } from 'Lib/queryKeys';
-import { SharedspaceMembersRoles, TSharedspaceMembers, TUser } from 'Typings/types';
+import { SharedspaceMembersRoles, TSharedspace, TSharedspaceMembers, TUser } from 'Typings/types';
 
 type UseUserReturnType = {
   userData: TUser,
@@ -9,8 +9,8 @@ type UseUserReturnType = {
   isLoading: boolean,
   isLogin: boolean,
   isNotLogin: boolean,
-  isOwner: (SharedspaceId: number) => boolean,
-  hasPermission: (SharedspaceId: number) => boolean,
+  isOwner: (url: string) => boolean,
+  hasPermission: (url: string) => boolean,
 };
 
 const useUser = (): UseUserReturnType => {
@@ -24,11 +24,11 @@ const useUser = (): UseUserReturnType => {
     refetchOnWindowFocus: false,
   });
 
-  const isOwner = (SharedspaceId: number): boolean => {
+  const isOwner = (url: string): boolean => {
     if (userData) {
       return userData
         .Sharedspacemembers
-        .filter((it: TSharedspaceMembers) => it.SharedspaceId === SharedspaceId)
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)
         .reduce((acc: boolean, it: TSharedspaceMembers) => {
           const isOwner = it.RoleName === SharedspaceMembersRoles.OWNER;
     
@@ -39,11 +39,11 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
-  const hasPermission = (SharedspaceId: number): boolean => {
+  const hasPermission = (url: string): boolean => {
     if (userData) {
       return userData
         .Sharedspacemembers
-        .filter((it: TSharedspaceMembers) => it.SharedspaceId === SharedspaceId)
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)
         .reduce((acc: boolean, it: TSharedspaceMembers) => {
           const hasPermission = it.RoleName === SharedspaceMembersRoles.MEMBER || it.RoleName === SharedspaceMembersRoles.OWNER;
     
