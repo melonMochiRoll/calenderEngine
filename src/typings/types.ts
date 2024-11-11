@@ -56,7 +56,9 @@ export const MemberOptions = {
 export type TUser = {
   id: number,
   email: string,
-  Sharedspacemembers: TSharedspaceMembers[],
+  Sharedspacemembers:
+    Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleName'> &
+    Pick<TSharedspace, 'url'>[],
 };
 
 export type TLocalTodo = {
