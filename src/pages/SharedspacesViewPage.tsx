@@ -35,5 +35,5 @@ const Block = styled.div`
 
 const Main = styled.main`
   display: flex;
-  height: 100%;
+  height: 95%;
 `;
