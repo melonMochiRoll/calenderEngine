@@ -12,6 +12,8 @@ export const waitingMessage = '잠시후에 다시 시도해주세요.';
 
 export const overlappingErrorMessage = '겹치는 시간대가 존재합니다.';
 
+export const keepMininumTime = '최소 시간 단위는 30분입니다.';
+
 export const defaultToastOption: ToastOptions = {
   position: 'top-center',
   autoClose: 5000,
