@@ -14,7 +14,7 @@ import useUser from 'Hooks/useUser';
 import useTodosList from 'Hooks/useTodosList';
 import { TODO_MAX_SIZE } from 'Lib/calendarConstants';
 import { getByteSize, isOverlapping } from 'Lib/utilFunction';
-import { checkContent, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
+import { checkContent, keepMininumTime, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 import TextButton from 'Components/common/TextButton';
 import { TTodo } from 'Typings/types';
@@ -157,6 +157,15 @@ const TodoUpdate: FC = () => {
       return setError({
         isError: true,
         message: overlappingErrorMessage,
+      });
+    }
+
+    const diffMinute = dayjs_endTime.diff(dayjs_startTime, 'minute');
+
+    if (diffMinute < 30) {
+      return setError({
+        isError: true,
+        message: keepMininumTime,
       });
     }
 
