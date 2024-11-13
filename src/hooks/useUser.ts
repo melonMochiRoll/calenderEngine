@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from 'Api/usersApi';
 import { GET_USER_KEY } from 'Lib/queryKeys';
+import { useParams } from 'react-router-dom';
 import { SharedspaceMembersRoles, TSharedspace, TSharedspaceMembers, TUser } from 'Typings/types';
 
 type UseUserReturnType = {
@@ -9,11 +10,13 @@ type UseUserReturnType = {
   isLoading: boolean,
   isLogin: boolean,
   isNotLogin: boolean,
-  isOwner: (url: string) => boolean,
-  hasPermission: (url: string) => boolean,
+  isOwner: boolean,
+  hasPermission: boolean,
+  userRoleName: string,
 };
 
 const useUser = (): UseUserReturnType => {
+  const { url = '' } = useParams();
   const {
     data: userData,
     refetch,
@@ -24,7 +27,7 @@ const useUser = (): UseUserReturnType => {
     refetchOnWindowFocus: false,
   });
 
-  const isOwner = (url: string): boolean => {
+  const isOwner = (): boolean => {
     if (userData) {
       return userData
         .Sharedspacemembers
@@ -39,7 +42,7 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
-  const hasPermission = (url: string): boolean => {
+  const hasPermission = (): boolean => {
     if (userData) {
       return userData
         .Sharedspacemembers
@@ -54,14 +57,26 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
+  const getRoleName = (): string => {
+    if (userData) {
+      return userData
+        .Sharedspacemembers
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
+        ?.RoleName;
+    }
+
+    return '';
+  };
+
   return {
     userData,
     refetch,
     isLoading,
     isLogin: Boolean(!isLoading && userData),
     isNotLogin: Boolean(!isLoading && !userData),
-    isOwner,
-    hasPermission,
+    isOwner: isOwner(),
+    hasPermission: hasPermission(),
+    userRoleName: getRoleName(),
   };
 };
 
