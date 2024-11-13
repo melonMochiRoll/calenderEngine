@@ -93,9 +93,9 @@ const LoginContainer: FC<LoginContainerProps> = ({
 
   }, [email, password]);
 
-  const goBack = useCallback(() => {
-    navigate('/');
-  }, []);
+  const goBack = () => {
+    navigate(-1);
+  };
   
   return (
     <LoginForm
