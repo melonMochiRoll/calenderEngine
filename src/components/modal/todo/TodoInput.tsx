@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom';
 import useUser from 'Hooks/useUser';
 import { createTodo } from 'Api/todosApi';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
-import { checkContent, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
+import { checkContent, keepMininumTime, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
 import useTodosList from 'Hooks/useTodosList';
 import { getByteSize, isOverlapping } from 'Lib/utilFunction';
 import { TTodo } from 'Typings/types';
@@ -25,6 +25,7 @@ const TodoInput: FC = () => {
   dayjs.extend(timezone);
   dayjs.extend(customParseFormat);
   dayjs.extend(isSameOrAfter);
+
   const timeZone = dayjs.tz.guess();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
@@ -146,6 +147,15 @@ const TodoInput: FC = () => {
       return setError({
         isError: true,
         message: overlappingErrorMessage,
+      });
+    }
+
+    const diffMinute = dayjs_endTime.diff(dayjs_startTime, 'minute');
+
+    if (diffMinute < 30) {
+      return setError({
+        isError: true,
+        message: keepMininumTime,
       });
     }
 
