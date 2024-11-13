@@ -106,7 +106,7 @@ const MemberItem: FC<MemberItemProps> = ({
         <Email>{User.email}</Email>
       </Center>
       {
-        isOwner(url) && RoleName !== SharedspaceMembersRoles.OWNER ?
+        isOwner && RoleName !== SharedspaceMembersRoles.OWNER ?
         <Right onClick={onOpenWithEvent}>
           <CurrentOption>{renderRole(RoleName)}</CurrentOption>
           <ArrowDropDownIcon fontSize='large' />

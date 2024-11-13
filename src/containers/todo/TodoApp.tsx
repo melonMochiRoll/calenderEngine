@@ -8,13 +8,11 @@ import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { openModal } from 'Features/modalSlice';
 import { ModalName } from 'Typings/types';
 import useUser from 'Hooks/useUser';
-import { useParams } from 'react-router-dom';
 
 interface TodoAppProps {};
 
 const TodoApp: FC<TodoAppProps> = ({}) => {
   const dispatch = useAppDispatch();
-  const { url = '' } = useParams();
   const { hasPermission } = useUser();
   const { todoTime } = useAppSelector(state => state.todoTime);
   
@@ -25,7 +23,7 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
   return (
     <Container>
       <TodoTitle />
-      {hasPermission(url) &&
+      {hasPermission &&
         <FlexBox
           onClick={() => dispatch(openModal(ModalName.TODO_INPUT))}>
           <AddIcon fontSize='large' sx={{ color: 'var(--blue)' }}/>

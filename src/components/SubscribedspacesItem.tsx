@@ -54,7 +54,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
       <ItemTitle>{name}</ItemTitle>
       <ItemOwner>{Owner.email}</ItemOwner>
       {
-        isOwner(url) ?
+        isOwner ?
         <ItemMoreMenu onClick={onClickMoreMenu}>
           <MoreVertIcon fontSize='large' />
         </ItemMoreMenu> :

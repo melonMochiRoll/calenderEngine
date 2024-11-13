@@ -51,7 +51,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
             fontSize='large'
             sx={{ color: 'var(--blue)', cursor: 'pointer', marginRight: '10px' }}/>
           {
-            isOwner(spaceData.url) ?
+            isOwner ?
             <EditableTitle
               initValue={spaceData?.name}
               submitEvent={onUpdateSharedspaceName}/>
@@ -79,7 +79,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       </Left>
       <Right>
         {
-          isOwner(spaceData.url) ?
+          isOwner ?
           <TextButton
             type='button'
             onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>

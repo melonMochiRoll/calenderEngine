@@ -45,7 +45,7 @@ const TodoDetail: FC = () => {
       onClick={e => e.stopPropagation()}>
       <Header>
         <Left>
-          {hasPermission(url) &&
+          {hasPermission &&
             <MenuIcon
               onClick={onOpen}
               fontSize='large'
