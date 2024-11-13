@@ -3,16 +3,16 @@ import styled from '@emotion/styled';
 
 const TodoNull: FC = () => {
   return (
-    <Text>리스트가 비어있습니다.</Text>
+    <Span>새 Todo를 작성해보세요!</Span>
   );
 };
 
 export default TodoNull;
 
-const Text = styled.span`
+const Span = styled.span`
   margin-top: 150px;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: #9298a1;
 `;
