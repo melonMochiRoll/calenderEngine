@@ -17,7 +17,7 @@ const SharedspaceMemberList: FC = () => {
       <Header>
         <Left></Left>
         <Center>
-          <PeopleIcon fontSize='large' sx={{ color: 'var(--white)', marginRight: '15px' }}/>
+          <PeopleIcon fontSize='large' />
           <ModalTitle>멤버 목록</ModalTitle>
         </Center>
         <Right>
@@ -31,18 +31,16 @@ const SharedspaceMemberList: FC = () => {
         </Right>
       </Header>
       <Main>
-        <MemberDiv>
-          <MembersUl>
-            {spaceData.Sharedspacemembers.map((user) => {
-              return (
-                <MemberItem
-                  key={user.UserId}
-                  OwnerData={spaceData.Owner}
-                  SharedspaceMembersAndUser={user} />
-              );
-            })}
-          </MembersUl>
-        </MemberDiv>
+        <MembersUl>
+          {spaceData.Sharedspacemembers.map((user) => {
+            return (
+              <MemberItem
+                key={user.UserId}
+                OwnerData={spaceData.Owner}
+                SharedspaceMembersAndUser={user} />
+            );
+          })}
+        </MembersUl>
       </Main>
     </Block>
   );
@@ -55,6 +53,7 @@ const Block = styled.div`
   flex-direction: column;
   width: 650px;
   height: 500px;
+  padding-bottom: 1%;
   border-radius: 15px;
   background-color: var(--black);
   box-shadow: 1px 1px 10px 2px #000;
@@ -79,6 +78,8 @@ const Center = styled.div`
   justify-content: center;
   align-items: center;
   width: 70%;
+  color: var(--white);
+  gap: 15px;
 `;
 
 const ModalTitle = styled.h1`
@@ -102,19 +103,14 @@ const Main = styled.div`
   color: var(--white);
 `;
 
-const MemberDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 60%;
-`;
-
 const MembersUl = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
   padding: 0;
+  padding-bottom: 1%;
   margin: 0;
   overflow-y: auto;
 `;
