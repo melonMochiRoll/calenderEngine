@@ -10,10 +10,10 @@ import useUser from 'Hooks/useUser';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 import EditableTitle from 'Components/common/EditableTitle';
-import TextButton from 'Components/common/TextButton';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
 import PublicIcon from '@mui/icons-material/Public';
+import MailIcon from '@mui/icons-material/MarkEmailRead';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -25,7 +25,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
   const navigate = useNavigate();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
-  const { isOwner } = useUser();
+  const { isLogin, isOwner, hasPermission } = useUser();
   const { name, Sharedspacemembers } = spaceData;
 
   const onUpdateSharedspaceName = async (name: string) => {
@@ -72,11 +72,21 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       </Left>
       <Right>
         {
+          isLogin && !hasPermission &&
+          <IconButton
+            onClick={() => dispatch(openModal(ModalName.JOINREQUEST_SENDER))}>
+            <MailIcon
+              fontSize='large'
+              sx={{ color: 'var(--white)' }}/>
+          </IconButton>
+        }
+        {
           isOwner &&
-          <IconButton>
+          <IconButton
+            onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
             <PublicIcon
-              onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}
-              fontSize='large' />
+              fontSize='large'
+              sx={{ color: 'var(--naver-green)' }} />
           </IconButton>
         }
         <RenderUserProfile />
@@ -148,7 +158,6 @@ const IconButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--naver-green);
   cursor: pointer;
   background-color: var(--black);
   padding: 3px;
