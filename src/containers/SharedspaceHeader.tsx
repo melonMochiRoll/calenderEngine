@@ -5,7 +5,6 @@ import SatelliteIcon from '@mui/icons-material/SatelliteAlt';
 import { useNavigate } from 'react-router-dom';
 import gravatar from 'gravatar';
 import { ModalName, TSharedspaceMetaData } from 'Typings/types';
-import SkeletonSharedspaceHeader from 'Components/skeleton/SkeletonSharedspaceHeader';
 import { updateSharedspaceName } from 'Api/sharedspacesApi';
 import useUser from 'Hooks/useUser';
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,6 +13,7 @@ import EditableTitle from 'Components/common/EditableTitle';
 import TextButton from 'Components/common/TextButton';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
+import PublicIcon from '@mui/icons-material/Public';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -72,14 +72,12 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       </Left>
       <Right>
         {
-          isOwner ?
-          <TextButton
-            type='button'
-            onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
-              스페이스 관리
-          </TextButton>
-          :
-          ''
+          isOwner &&
+          <IconButton>
+            <PublicIcon
+              onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}
+              fontSize='large' />
+          </IconButton>
         }
         <RenderUserProfile />
       </Right>
@@ -144,4 +142,20 @@ const Right = styled.div`
   align-items: center;
   width: 30%;
   gap: 12px;
+`;
+
+const IconButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--naver-green);
+  cursor: pointer;
+  background-color: var(--black);
+  padding: 3px;
+  border: none;
+  border-radius: 15px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 `;
