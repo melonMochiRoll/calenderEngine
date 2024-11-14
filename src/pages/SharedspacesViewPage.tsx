@@ -4,6 +4,7 @@ import CalendarContainer from 'Containers/CalendarContainer';
 import TodoContainer from 'Containers/TodoContainer';
 import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import useSharedspace from 'Hooks/useSharedspace';
+import SkeletonSharedspaceHeader from 'Components/skeleton/SkeletonSharedspaceHeader';
 
 const SharedspacesViewPage: FC = () => {
   const {
@@ -13,9 +14,12 @@ const SharedspacesViewPage: FC = () => {
   
   return (
     <Block>
-      <SharedspaceHeader
-        spaceData={spaceData}
-        isLoading={isLoading} />
+      {
+        isLoading ?
+          <SkeletonSharedspaceHeader /> :
+          <SharedspaceHeader
+            spaceData={spaceData}/>
+      }
       <Main>
         <CalendarContainer />
         <TodoContainer />

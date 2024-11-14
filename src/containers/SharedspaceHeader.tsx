@@ -17,21 +17,16 @@ import { openModal } from 'Features/modalSlice';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
-  isLoading: boolean,
 };
 
 const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
   spaceData,
-  isLoading,
 }) => {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
   const { isOwner } = useUser();
-
-  if (isLoading || !spaceData) {
-    return <SkeletonSharedspaceHeader />;
-  }
+  const { name, Sharedspacemembers } = spaceData;
 
   const onUpdateSharedspaceName = async (name: string) => {
     if (spaceData?.name === name) {
@@ -53,28 +48,26 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
           {
             isOwner ?
             <EditableTitle
-              initValue={spaceData?.name}
+              initValue={name}
               submitEvent={onUpdateSharedspaceName}/>
               :
-            <SpaceTitle>{spaceData?.name}</SpaceTitle>
+            <SpaceTitle>{name}</SpaceTitle>
           }
         </FlexBox>
-        {spaceData?.Sharedspacemembers &&
+        {Sharedspacemembers &&
           <FlexBox onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMEMBERLIST))}>
             {
-              spaceData?.Sharedspacemembers.map((member: typeof spaceData.Sharedspacemembers[0], idx: number) => {
-                if (idx < 5) {
+              Sharedspacemembers
+                .slice(0, 5)
+                .map((member: typeof spaceData.Sharedspacemembers[0], idx: number) => {
                   return (
-                    <ProfileImg key={member.User.email} src={gravatar.url(member.User.email, { s: '25px', d: 'retro' })}/>
+                    <ProfileImg
+                      key={member.User.email}
+                      src={gravatar.url(member.User.email, { s: '25px', d: 'retro' })} />
                   );
-                }
-              })
+                })
             }
-            {
-              spaceData?.Sharedspacemembers.length - 5 > 0 ? 
-                <RestUserImg>{`+${spaceData?.Sharedspacemembers.length - 5}`} </RestUserImg> :
-                ''
-            }
+            {Sharedspacemembers.length - 5 > 0 && <RestUserImg>{`+${Sharedspacemembers.length - 5}`} </RestUserImg>}
           </FlexBox>}
       </Left>
       <Right>
