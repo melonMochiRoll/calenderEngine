@@ -57,9 +57,13 @@ export const MemberOptions = {
 export type TUser = {
   id: number,
   email: string,
-  Sharedspacemembers:
-    Pick<TSharedspaceMembers, 'RoleName'> &
-    Pick<TSharedspace, 'url' | 'private'>[],
+  Sharedspacemembers: Array<
+    {
+      RoleId: Pick<TSharedspaceMembers, 'RoleId'>,
+      Sharedspace: Pick<TSharedspace, 'url' | 'private'>,
+      Role: { name: string },
+    }
+  >
 };
 
 export type TLocalTodo = {
@@ -93,9 +97,12 @@ export type TTodo = {
 export type TSharedspaceMembers = {
   SharedspaceId: number,
   UserId: number,
-  RoleName: TSharedspaceMembersRoles,
+  RoleId: number,
   createdAt: Date,
   updatedAt: Date,
+  Role: {
+    name: string,
+  }
 };
 
 export type TSharedspace = {
@@ -121,9 +128,13 @@ export const SubscribedspacesFilter = {
 
 export type TSubscribedspacesFilter = typeof SubscribedspacesFilter[keyof typeof SubscribedspacesFilter];
 
-export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'RoleName' | 'createdAt'> &
+export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'RoleId' | 'createdAt'> &
 {
   User: Pick<TUser, 'email'>
+} & {
+  Role: {
+    name: string,
+  }
 };
 
 export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'private'> &
@@ -136,5 +147,5 @@ export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'p
 
 export type TSearchUsers = Pick<TUser, 'id' | 'email'> &
 {
-  Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleName'>[]
+  Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleId'>[]
 };

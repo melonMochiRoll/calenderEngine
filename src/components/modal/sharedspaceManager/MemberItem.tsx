@@ -47,7 +47,7 @@ const MemberItem: FC<MemberItemProps> = ({
   const qc = useQueryClient();
   const { isOwner } = useUser();
   const { url = '' } = useParams();
-  const { RoleName, UserId, User } = SharedspaceMembersAndUser;
+  const { Role, UserId, User } = SharedspaceMembersAndUser;
 
   const {
     anchorEl,
@@ -72,7 +72,7 @@ const MemberItem: FC<MemberItemProps> = ({
   const onRolesUpdateMenuClick = async (e: any, option: typeof updateRoleOption[0]) => {
     e.stopPropagation();
 
-    if (RoleName === option.roleName) {
+    if (Role.name === option.roleName) {
       onClose();
       return;
     }
@@ -106,14 +106,14 @@ const MemberItem: FC<MemberItemProps> = ({
         <Email>{User.email}</Email>
       </Center>
       {
-        isOwner && RoleName !== SharedspaceMembersRoles.OWNER ?
+        isOwner && Role.name !== SharedspaceMembersRoles.OWNER ?
         <Right onClick={onOpenWithEvent}>
-          <CurrentOption>{renderRole(RoleName)}</CurrentOption>
+          <CurrentOption>{renderRole(Role.name)}</CurrentOption>
           <ArrowDropDownIcon fontSize='large' />
         </Right>
         :
         <DisableRight>
-          <CurrentOption>{renderRole(RoleName)}</CurrentOption>
+          <CurrentOption>{renderRole(Role.name)}</CurrentOption>
         </DisableRight>
       }
       <Menu
