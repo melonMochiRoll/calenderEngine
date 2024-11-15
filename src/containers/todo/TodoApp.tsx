@@ -23,7 +23,7 @@ const TodoApp: FC<TodoAppProps> = ({}) => {
   return (
     <Container>
       <TodoTitle />
-      {hasPermission &&
+      {hasPermission() &&
         <FlexBox
           onClick={() => dispatch(openModal(ModalName.TODO_INPUT))}>
           <AddIcon fontSize='large' sx={{ color: 'var(--blue)' }}/>

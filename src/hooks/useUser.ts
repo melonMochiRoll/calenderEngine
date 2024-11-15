@@ -10,9 +10,9 @@ type UseUserReturnType = {
   isLoading: boolean,
   isLogin: boolean,
   isNotLogin: boolean,
-  isOwner: boolean,
-  hasPermission: boolean,
-  userRoleName: string,
+  isOwner: (url?: string) => boolean,
+  hasPermission: (url?: string) => boolean,
+  getRoleName: (url?: string) => string,
 };
 
 const useUser = (): UseUserReturnType => {
@@ -27,11 +27,11 @@ const useUser = (): UseUserReturnType => {
     refetchOnWindowFocus: false,
   });
 
-  const isOwner = (): boolean => {
+  const isOwner = (_url?: string): boolean => {
     if (userData) {
       const roleName = userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === _url || url)[0]
         ?.Role.name;
 
       return roleName === SharedspaceMembersRoles.OWNER;
@@ -40,11 +40,11 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
-  const hasPermission = (): boolean => {
+  const hasPermission = (_url?: string): boolean => {
     if (userData) {
       const roleName = userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === _url || url)[0]
         ?.Role.name;
       
       return roleName === SharedspaceMembersRoles.MEMBER || roleName === SharedspaceMembersRoles.OWNER;
@@ -53,11 +53,11 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
-  const getRoleName = (): string => {
+  const getRoleName = (_url?: string): string => {
     if (userData) {
       return userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === _url || url)[0]
         ?.Role.name;
     }
 
@@ -70,9 +70,9 @@ const useUser = (): UseUserReturnType => {
     isLoading,
     isLogin: Boolean(!isLoading && userData),
     isNotLogin: Boolean(!isLoading && !userData),
-    isOwner: isOwner(),
-    hasPermission: hasPermission(),
-    userRoleName: getRoleName(),
+    isOwner,
+    hasPermission,
+    getRoleName,
   };
 };
 
