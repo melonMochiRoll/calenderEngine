@@ -20,9 +20,8 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
   onDeleteSharedspace,
 }) => {
   const navigate = useNavigate();
-  const { SharedspaceId, Sharedspace } = space;
+  const { Sharedspace } = space;
   const { name, url, private: privateBool, Owner } = Sharedspace;
-
   const { isOwner } = useUser();
 
   const {
@@ -54,7 +53,7 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
       <ItemTitle>{name}</ItemTitle>
       <ItemOwner>{Owner.email}</ItemOwner>
       {
-        isOwner ?
+        isOwner(url) ?
         <ItemMoreMenu onClick={onClickMoreMenu}>
           <MoreVertIcon fontSize='large' />
         </ItemMoreMenu> :
