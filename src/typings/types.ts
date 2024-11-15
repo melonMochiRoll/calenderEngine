@@ -59,7 +59,7 @@ export type TUser = {
   email: string,
   Sharedspacemembers: Array<
     {
-      RoleId: Pick<TSharedspaceMembers, 'RoleId'>,
+      SharedspaceId: Pick<TSharedspaceMembers, 'SharedspaceId'>,
       Sharedspace: Pick<TSharedspace, 'url' | 'private'>,
       Role: { name: string },
     }
