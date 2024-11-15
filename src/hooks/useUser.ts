@@ -29,14 +29,12 @@ const useUser = (): UseUserReturnType => {
 
   const isOwner = (): boolean => {
     if (userData) {
-      return userData
+      const roleName = userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)
-        .reduce((acc: boolean, it: TSharedspaceMembers) => {
-          const isOwner = it.RoleName === SharedspaceMembersRoles.OWNER;
-    
-          return isOwner;
-        }, false);
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
+        ?.Role.name;
+
+      return roleName === SharedspaceMembersRoles.OWNER;
     }
 
     return false;
@@ -44,14 +42,12 @@ const useUser = (): UseUserReturnType => {
 
   const hasPermission = (): boolean => {
     if (userData) {
-      return userData
+      const roleName = userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)
-        .reduce((acc: boolean, it: TSharedspaceMembers) => {
-          const hasPermission = it.RoleName === SharedspaceMembersRoles.MEMBER || it.RoleName === SharedspaceMembersRoles.OWNER;
-    
-          return hasPermission;
-        }, false);
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
+        ?.Role.name;
+      
+      return roleName === SharedspaceMembersRoles.MEMBER || roleName === SharedspaceMembersRoles.OWNER;
     }
 
     return false;
@@ -62,7 +58,7 @@ const useUser = (): UseUserReturnType => {
       return userData
         .Sharedspacemembers
         .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url)[0]
-        ?.RoleName;
+        ?.Role.name;
     }
 
     return '';
