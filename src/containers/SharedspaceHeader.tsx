@@ -72,7 +72,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
       </Left>
       <Right>
         {
-          isLogin && !hasPermission &&
+          isLogin && !hasPermission() &&
           <IconButton
             onClick={() => dispatch(openModal(ModalName.JOINREQUEST_SENDER))}>
             <MailIcon
