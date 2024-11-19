@@ -101,7 +101,7 @@ const TodoUpdate: FC = () => {
     });
 
     if (
-      newDescription === description &&
+      newDescription === todo?.description &&
       start === startTime &&
       end === endTime
     ) {
