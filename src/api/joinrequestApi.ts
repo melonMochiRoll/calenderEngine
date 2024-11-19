@@ -28,3 +28,18 @@ export const createJoinRequest = async (
     return Promise.reject(err);
   }
 };
+
+export const resolveJoinRequest = async (
+  url: string,
+  id: number,
+  RoleName: string,
+) => {
+  try {
+    await axiosInstance
+      .post(`api/sharedspaces/${url}/joinrequest/${id}/resolve`, {
+        RoleName,
+      });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
