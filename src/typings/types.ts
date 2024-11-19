@@ -152,8 +152,9 @@ export type TSearchUsers = Pick<TUser, 'id' | 'email'> &
 };
 
 export type TJoinRequest = {
-  SharedspaceId: number,
+  id: number,
   RequestorId: number,
   createdAt: Date,
   message: string,
+  Requestor: Pick<TUser, 'email'>,
 };
