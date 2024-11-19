@@ -116,7 +116,6 @@ const Block = styled.div`
   display: flex;
   flex-direction: column;
   width: 450px;
-  height: 300px;
   border-radius: 15px;
   background-color: var(--black);
   box-shadow: 1px 1px 10px 2px #000;
@@ -127,7 +126,7 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 20%;
+  height: 60px;
   padding: 20px 0;
   border-bottom: 1px solid var(--light-gray);
 `;
@@ -160,17 +159,18 @@ const Right = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
-  height: 80%;
   padding: 20px;
   color: var(--white);
+  gap: 50px;
 `;
 
 const DetailDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
   height: 70%;
   gap: 10px;
 `;
@@ -186,11 +186,14 @@ const UpdateAtDiv = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 10px;
 `;
 
 const ContentSpan = styled.span`
+  width: 100%;
   font-size: 22px;
+  word-wrap: break-word;
 `;
 
 const LastupdatedAt = styled.span`
