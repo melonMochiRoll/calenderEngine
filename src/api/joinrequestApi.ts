@@ -43,3 +43,15 @@ export const resolveJoinRequest = async (
     return Promise.reject(err);
   }
 };
+
+export const deleteJoinRequest = async (
+  url: string,
+  id: number,
+) => {
+  try {
+    await axiosInstance
+      .delete(`api/sharedspaces/${url}/joinrequest/${id}`);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
