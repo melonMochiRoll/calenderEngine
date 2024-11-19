@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const getMyJoinRequest = async (
+export const getJoinRequest = async (
   url: string,
 ) => {
   try {
