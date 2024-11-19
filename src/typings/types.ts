@@ -28,6 +28,7 @@ export type TModals = Record<keyof typeof ModalName, React.ReactNode | null>;
 
 export const NestedModalName = {
   TODO_UPDATE: 'TODO_UPDATE',
+  JOINREQUEST_DETAIL: 'JOINREQUEST_DETAIL',
   CLOSE: '',
 } as const;
 
