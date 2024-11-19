@@ -13,7 +13,8 @@ import EditableTitle from 'Components/common/EditableTitle';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
 import PublicIcon from '@mui/icons-material/Public';
-import MailIcon from '@mui/icons-material/MarkEmailRead';
+import MailReadIcon from '@mui/icons-material/MarkEmailRead';
+import MailIcon from '@mui/icons-material/Mail';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -75,19 +76,27 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
           isLogin && !hasPermission() &&
           <IconButton
             onClick={() => dispatch(openModal(ModalName.JOINREQUEST_SENDER))}>
-            <MailIcon
+            <MailReadIcon
               fontSize='large'
-              sx={{ color: 'var(--white)' }}/>
+              sx={{ color: 'var(--white)' }} />
           </IconButton>
         }
         {
           isOwner() &&
-          <IconButton
-            onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
-            <PublicIcon
-              fontSize='large'
-              sx={{ color: 'var(--naver-green)' }} />
-          </IconButton>
+          <>
+            <IconButton>
+              <MailIcon
+                onClick={() => dispatch(openModal(ModalName.JOINREQUEST_MANAGER))}
+                fontSize='large'
+                sx={{ color: 'var(--white)' }} />
+            </IconButton>
+            <IconButton
+              onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
+              <PublicIcon
+                fontSize='large'
+                sx={{ color: 'var(--naver-green)' }} />
+            </IconButton>
+          </>
         }
         <RenderUserProfile />
       </Right>
