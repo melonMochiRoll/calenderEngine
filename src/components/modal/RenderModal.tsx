@@ -9,6 +9,7 @@ import TodoDetail from './todo/TodoDetail';
 import TodoInput from './todo/TodoInput';
 import SharedspaceMemberList from './sharedspaceMemberList/SharedspaceMemberList';
 import JoinRequestSender from './joinrequest/JoinRequestSender';
+import JoinRequestManager from './joinrequest/JoinRequestManager';
 
 const Modals: TModals = {
   SEARCH: <SearchModal />,
@@ -17,6 +18,7 @@ const Modals: TModals = {
   TODO_DETAIL: <TodoDetail />,
   SHAREDSPACEMEMBERLIST: <SharedspaceMemberList />,
   JOINREQUEST_SENDER: <JoinRequestSender />,
+  JOINREQUEST_MANAGER: <JoinRequestManager />,
   CLOSE: null,
 };
 
