@@ -14,11 +14,12 @@ import useUser from 'Hooks/useUser';
 import useTodosList from 'Hooks/useTodosList';
 import { TODO_MAX_SIZE } from 'Lib/calendarConstants';
 import { getByteSize, isOverlapping } from 'Lib/utilFunction';
-import { checkContent, keepMininumTime, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
+import { checkContent, defaultToastOption, keepMininumTime, overlappingErrorMessage, successMessage, waitingMessage } from 'Lib/noticeConstants';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
 import TextButton from 'Components/common/TextButton';
 import { TTodo } from 'Typings/types';
 import { updateTodo } from 'Api/todosApi';
+import { toast } from 'react-toastify';
 
 const TodoUpdate: FC = () => {
   dayjs.extend(utc);
@@ -190,6 +191,9 @@ const TodoUpdate: FC = () => {
       dispatch(closeModal());
       dispatch(closeNestedModal());
       await qc.refetchQueries([GET_TODOS_LIST_KEY]);
+      toast.success(successMessage, {
+        ...defaultToastOption,
+      });
     })
     .catch(() => {
       setError({

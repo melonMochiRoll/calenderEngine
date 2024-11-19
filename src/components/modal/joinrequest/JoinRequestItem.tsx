@@ -9,6 +9,10 @@ import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_JOINREQUEST_KEY, GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 import { deleteJoinRequest, resolveJoinRequest } from 'Api/joinrequestApi';
+import { toast } from 'react-toastify';
+import { defaultToastOption, successMessage } from 'Lib/noticeConstants';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { closeModal } from 'Features/modalSlice';
 
 const updateRoleOption = [
   {
@@ -35,6 +39,7 @@ const JoinRequestItem: FC<JoinRequestItemProps> = ({
   request,
 }) => {
   const qc = useQueryClient();
+  const dispatch = useAppDispatch();
   const { url = '' } = useParams();
   const { id, message, Requestor } = request;
 
@@ -59,6 +64,9 @@ const JoinRequestItem: FC<JoinRequestItemProps> = ({
       .then(async () => {
         await qc.refetchQueries([GET_JOINREQUEST_KEY]);
         await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
+        toast.success(successMessage, {
+          ...defaultToastOption,
+        });
       });
     
     onClose();
@@ -72,6 +80,9 @@ const JoinRequestItem: FC<JoinRequestItemProps> = ({
       .then(async () => {
         await qc.refetchQueries([GET_JOINREQUEST_KEY]);
         await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
+        toast.success(successMessage, {
+          ...defaultToastOption,
+        });
       });
 
     onClose();

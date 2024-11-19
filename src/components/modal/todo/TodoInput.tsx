@@ -15,10 +15,11 @@ import { useParams } from 'react-router-dom';
 import useUser from 'Hooks/useUser';
 import { createTodo } from 'Api/todosApi';
 import { GET_TODOS_LIST_KEY } from 'Lib/queryKeys';
-import { checkContent, keepMininumTime, overlappingErrorMessage, waitingMessage } from 'Lib/noticeConstants';
+import { checkContent, defaultToastOption, keepMininumTime, overlappingErrorMessage, successMessage, waitingMessage } from 'Lib/noticeConstants';
 import useTodosList from 'Hooks/useTodosList';
 import { getByteSize, isOverlapping } from 'Lib/utilFunction';
 import { TTodo } from 'Typings/types';
+import { toast } from 'react-toastify';
 
 const TodoInput: FC = () => {
   dayjs.extend(utc);
@@ -173,6 +174,9 @@ const TodoInput: FC = () => {
       setDescription('');
       dispatch(closeModal());
       await qc.refetchQueries([GET_TODOS_LIST_KEY]);
+      toast.success(successMessage, {
+        ...defaultToastOption,
+      });
     })
     .catch(() => {
       setError({

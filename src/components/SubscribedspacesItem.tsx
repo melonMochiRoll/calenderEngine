@@ -9,6 +9,8 @@ import useMenu from 'Hooks/useMenu';
 import DeleteIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { TSubscribedspaces } from 'Typings/types';
 import useUser from 'Hooks/useUser';
+import { toast } from 'react-toastify';
+import { defaultToastOption, successMessage } from 'Lib/noticeConstants';
 
 interface TSubscribedspacesItemProps {
   space: TSubscribedspaces,
@@ -44,6 +46,9 @@ const SubscribedspacesItem: FC<TSubscribedspacesItemProps> = ({
   const onClickDelete = (e: any, url: string) => {
     onDeleteSharedspace(url);
     onCloseMoreMenu(e);
+    toast.success(successMessage, {
+      ...defaultToastOption,
+    });
   };
   
   return (

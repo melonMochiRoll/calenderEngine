@@ -10,6 +10,8 @@ import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 import useUser from 'Hooks/useUser';
+import { toast } from 'react-toastify';
+import { defaultToastOption, successMessage } from 'Lib/noticeConstants';
 
 const updateRoleOption = [
   {
@@ -80,6 +82,9 @@ const MemberItem: FC<MemberItemProps> = ({
     await updateSharedspaceMembers(url, UserId, option.roleName);
     await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
     onClose();
+    toast.success(successMessage, {
+      ...defaultToastOption,
+    });
   };
 
   const onAccessMenuClick = async (e: any, option: typeof accessOption[0]) => {
@@ -95,6 +100,9 @@ const MemberItem: FC<MemberItemProps> = ({
 
     await qc.refetchQueries([GET_SHAREDSPACE_KEY]);
     onClose();
+    toast.success(successMessage, {
+      ...defaultToastOption,
+    });
   };
   
   return (

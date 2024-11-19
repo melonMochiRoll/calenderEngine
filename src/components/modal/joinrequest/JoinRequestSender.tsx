@@ -9,7 +9,8 @@ import useInput from 'Hooks/useInput';
 import { createJoinRequest } from 'Api/joinrequestApi';
 import { useParams } from 'react-router-dom';
 import { SharedspaceMembersRoles } from 'Typings/types';
-import { waitingMessage } from 'Lib/noticeConstants';
+import { defaultToastOption, successMessage, waitingMessage } from 'Lib/noticeConstants';
+import { toast } from 'react-toastify';
 
 const JoinRequestSender: FC = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +34,12 @@ const JoinRequestSender: FC = () => {
       RoleName,
       message,
     )
-    .then(() => dispatch(closeModal()))
+    .then(() => {
+      toast.success(successMessage, {
+        ...defaultToastOption,
+      });
+      dispatch(closeModal());
+    })
     .catch(() => setError(waitingMessage));
   };
 
