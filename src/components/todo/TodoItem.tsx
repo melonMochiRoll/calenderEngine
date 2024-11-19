@@ -92,6 +92,7 @@ const DescriptionDiv = styled.div<{ bgColor: string }>`
   align-items: center;
   width: 100%;
   height: 100%;
+  padding: 0 10px;
   background-color: ${({ bgColor }) => bgColor ? bgColor : ''};
   cursor: pointer;
 `;
