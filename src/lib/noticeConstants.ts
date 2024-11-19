@@ -16,6 +16,8 @@ export const keepMininumTime = '최소 시간 단위는 30분입니다.';
 
 export const needLogin = '로그인이 필요합니다.';
 
+export const successMessage = '처리 완료되었습니다.';
+
 export const defaultToastOption: ToastOptions = {
   position: 'top-center',
   autoClose: 5000,
