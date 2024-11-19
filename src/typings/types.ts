@@ -18,6 +18,7 @@ export const ModalName = {
   TODO_DETAIL: 'TODO_DETAIL',
   SHAREDSPACEMEMBERLIST: 'SHAREDSPACEMEMBERLIST',
   JOINREQUEST_SENDER: 'JOINREQUEST_SENDER',
+  JOINREQUEST_MANAGER: 'JOINREQUEST_MANAGER',
   CLOSE: '',
 } as const;
 
@@ -148,4 +149,11 @@ export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'p
 export type TSearchUsers = Pick<TUser, 'id' | 'email'> &
 {
   Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleId'>[]
+};
+
+export type TJoinRequest = {
+  SharedspaceId: number,
+  RequestorId: number,
+  createdAt: Date,
+  message: string,
 };
