@@ -36,9 +36,11 @@ const Block = styled.div<{ isTodoShow: boolean }>`
   flex-direction: column;
   width: ${({isTodoShow}) => isTodoShow ? '900px' : '50px'};
   height: 100%;
-  padding: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
   border: 1px solid var(--light-gray);
   background-color: var(--dark-gray);
+  overflow: hidden;
 `;
 
 const TodoHeader = styled.div`
