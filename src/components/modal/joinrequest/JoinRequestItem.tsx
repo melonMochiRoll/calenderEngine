@@ -4,7 +4,7 @@ import gravatar from 'gravatar';
 import useMenu from 'Hooks/useMenu';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { RoleDictionary, SharedspaceMembersRoles, TJoinRequest } from 'Typings/types';
+import { NestedModalName, RoleDictionary, SharedspaceMembersRoles, TJoinRequest } from 'Typings/types';
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_JOINREQUEST_KEY, GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
@@ -12,7 +12,8 @@ import { deleteJoinRequest, resolveJoinRequest } from 'Api/joinrequestApi';
 import { toast } from 'react-toastify';
 import { defaultToastOption, successMessage } from 'Lib/noticeConstants';
 import { useAppDispatch } from 'Hooks/reduxHooks';
-import { closeModal } from 'Features/modalSlice';
+import { openNestedModal } from 'Features/modalSlice';
+import { setjoinRequestDetail } from 'Features/joinRequestDetailSlice';
 
 const updateRoleOption = [
   {
@@ -87,9 +88,14 @@ const JoinRequestItem: FC<JoinRequestItemProps> = ({
 
     onClose();
   };
+
+  const onClickMessage = () => {
+    dispatch(setjoinRequestDetail(request));
+    dispatch(openNestedModal(NestedModalName.JOINREQUEST_DETAIL));
+  };
   
   return (
-    <Item>
+    <Item onClick={() => onClickMessage()}>
       <Left>
         <ProfileImg key={Requestor.email} src={gravatar.url(Requestor.email, { s: '35px', d: 'retro' })} />
       </Left>
@@ -158,6 +164,7 @@ const Item = styled.li`
   list-style: none;
   gap: 15px;
   padding: 10px 15px;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
