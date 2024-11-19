@@ -4,9 +4,11 @@ import { useAppDispatch, useAppSelector } from 'Hooks/reduxHooks';
 import { TNestedModals } from 'Typings/types';
 import { closeNestedModal } from 'Features/modalSlice';
 import TodoUpdate from './todo/TodoUpdate';
+import JoinRequestDetail from './joinrequest/JoinRequestDetail';
 
 const NestedModals: TNestedModals = {
   TODO_UPDATE: <TodoUpdate />,
+  JOINREQUEST_DETAIL: <JoinRequestDetail />,
   CLOSE: null,
 };
 
