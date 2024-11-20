@@ -2,12 +2,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { SEARCH_TODOS_KEY } from "Lib/queryKeys";
 import { searchTodos } from "Api/todosApi";
 import { useEffect, useState } from "react";
-import { TQueryStatus, TTodo } from "Typings/types";
+import { TSearchTodos } from "Typings/types";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "./reduxHooks";
 
 type TUseSearchReturnData = {
-  todos: TTodo[],
+  data: TSearchTodos[],
   isLoading: boolean,
   canLoadMore: boolean,
   nextOffset: () => void,
@@ -64,7 +64,7 @@ const useSearchTodos = (): TUseSearchReturnData => {
   }, [offset]);
 
   return {
-    todos: data,
+    data,
     isLoading,
     canLoadMore,
     nextOffset: () => setOffset(prev => prev + 1),
