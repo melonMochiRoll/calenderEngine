@@ -50,6 +50,8 @@ export const logout = async () => {
 };
 
 export const searchUsers = async (query: string) => {
+  if (!query) return;
+  
   try {
     const { data } = await axiosInstance
       .get(`/api/users/search?query=${query}`);
