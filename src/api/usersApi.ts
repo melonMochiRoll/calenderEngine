@@ -50,15 +50,9 @@ export const logout = async () => {
 };
 
 export const searchUsers = async (query: string) => {
-  const trimmedQuery = query?.trim();
-
-  if (!trimmedQuery) {
-    return [];
-  }
-  
   try {
     const { data } = await axiosInstance
-      .get(`/api/users/search?query=${trimmedQuery}`);
+      .get(`/api/users/search?query=${query}`);
 
     return data;
   } catch (err) {
