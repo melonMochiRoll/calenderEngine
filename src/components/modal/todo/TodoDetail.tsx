@@ -193,7 +193,8 @@ const Content = styled.div`
 const ContentSpan = styled.span`
   width: 100%;
   font-size: 22px;
-  word-wrap: break-word;
+  word-wrap: break-all;
+  word-break: break-all;
 `;
 
 const LastupdatedAt = styled.span`
