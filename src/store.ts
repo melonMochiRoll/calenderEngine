@@ -6,6 +6,7 @@ import searchUsersReducer from 'Features/searchUsersSlice';
 import subscribedspaceFilterReducer from 'Features/subscribedspacesFilterSlice';
 import todoDetailReducer from "Features/todoDetailSlice";
 import joinRequestDetailReducer from 'Features/joinRequestDetailSlice';
+import searchTodosReducer from 'Features/searchTodosSlice';
 
 export const reduxStore = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const reduxStore = configureStore({
     subscribedspaceFilter: subscribedspaceFilterReducer,
     todoDetail: todoDetailReducer,
     joinRequestDetail: joinRequestDetailReducer,
+    searchTodos: searchTodosReducer,
   },
 })
 
