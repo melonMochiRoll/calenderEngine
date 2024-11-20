@@ -7,21 +7,20 @@ import { useAppDispatch } from 'Hooks/reduxHooks';
 import { closeModal } from 'Features/modalSlice';
 import { setCalendarTime } from 'Features/calendarTimeSlice';
 import { setTodoTime } from 'Features/todoTimeSlice';
-import { TLocalTodo, TQueryStatus, TTodo } from 'Typings/types';
-import dayjs from 'dayjs';
+import { TSearchTodos } from 'Typings/types';
 
 interface SearchResultProps {
   query: string,
-  todos: TTodo[] | TLocalTodo[],
-  status: TQueryStatus,
+  todosData: TSearchTodos[],
+  isLoading: boolean,
   canLoadMore: boolean,
   nextOffset: () => void,
 }; 
 
 const SearchResult: FC<SearchResultProps> = ({
   query,
-  todos,
-  status,
+  todosData,
+  isLoading,
   canLoadMore,
   nextOffset,
 }) => {
@@ -35,7 +34,7 @@ const SearchResult: FC<SearchResultProps> = ({
     );
   }
 
-  if (status === 'loading') {
+  if (isLoading) {
     return (
       <Main>
         <CircularProgress size={70} />
@@ -52,19 +51,18 @@ const SearchResult: FC<SearchResultProps> = ({
   return (
     <Main>
       {
-        todos?.length ?
+        todosData?.length ?
         <Ul>
           {
-            todos.map((ele: TTodo | TLocalTodo) => {
-              const { id, contents, date } = ele;
-              const strDate = dayjs(date).format('YYYY-MM-DD');
+            todosData.map((todo: TSearchTodos) => {
+              const { id, description, date } = todo;
 
               return (
                 <Li
                   key={id}
-                  onClick={() => onClickTodo(strDate)}>
-                  <Date>{strDate}</Date>
-                  <WhiteSpan>{contents}</WhiteSpan>
+                  onClick={() => onClickTodo(date)}>
+                  <Date>{date}</Date>
+                  <Description>{description}</Description>
                 </Li>
               );
             })
@@ -77,7 +75,7 @@ const SearchResult: FC<SearchResultProps> = ({
         </Ul> :
         <>
           <ErrorIcon sx={ErrorInlineStyle} />
-          <WhiteSpan>{`"${query}" 에 대한 검색 결과가 없습니다.`}</WhiteSpan>
+          <NotFoundMessage>{`"${query}" 에 대한 검색 결과가 없습니다.`}</NotFoundMessage>
         </>
       }
     </Main>
@@ -109,6 +107,7 @@ const Li = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   padding: 20px;
   margin-bottom: 10px;
   color: var(--white);
@@ -116,6 +115,7 @@ const Li = styled.li`
   border-radius: 15px;
   cursor: pointer;
   user-select: none;
+  gap: 10px;
   transition: all 0.1s linear;
 
   &:hover {
@@ -125,8 +125,10 @@ const Li = styled.li`
 
 const Date = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   color: #0d47a1;
+  width: 20%;
   font-size: 14px;
   font-weight: 600;
   border-radius: 25px;
@@ -140,7 +142,17 @@ const ErrorInlineStyle = {
   paddingBottom: '15px',
 };
 
-const WhiteSpan = styled.span`
+const Description = styled.span`
+  width: 80%;
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const NotFoundMessage = styled.span`
   color: var(--white);
   font-size: 20px;
   font-weight: 600;

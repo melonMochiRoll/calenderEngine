@@ -1,22 +1,37 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/SearchRounded';
 import CloseIcon from '@mui/icons-material/CloseRounded';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { closeModal } from 'Features/modalSlice';
 import SearchResult from 'Components/modal/search/SearchResult';
-import useSearch from 'Hooks/useSearch';
+import useSearchTodos from 'Hooks/useSearchTodos';
+import useInput from 'Hooks/useInput';
+import { clearQuery, setQuery } from 'Features/searchTodosSlice';
 
 const SearchModal: FC = () => {
   const dispatch = useAppDispatch();
+  const [ query, onChangeQuery ] = useInput('');
+
+  useEffect(() => {
+    if (query) {
+      const delay = setTimeout(() => {
+        dispatch(setQuery({ query }));
+      }, 500);
+
+      return () => {
+        dispatch(clearQuery());
+        clearTimeout(delay);
+      };
+    }
+  }, [query]);
+
   const {
-    query,
-    onChangeQuery,
-    status,
-    todos,
+    data: todosData,
+    isLoading,
     canLoadMore,
     nextOffset,
-  } = useSearch();
+  } = useSearchTodos();
 
   return (
     <Block
@@ -26,9 +41,11 @@ const SearchModal: FC = () => {
           fontSize='large'
           sx={{ color: '#66B3FF' }} />
         <Input
+          autoFocus
           type='text'
           value={query}
-          onChange={onChangeQuery} />
+          onChange={onChangeQuery}
+          placeholder='검색'/>
         <CloseIcon
           onClick={() => dispatch(closeModal())}
           sx={{
@@ -39,8 +56,8 @@ const SearchModal: FC = () => {
       </Header>
       <SearchResult
         query={query}
-        todos={todos}
-        status={status}
+        todosData={todosData}
+        isLoading={isLoading}
         canLoadMore={canLoadMore}
         nextOffset={nextOffset} />
       <Footer />
