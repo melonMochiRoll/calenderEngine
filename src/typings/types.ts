@@ -96,6 +96,12 @@ export type TTodo = {
   } | null,
 };
 
+export type TSearchTodos = 
+  Pick<TTodo, 'id' | 'description' | 'date' | 'startTime' | 'endTime'> & {
+    Sharedspace: Pick<TSharedspace, 'url'>,
+  }
+;
+
 export type TSharedspaceMembers = {
   SharedspaceId: number,
   UserId: number,
