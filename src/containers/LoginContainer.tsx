@@ -1,10 +1,9 @@
 import React, { FC, useCallback, useState } from 'react';
 import useInput from 'Hooks/useInput';
-import { getUser, login } from 'Api/usersApi';
+import { login } from 'Api/usersApi';
 import { NavigateFunction } from 'react-router-dom';
 import LoginForm from 'Components/auth/LoginForm';
 import { useQueryClient } from '@tanstack/react-query';
-import { GET_USER_KEY } from 'Lib/queryKeys';
 
 const emailConfirmation = (email: string) => {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -80,9 +79,7 @@ const LoginContainer: FC<LoginContainerProps> = ({
   
     login(emailConfirmResult.email, passwordConfirmResult.password)
       .then(async () => {
-        await qc.prefetchQuery([GET_USER_KEY], () => getUser());
-        
-        navigate('/');
+        navigate(-1);
       })
       .catch(() => {
         setErrors({
