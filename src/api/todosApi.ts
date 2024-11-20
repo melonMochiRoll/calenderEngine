@@ -67,7 +67,7 @@ export const deleteTodo = async (
 ) => {
   try {
     await axiosInstance
-      .delete(`api/sharedspaces/${url}/todos/${todoId}`);
+      .delete(`/api/sharedspaces/${url}/todos/${todoId}`);
   } catch (err: any) {
     console.dir(err);
     return Promise.reject(err);
@@ -80,6 +80,8 @@ export const searchTodos = async (
   offset: number = 1,
   limit: number = 10,
 ) => {
+  if (!query) return;
+  
   try {
     const { data } = await axiosInstance.get(
       `/api/sharedspaces/${url}/todos/search?query=${query}&offset=${offset}&limit=${limit}`
@@ -88,5 +90,6 @@ export const searchTodos = async (
     return data;
   } catch (err: any) {
     console.dir(err);
+    return Promise.reject(err);
   }
 };
