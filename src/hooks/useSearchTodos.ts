@@ -1,36 +1,38 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useInput from "./useInput";
 import { SEARCH_TODOS_KEY } from "Lib/queryKeys";
 import { searchTodos } from "Api/todosApi";
 import { useEffect, useState } from "react";
 import { TQueryStatus, TTodo } from "Typings/types";
+import { useParams } from "react-router-dom";
+import { useAppSelector } from "./reduxHooks";
 
 type TUseSearchReturnData = {
-  query: string,
-  onChangeQuery: (e: any) => void,
-  status: TQueryStatus,
   todos: TTodo[],
+  isLoading: boolean,
   canLoadMore: boolean,
   nextOffset: () => void,
 };
 
-const useSearch = (): TUseSearchReturnData => {
+const useSearchTodos = (): TUseSearchReturnData => {
   const qc = useQueryClient();
-  const [ query, onChangeQuery ] = useInput('');
+  const { url = '' } = useParams();
+  const { query } = useAppSelector(state => state.searchTodos);
+
   const [ offset, setOffset ] = useState(1);
   const [ canLoadMore, setCanLoadMore ] = useState(true);
+
   const {
-    status,
     data,
     refetch,
+    isLoading,
   } = useQuery({
     queryKey: [SEARCH_TODOS_KEY],
-    queryFn: () => searchTodos(query),
+    queryFn: () => searchTodos(url, query),
     refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
-    if (status === 'success' && data?.length < 10) {
+    if (!isLoading && data?.length < 10) {
       setCanLoadMore(false);
     }
   }, [data]);
@@ -51,25 +53,22 @@ const useSearch = (): TUseSearchReturnData => {
 
   useEffect(() => {
     if (offset > 1) {
-      searchTodos(query, offset)
+      searchTodos(url, query, offset)
         .then(res => {
           if (res?.length < 10) {
             setCanLoadMore(false);
           }
           qc.setQueryData([SEARCH_TODOS_KEY], [ ...data, ...res ]);
-        })
-        .catch(err => console.error(err));
+        });
     }
   }, [offset]);
 
   return {
-    query,
-    onChangeQuery,
-    status,
     todos: data,
+    isLoading,
     canLoadMore,
     nextOffset: () => setOffset(prev => prev + 1),
   };
 };
 
-export default useSearch;
+export default useSearchTodos;
