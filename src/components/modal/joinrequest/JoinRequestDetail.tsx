@@ -44,6 +44,7 @@ const Block = styled.div`
   display: flex;
   flex-direction: column;
   width: 450px;
+  min-height: 300px;
   border-radius: 15px;
   background-color: var(--black);
   box-shadow: 1px 1px 5px 1px #000;
@@ -93,5 +94,6 @@ const Main = styled.div`
 
 const Span = styled.span`
   font-size: 20px;
-  word-wrap: break-word;
+  word-wrap: break-all;
+  word-break: break-all;
 `;
