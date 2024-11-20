@@ -170,6 +170,7 @@ const ButtonsDiv = styled.div`
   align-items: center;
   width: 100%;
   height: 20%;
+  padding-left: 15px;
 `;
 
 const ErrorSpan = styled.span`
