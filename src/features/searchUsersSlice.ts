@@ -11,13 +11,13 @@ export const searchUsersSlice = createSlice({
     setQuery(state, action: PayloadAction<{ query: string }>) {
       if (typeof action.payload?.query !== 'string') return;
 
-      const { query } = action.payload;
+      const query = action.payload.query.trim();
 
       if (!query) {
         return;
       }
 
-      state.query = action.payload.query;
+      state.query = query;
     },
     clearQuery(state) {
       state.query = '';
