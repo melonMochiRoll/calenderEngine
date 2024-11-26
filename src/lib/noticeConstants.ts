@@ -18,6 +18,8 @@ export const needLogin = '로그인이 필요합니다.';
 
 export const successMessage = '처리 완료되었습니다.';
 
+export const conflictAccountMessage = '이미 가입된 이메일입니다.';
+
 export const defaultToastOption: ToastOptions = {
   position: 'top-center',
   autoClose: 5000,
