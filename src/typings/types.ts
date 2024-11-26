@@ -59,6 +59,7 @@ export const MemberOptions = {
 export type TUser = {
   id: number,
   email: string,
+  profileImage: string,
   Sharedspacemembers: Array<
     {
       SharedspaceId: Pick<TSharedspaceMembers, 'SharedspaceId'>,
