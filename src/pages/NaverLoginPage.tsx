@@ -1,6 +1,8 @@
 import { loginOAuth2Naver } from 'Api/authApi';
+import { conflictAccountMessage, defaultToastOption, waitingMessage } from 'Lib/noticeConstants';
 import React, { FC, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const NaverLoginPage: FC = () => {
   const navigate = useNavigate();
@@ -31,7 +33,17 @@ const NaverLoginPage: FC = () => {
         navigate('/');
       })
       .catch((err) => {
-        console.error(err); // TODO: 에러 객체 확인 409 에러 발생시 핸들링 할것
+        navigate('/login');
+        if (err?.response?.status === 409) {
+          toast.error(conflictAccountMessage, {
+            ...defaultToastOption,
+          });
+          return;
+        }
+        
+        toast.error(waitingMessage, {
+          ...defaultToastOption
+        });
       });
     
     return () => {
