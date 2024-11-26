@@ -9,6 +9,7 @@ import SharedspacesViewPage from 'Pages/SharedspacesViewPage';
 import SharedspacesPage from 'Pages/SharedspacesPage';
 import InternalServerErrorPage from 'Pages/InternalServerErrorPage';
 import ForbiddenPage from 'Pages/ForbiddenPage';
+import NaverLoginPage from 'Pages/NaverLoginPage';
 
 const MainRouter = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const MainRouter = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/login/oauth2/naver',
+        element: <NaverLoginPage />,
       },
       {
         path: '/join',
