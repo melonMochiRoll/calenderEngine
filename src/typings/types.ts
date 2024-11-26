@@ -139,7 +139,7 @@ export type TSubscribedspacesFilter = typeof SubscribedspacesFilter[keyof typeof
 
 export type TSharedspaceMembersAndUser = Pick<TSharedspaceMembers, 'UserId' | 'RoleId' | 'createdAt'> &
 {
-  User: Pick<TUser, 'email'>
+  User: Pick<TUser, 'email' | 'profileImage'>
 } & {
   Role: {
     name: string,
@@ -154,7 +154,7 @@ export type TSharedspaceMetaData = Pick<TSharedspace, 'id' | 'name' | 'url' | 'p
   Sharedspacemembers: TSharedspaceMembersAndUser[],
 };
 
-export type TSearchUsers = Pick<TUser, 'id' | 'email'> &
+export type TSearchUsers = Pick<TUser, 'id' | 'email' | 'profileImage'> &
 {
   Sharedspacemembers: Pick<TSharedspaceMembers, 'SharedspaceId' | 'RoleId'>[]
 };
@@ -164,5 +164,5 @@ export type TJoinRequest = {
   RequestorId: number,
   createdAt: Date,
   message: string,
-  Requestor: Pick<TUser, 'email'>,
+  Requestor: Pick<TUser, 'email' | 'profileImage'>,
 };
