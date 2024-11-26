@@ -4,6 +4,7 @@ import InputField from 'Components/common/InputField';
 import SubmitButton from 'Components/common/SubmitButton';
 import { ErrorSpan } from './JoinForm';
 import LongSubmitButton, { EButtonIconName } from 'Components/common/LongSubmitButton';
+import { nanoid } from 'nanoid';
 
 type ErrorType = {
   email: string,
@@ -29,6 +30,17 @@ const LoginForm: FC<LoginFormProps> = ({
   onChangeEmail,
   onChangePassword,
 }) => {
+
+  const onNaverLogin = () => {
+    const request_url = 'https://nid.naver.com/oauth2.0/authorize';
+    const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
+    const state = nanoid(Number(process.env.REACT_APP_SALT_OR_ROUND));
+    const redirect_uri = 'http://localhost:9000/login/oauth2/naver';
+
+    sessionStorage.setItem('naver_state', state);
+    window.open(`${request_url}?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}`);
+  };
+
   return (
     <Form onSubmit={onSubmit}>
       <Title>로그인</Title>
@@ -53,6 +65,7 @@ const LoginForm: FC<LoginFormProps> = ({
             로그인
         </LongSubmitButton>
         <LongSubmitButton
+          onClick={onNaverLogin}
           type='button'
           hexCode='var(--naver-green)'
           icon={EButtonIconName.NAVER}>
