@@ -28,7 +28,9 @@ const RenderUserProfile: FC = () => {
       {
         userData ?
           <>
-            <ProfileImg src={gravatar.url(userData?.email, { s: '25px', d: 'retro' })} />
+            <ProfileImg
+              alt='ProfileImg'
+              src={userData.profileImage ? userData.profileImage : gravatar.url(userData?.email, { s: '25px', d: 'retro' })} />
             <EmailSpan>{userData.email}</EmailSpan>
             <TextButton
               onClick={() => onLogout()}
@@ -66,4 +68,5 @@ const ProfileImg = styled.img`
   width: 35px;
   height: 35px;
   border-radius: 35px;
+  object-fit: cover;
 `;

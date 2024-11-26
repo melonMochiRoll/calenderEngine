@@ -61,10 +61,13 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
               Sharedspacemembers
                 .slice(0, 5)
                 .map((member: typeof spaceData.Sharedspacemembers[0], idx: number) => {
+                  const { User } = member;
+
                   return (
                     <ProfileImg
-                      key={member.User.email}
-                      src={gravatar.url(member.User.email, { s: '25px', d: 'retro' })} />
+                      key={User.email}
+                      alt='ProfileImg'
+                      src={User.profileImage ? User.profileImage : gravatar.url(User.email, { s: '25px', d: 'retro' })} />
                   );
                 })
             }
@@ -139,6 +142,7 @@ const ProfileImg = styled.img`
   width: 35px;
   height: 35px;
   border-radius: 35px;
+  object-fit: cover;
   cursor: pointer;
 `;
 

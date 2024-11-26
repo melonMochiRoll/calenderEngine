@@ -108,7 +108,9 @@ const MemberItem: FC<MemberItemProps> = ({
   return (
     <Item>
       <Left>
-        <ProfileImg key={User.email} src={gravatar.url(User.email, { s: '35px', d: 'retro' })} />
+        <ProfileImg
+          alt='ProfileImg'
+          src={User.profileImage ? User.profileImage : gravatar.url(User.email, { s: '35px', d: 'retro' })} />
       </Left>
       <Center>
         <Email>{User.email}</Email>
@@ -185,6 +187,7 @@ const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 35px;
+  object-fit: cover;
   cursor: pointer;
 `;
 

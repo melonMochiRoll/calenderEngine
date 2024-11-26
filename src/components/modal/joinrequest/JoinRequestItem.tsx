@@ -97,7 +97,9 @@ const JoinRequestItem: FC<JoinRequestItemProps> = ({
   return (
     <Item onClick={() => onClickMessage()}>
       <Left>
-        <ProfileImg key={Requestor.email} src={gravatar.url(Requestor.email, { s: '35px', d: 'retro' })} />
+        <ProfileImg
+          alt='ProfileImg'
+          src={Requestor.profileImage ? Requestor.profileImage : gravatar.url(Requestor.email, { s: '35px', d: 'retro' })} />
       </Left>
       <Center>
         <Email>{Requestor.email}</Email>
@@ -175,6 +177,7 @@ const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 35px;
+  object-fit: cover;
   cursor: pointer;
 `;
 

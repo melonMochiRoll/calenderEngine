@@ -35,7 +35,7 @@ const UserItem: FC<UserItemProps> = ({
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
   const { url = '' } = useParams();
-  const { id: UserId, email, Sharedspacemembers } = searchUserData;
+  const { id: UserId, email, profileImage, Sharedspacemembers } = searchUserData;
 
   const {
     anchorEl,
@@ -61,7 +61,9 @@ const UserItem: FC<UserItemProps> = ({
   return (
     <Item>
       <Left>
-        <ProfileImg key={email} src={gravatar.url(email, { s: '35px', d: 'retro' })} />
+        <ProfileImg
+          alt='ProfileImg'
+          src={profileImage ? profileImage : gravatar.url(email, { s: '35px', d: 'retro' })} />
       </Left>
       <Center>
         <Email>{email}</Email>
@@ -126,6 +128,7 @@ const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 35px;
+  object-fit: cover;
   cursor: pointer;
 `;
 
