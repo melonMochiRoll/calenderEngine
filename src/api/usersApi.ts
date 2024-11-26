@@ -31,24 +31,6 @@ export const createUser = async (email: string, password: string) => {
   }
 };
 
-export const login = async (email: string, password: string) => {
-  try {
-    await axiosInstance
-      .post('/api/auth/login', { username: email, password });
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-export const logout = async () => {
-  try {
-    await axiosInstance
-      .post('api/auth/logout');
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
 export const searchUsers = async (query: string) => {
   if (!query) return;
   

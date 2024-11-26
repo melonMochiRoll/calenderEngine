@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import useInput from 'Hooks/useInput';
-import { login } from 'Api/usersApi';
+import { login } from 'Api/authApi';
 import { NavigateFunction } from 'react-router-dom';
 import LoginForm from 'Components/auth/LoginForm';
 import { useQueryClient } from '@tanstack/react-query';

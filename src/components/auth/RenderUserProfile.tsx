@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import styled from '@emotion/styled';
-import { logout } from 'Api/usersApi';
+import { logout } from 'Api/authApi';
 import { useNavigate } from 'react-router-dom';
 import useUser from 'Hooks/useUser';
 import gravatar from 'gravatar';
