@@ -38,7 +38,7 @@ const LoginForm: FC<LoginFormProps> = ({
     const redirect_uri = 'http://localhost:9000/login/oauth2/naver';
 
     sessionStorage.setItem('naver_state', state);
-    window.open(`${request_url}?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}`);
+    window.open(`${request_url}?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}`, '_self');
   };
 
   return (
