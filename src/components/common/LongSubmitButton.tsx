@@ -8,6 +8,7 @@ export const ButtonIconName = {
   LOGIN: 'login',
   JOIN: 'join',
   NAVER: 'naver',
+  GOOGLE: 'google',
 } as const;
 
 export type TButtonIconName = typeof ButtonIconName[keyof typeof ButtonIconName];
@@ -34,6 +35,10 @@ const LongSubmitButton: FC<LongSubmitButtonProps> = ({
 
     if (icon === ButtonIconName.JOIN) {
       return <SignUpIcon />
+    }
+
+    if (icon === ButtonIconName.GOOGLE) {
+      return <GoogleIcon />
     }
 
     if (icon === ButtonIconName.NAVER) {
