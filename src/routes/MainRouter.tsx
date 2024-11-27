@@ -10,6 +10,7 @@ import SharedspacesPage from 'Pages/SharedspacesPage';
 import InternalServerErrorPage from 'Pages/InternalServerErrorPage';
 import ForbiddenPage from 'Pages/ForbiddenPage';
 import NaverLoginPage from 'Pages/NaverLoginPage';
+import GoogleLoginPage from 'Pages/GoogleLoginPage';
 
 const MainRouter = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const MainRouter = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/login/oauth2/google',
+        element: <GoogleLoginPage />,
       },
       {
         path: '/login/oauth2/naver',
