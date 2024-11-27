@@ -18,6 +18,23 @@ export const logout = async () => {
   }
 };
 
+export const loginOAuth2Google = async (
+  code: string,
+  state: string,
+  scope: string,
+) => {
+  try {
+    await axiosInstance
+      .post('/api/auth/login/oauth2/google', {
+        code,
+        state,
+        scope,
+      });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 export const loginOAuth2Naver = async (
   code: string,
   state: string,
