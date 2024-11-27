@@ -30,6 +30,7 @@ const style = css`
     --red: #f94449;
     --blue: #63bcff;
     --naver-green: #03c75a;
+    --google-blue: #4286f5;
     --gray-0: #f8f9fa;
     --gray-1: #f1f3f5;
     --gray-2: #e9ecef;
