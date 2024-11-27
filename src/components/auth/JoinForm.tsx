@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import InputField from 'Components/common/InputField';
 import SubmitButton from 'Components/common/SubmitButton';
-import LongSubmitButton, { EButtonIconName } from 'Components/common/LongSubmitButton';
+import LongSubmitButton, { ButtonIconName } from 'Components/common/LongSubmitButton';
 
 type ErrorType = {
   email: string,
@@ -60,7 +60,7 @@ const JoinForm: FC<JoinFormProps> = ({
       <ButtonBox>
         <LongSubmitButton
           type={'submit'}
-          icon={EButtonIconName.JOIN}>
+          icon={ButtonIconName.JOIN}>
             회원가입
         </LongSubmitButton>
         <SubmitButton

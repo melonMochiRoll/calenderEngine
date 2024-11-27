@@ -2,19 +2,22 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import LoginIcon from '@mui/icons-material/Login';
 import SignUpIcon from '@mui/icons-material/PersonAddAlt1';
+import GoogleIcon from '@mui/icons-material/Google';
 
-export enum EButtonIconName {
-  LOGIN = 'login',
-  JOIN = 'join',
-  NAVER = 'naver',
-};
+export const ButtonIconName = {
+  LOGIN: 'login',
+  JOIN: 'join',
+  NAVER: 'naver',
+} as const;
+
+export type TButtonIconName = typeof ButtonIconName[keyof typeof ButtonIconName];
 
 interface LongSubmitButtonProps {
   type: 'submit' | 'reset' | 'button' | undefined,
   children: React.ReactNode,
   onClick?: () => void,
   hexCode?: string,
-  icon?: EButtonIconName,
+  icon?: TButtonIconName,
 };
 
 const LongSubmitButton: FC<LongSubmitButtonProps> = ({
@@ -25,15 +28,15 @@ const LongSubmitButton: FC<LongSubmitButtonProps> = ({
   children,
 }) => {
   const renderIcon = () => {
-    if (icon === EButtonIconName.LOGIN) {
+    if (icon === ButtonIconName.LOGIN) {
       return <LoginIcon />
     }
 
-    if (icon === EButtonIconName.JOIN) {
+    if (icon === ButtonIconName.JOIN) {
       return <SignUpIcon />
     }
 
-    if (icon === EButtonIconName.NAVER) {
+    if (icon === ButtonIconName.NAVER) {
       return <span>N</span>
     }
 
@@ -47,7 +50,7 @@ const LongSubmitButton: FC<LongSubmitButtonProps> = ({
       hexCode={hexCode}>
       <Side>{renderIcon()}</Side>
       {children}
-      <Side/>
+      <Side />
     </Button>
   );
 };

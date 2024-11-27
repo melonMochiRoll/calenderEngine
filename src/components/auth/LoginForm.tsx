@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import InputField from 'Components/common/InputField';
 import SubmitButton from 'Components/common/SubmitButton';
 import { ErrorSpan } from './JoinForm';
-import LongSubmitButton, { EButtonIconName } from 'Components/common/LongSubmitButton';
+import LongSubmitButton, { ButtonIconName } from 'Components/common/LongSubmitButton';
 import { nanoid } from 'nanoid';
 
 type ErrorType = {
@@ -61,14 +61,14 @@ const LoginForm: FC<LoginFormProps> = ({
       <ButtonBox>
         <LongSubmitButton
           type='submit'
-          icon={EButtonIconName.LOGIN}>
+          icon={ButtonIconName.LOGIN}>
             로그인
         </LongSubmitButton>
         <LongSubmitButton
           onClick={onNaverLogin}
           type='button'
           hexCode='var(--naver-green)'
-          icon={EButtonIconName.NAVER}>
+          icon={ButtonIconName.NAVER}>
           네이버 로그인
         </LongSubmitButton>
         <SubmitButton
