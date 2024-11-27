@@ -25,6 +25,9 @@ const NaverLoginPage: FC = () => {
       error
     ) {
       navigate('/');
+      toast.error(waitingMessage, {
+        ...defaultToastOption
+      });
       return;
     }
 
