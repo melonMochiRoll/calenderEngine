@@ -31,6 +31,22 @@ const LoginForm: FC<LoginFormProps> = ({
   onChangePassword,
 }) => {
 
+  const onGoogleLogin = () => {
+    const request_url = 'https://accounts.google.com/o/oauth2/v2/auth';
+    const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const state = nanoid(Number(process.env.REACT_APP_SALT_OR_ROUND));
+    const redirect_uri = 'http://localhost:9000/login/oauth2/google';
+    const scopes = [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ];
+    const scope = encodeURIComponent(scopes.join(' '));
+    const prompt = 'select_account';
+
+    sessionStorage.setItem('google_state', state);
+    window.open(`${request_url}?client_id=${client_id}&response_type=code&state=${state}&redirect_uri=${redirect_uri}&scope=${scope}&prompt=${prompt}`, '_self');
+  };
+
   const onNaverLogin = () => {
     const request_url = 'https://nid.naver.com/oauth2.0/authorize';
     const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
@@ -63,6 +79,13 @@ const LoginForm: FC<LoginFormProps> = ({
           type='submit'
           icon={ButtonIconName.LOGIN}>
             로그인
+        </LongSubmitButton>
+        <LongSubmitButton
+          onClick={onGoogleLogin}
+          type='button'
+          hexCode='var(--google-blue)'
+          icon={ButtonIconName.GOOGLE}>
+          구글 로그인
         </LongSubmitButton>
         <LongSubmitButton
           onClick={onNaverLogin}
