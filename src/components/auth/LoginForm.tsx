@@ -18,7 +18,6 @@ interface LoginFormProps {
   password: string;
   errors: ErrorType;
   onSubmit: (e: any) => void;
-  goBack: () => void;
   onChangeEmail: (e: any) => void;
   onChangePassword: (e: any) => void;
 };
@@ -28,7 +27,6 @@ const LoginForm: FC<LoginFormProps> = ({
   password,
   errors,
   onSubmit,
-  goBack,
   onChangeEmail,
   onChangePassword,
 }) => {
@@ -106,7 +104,7 @@ const LoginForm: FC<LoginFormProps> = ({
           네이버 로그인
         </LongSubmitButton>
         <SubmitButton
-          onClick={goBack}
+          onClick={() => navigate(-1)}
           type='button'>
             뒤로
         </SubmitButton>

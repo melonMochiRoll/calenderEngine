@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import InputField from 'Components/common/InputField';
 import SubmitButton from 'Components/common/SubmitButton';
 import LongSubmitButton, { ButtonIconName } from 'Components/common/LongSubmitButton';
+import { useNavigate } from 'react-router-dom';
 
 type ErrorType = {
   email: string,
@@ -16,7 +17,6 @@ interface JoinFormProps {
   passwordChk: string;
   errors: ErrorType;
   onSubmit: (e: any) => void;
-  goBack: () => void;
   onChangeEmail: (e: any) => void;
   onChangePassword: (e: any) => void;
   onChangePasswordChk: (e: any) => void;
@@ -28,11 +28,12 @@ const JoinForm: FC<JoinFormProps> = ({
   passwordChk,
   errors,
   onSubmit,
-  goBack,
   onChangeEmail,
   onChangePassword,
   onChangePasswordChk,
 }) => {
+  const navigate = useNavigate();
+  
   return (
     <Form onSubmit={onSubmit}>
       <Title>회원가입</Title>
@@ -64,7 +65,7 @@ const JoinForm: FC<JoinFormProps> = ({
             회원가입
         </LongSubmitButton>
         <SubmitButton
-          onClick={goBack}
+          onClick={() => navigate(-1)}
           type={'button'}>
             뒤로
         </SubmitButton>

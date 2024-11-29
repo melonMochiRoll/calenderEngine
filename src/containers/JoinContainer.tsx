@@ -112,10 +112,6 @@ const JoinContainer: FC<JoinContainerProps> = ({}) => {
     
   }, [email, password, passwordChk]);
 
-  const goBack = () => {
-    navigate(-1);
-  };
-
   return (
     <JoinForm
       email={email}
@@ -123,7 +119,6 @@ const JoinContainer: FC<JoinContainerProps> = ({}) => {
       passwordChk={passwordChk}
       errors={errors}
       onSubmit={onSubmit}
-      goBack={goBack}
       onChangeEmail={onChangeEmail}
       onChangePassword={onChangePassword}
       onChangePasswordChk={onChangePasswordChk} />

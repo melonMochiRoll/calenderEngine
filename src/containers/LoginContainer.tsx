@@ -95,7 +95,6 @@ const LoginContainer: FC<LoginContainerProps> = ({}) => {
       password={password}
       errors={errors}
       onSubmit={onSubmit}
-      goBack={goBack}
       onChangeEmail={onChangeEmail}
       onChangePassword={onChangePassword} />
   );
