@@ -7,6 +7,7 @@ import LongSubmitButton, { ButtonIconName } from 'Components/common/LongSubmitBu
 import { nanoid } from 'nanoid';
 import TextButton from 'Components/common/TextButton';
 import { useNavigate } from 'react-router-dom';
+import { loginOAuth2Google } from 'Api/authApi';
 
 type ErrorType = {
   email: string,
@@ -33,19 +34,8 @@ const LoginForm: FC<LoginFormProps> = ({
   const navigate = useNavigate();
 
   const onGoogleLogin = () => {
-    const request_url = 'https://accounts.google.com/o/oauth2/v2/auth';
-    const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    const state = nanoid(Number(process.env.REACT_APP_SALT_OR_ROUND));
-    const redirect_uri = 'http://localhost:9000/login/oauth2/google';
-    const scopes = [
-      'https://www.googleapis.com/auth/userinfo.email',
-      'https://www.googleapis.com/auth/userinfo.profile',
-    ];
-    const scope = encodeURIComponent(scopes.join(' '));
-    const prompt = 'select_account';
-
-    sessionStorage.setItem('google_state', state);
-    window.open(`${request_url}?client_id=${client_id}&response_type=code&state=${state}&redirect_uri=${redirect_uri}&scope=${scope}&prompt=${prompt}`, '_self');
+    loginOAuth2Google()
+      .then((res) => window.open(res, '_self'));
   };
 
   const onNaverLogin = () => {
