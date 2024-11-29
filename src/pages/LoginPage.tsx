@@ -16,8 +16,7 @@ const LoginPage: FC = () => {
 
   return (
     <Block>
-      <LoginContainer
-        navigate={navigate} />
+      <LoginContainer />
     </Block>
   )
 };

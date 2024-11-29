@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useState } from 'react';
 import useInput from 'Hooks/useInput';
 import { createUser, isUser } from 'Api/usersApi';
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import JoinForm from 'Components/auth/JoinForm';
 
 const emailConfirmation = async (email: string) => {
@@ -61,13 +61,10 @@ const passwordChkConfirmation = (
   return '';
 };
 
-interface JoinContainerProps {
-  navigate: NavigateFunction;
-};
+interface JoinContainerProps {};
 
-const JoinContainer: FC<JoinContainerProps> = ({
-  navigate,
-}) => {
+const JoinContainer: FC<JoinContainerProps> = ({}) => {
+  const navigate = useNavigate();
   const [ email, onChangeEmail ] = useInput('');
   const [ password, onChangePassword ] = useInput('');
   const [ passwordChk, onChangePasswordChk ] = useInput('');

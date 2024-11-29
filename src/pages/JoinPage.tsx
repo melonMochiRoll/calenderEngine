@@ -16,8 +16,7 @@ const JoinPage: FC = () => {
   
   return (
     <Block>
-      <JoinContainer
-        navigate={navigate} />
+      <JoinContainer />
     </Block>
   );
 };

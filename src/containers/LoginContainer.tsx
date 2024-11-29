@@ -1,9 +1,8 @@
 import React, { FC, useCallback, useState } from 'react';
 import useInput from 'Hooks/useInput';
 import { login } from 'Api/authApi';
-import { NavigateFunction } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from 'Components/auth/LoginForm';
-import { useQueryClient } from '@tanstack/react-query';
 
 const emailConfirmation = (email: string) => {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -44,14 +43,10 @@ const passwordConfirmation = (password: string) => {
   return result;
 };
 
-interface LoginContainerProps {
-  navigate: NavigateFunction;
-};
+interface LoginContainerProps {};
 
-const LoginContainer: FC<LoginContainerProps> = ({
-  navigate,
-}) => {
-  const qc = useQueryClient();
+const LoginContainer: FC<LoginContainerProps> = ({}) => {
+  const navigate = useNavigate();
   const [ email, onChangeEmail ] = useInput('');
   const [ password, onChangePassword ] = useInput('');
   const [ errors, setErrors ] = useState({
