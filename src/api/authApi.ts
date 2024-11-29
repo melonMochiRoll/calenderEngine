@@ -18,18 +18,12 @@ export const logout = async () => {
   }
 };
 
-export const loginOAuth2Google = async (
-  code: string,
-  state: string,
-  scope: string,
-) => {
+export const loginOAuth2Google = async () => {
   try {
-    await axiosInstance
-      .post('/api/auth/login/oauth2/google', {
-        code,
-        state,
-        scope,
-      });
+    const { data: url } = await axiosInstance
+      .get(`/api/auth/login/oauth2/google`);
+
+    return url;
   } catch (err) {
     return Promise.reject(err);
   }
