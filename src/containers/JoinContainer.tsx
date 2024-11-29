@@ -115,9 +115,9 @@ const JoinContainer: FC<JoinContainerProps> = ({
     
   }, [email, password, passwordChk]);
 
-  const goBack = useCallback(() => {
-    navigate('/');
-  }, []);
+  const goBack = () => {
+    navigate(-1);
+  };
 
   return (
     <JoinForm
