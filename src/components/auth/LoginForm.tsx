@@ -5,6 +5,8 @@ import SubmitButton from 'Components/common/SubmitButton';
 import { ErrorSpan } from './JoinForm';
 import LongSubmitButton, { ButtonIconName } from 'Components/common/LongSubmitButton';
 import { nanoid } from 'nanoid';
+import TextButton from 'Components/common/TextButton';
+import { useNavigate } from 'react-router-dom';
 
 type ErrorType = {
   email: string,
@@ -30,6 +32,7 @@ const LoginForm: FC<LoginFormProps> = ({
   onChangeEmail,
   onChangePassword,
 }) => {
+  const navigate = useNavigate();
 
   const onGoogleLogin = () => {
     const request_url = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -75,6 +78,14 @@ const LoginForm: FC<LoginFormProps> = ({
         type={'password'} />
       {errors.password ? <ErrorSpan>{errors.password}</ErrorSpan> : <ErrorSpan />}
       <ButtonBox>
+        <JoinBox>
+          <span>계정이 없으신가요?</span>
+          <TextButton
+            type='button'
+            onClick={() => navigate('/join')}>
+            회원가입
+          </TextButton>
+        </JoinBox>
         <LongSubmitButton
           type='submit'
           icon={ButtonIconName.LOGIN}>
@@ -125,6 +136,13 @@ const ButtonBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
   gap: 15px;
+`;
+
+const JoinBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  font-size: 14px;
 `;
