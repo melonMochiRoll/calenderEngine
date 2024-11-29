@@ -29,16 +29,12 @@ export const loginOAuth2Google = async () => {
   }
 };
 
-export const loginOAuth2Naver = async (
-  code: string,
-  state: string,
-) => {
+export const loginOAuth2Naver = async () => {
   try {
-    await axiosInstance
-      .post(`/api/auth/login/oauth2/naver`, {
-        code,
-        state,
-      });
+    const { data: url } = await axiosInstance
+      .get(`/api/auth/login/oauth2/naver`);
+
+    return url;
   } catch (err) {
     return Promise.reject(err);
   }
