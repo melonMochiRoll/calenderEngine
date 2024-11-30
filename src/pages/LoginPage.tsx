@@ -1,18 +1,29 @@
 import React, { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import useUser from 'Hooks/useUser';
 import LoginContainer from 'Containers/LoginContainer';
+import { toast } from 'react-toastify';
+import { defaultToastOption } from 'Lib/noticeConstants';
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
   const { userData, isLogin } = useUser();
+  const [ searchParams ] = useSearchParams();
 
   useEffect(() => {
     if (isLogin) {
       navigate('/');
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (searchParams.get('error')) {
+      toast.error(searchParams.get('error'), {
+        ...defaultToastOption
+      });
+    }
+  }, []);
 
   return (
     <Block>
