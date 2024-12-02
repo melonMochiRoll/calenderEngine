@@ -11,7 +11,17 @@ const SubscribedSpacesPage: FC = () => {
 
   useEffect(() => {
     if (isNotLogin) {
-      navigate('/login');
+      const delay = setTimeout(() => {
+        if (userData) {
+          clearTimeout(delay);
+        } else {
+          navigate('/login');
+        }
+      }, 500);
+
+      return () => {
+        clearTimeout(delay);
+      };
     }
   }, [userData, isNotLogin]);
   
