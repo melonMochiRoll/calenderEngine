@@ -3,18 +3,18 @@ import { getSharedspace } from "Api/sharedspacesApi";
 import { AxiosError } from "axios";
 import { GET_SHAREDSPACE_KEY } from "Lib/queryKeys";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { TErrorResponse, TSharedspaceMetaData } from "Typings/types";
-import handleHooksError from "Lib/handleHooksError";
 
 type TUseSharedspaceReturnType = {
   data: TSharedspaceMetaData,
+  error: unknown,
+  errorCode: number | undefined,
   errorResponse: TErrorResponse | null,
   isLoading: boolean,
 };
 
 const useSharedspace = (): TUseSharedspaceReturnType => {
-  const navigate = useNavigate();
   const { url = '' } = useParams();
   const {
     data,
@@ -32,14 +32,10 @@ const useSharedspace = (): TUseSharedspaceReturnType => {
     refetch();
   }, [url]);
 
-  useEffect(() => {
-    if (isError) {
-      handleHooksError(error, navigate);
-    }
-  }, [isError]);
-
   return {
     data,
+    error,
+    errorCode: error && error instanceof AxiosError ? error.response?.status : 500,
     errorResponse: error instanceof AxiosError ? error.response?.data : null,
     isLoading,
   };
