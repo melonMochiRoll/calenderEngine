@@ -33,7 +33,7 @@ const SharedspacesViewPage: FC = () => {
           });
           navigate('/login');
         }
-      }, 1000);
+      }, 500);
 
       return () => {
         clearTimeout(delay);
