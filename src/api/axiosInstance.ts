@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const DEVELOPMENT_BASEURL = 'http://localhost:3000';
+const BACKURL = process.env.REACT_APP_SERVER_ORIGIN;
 
 export const axiosInstance = axios.create({
-  baseURL: DEVELOPMENT_BASEURL,
+  baseURL: BACKURL,
   headers: { "Content-Type" : "application/json" },
   withCredentials: true,
 });
