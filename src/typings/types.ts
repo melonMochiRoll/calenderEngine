@@ -166,3 +166,12 @@ export type TJoinRequest = {
   message: string,
   Requestor: Pick<TUser, 'email' | 'profileImage'>,
 };
+
+export type TChat = {
+  id: number;
+  content: string;
+  SenderId: number | null;
+  SharedspaceId: number;
+  createdAt: Date;
+  deletedAt: Date | null;
+};
