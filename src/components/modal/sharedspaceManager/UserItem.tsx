@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import gravatar from 'gravatar';
 import useMenu from 'Hooks/useMenu';
 import { Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -11,6 +10,7 @@ import { createSharedspaceMembers } from 'Api/sharedspacesApi';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { clearQuery } from 'Features/searchUsersSlice';
+import ProfileImage from 'Components/ProfileImage';
 
 const createRoleOption = [
   {
@@ -61,9 +61,9 @@ const UserItem: FC<UserItemProps> = ({
   return (
     <Item>
       <Left>
-        <ProfileImg
-          alt='ProfileImg'
-          src={profileImage ? profileImage : gravatar.url(email, { s: '35px', d: 'retro' })} />
+        <ProfileImage
+          profileImage={profileImage}
+          email={email} />
       </Left>
       <Center>
         <Email>{email}</Email>
@@ -122,14 +122,6 @@ const Item = styled.li`
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
-`;
-
-const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 35px;
-  object-fit: cover;
-  cursor: pointer;
 `;
 
 const Left = styled.div`

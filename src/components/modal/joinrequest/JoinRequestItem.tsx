@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import gravatar from 'gravatar';
 import useMenu from 'Hooks/useMenu';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -14,6 +13,7 @@ import { defaultToastOption, successMessage } from 'Lib/noticeConstants';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openNestedModal } from 'Features/modalSlice';
 import { setjoinRequestDetail } from 'Features/joinRequestDetailSlice';
+import ProfileImage from 'Components/ProfileImage';
 
 const updateRoleOption = [
   {
@@ -97,9 +97,9 @@ const JoinRequestItem: FC<JoinRequestItemProps> = ({
   return (
     <Item onClick={() => onClickMessage()}>
       <Left>
-        <ProfileImg
-          alt='ProfileImg'
-          src={Requestor.profileImage ? Requestor.profileImage : gravatar.url(Requestor.email, { s: '35px', d: 'retro' })} />
+        <ProfileImage
+          profileImage={Requestor.profileImage}
+          email={Requestor.email} />
       </Left>
       <Center>
         <Email>{Requestor.email}</Email>
@@ -171,14 +171,6 @@ const Item = styled.li`
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
-`;
-
-const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 35px;
-  object-fit: cover;
-  cursor: pointer;
 `;
 
 const Left = styled.div`

@@ -15,6 +15,7 @@ import { openModal } from 'Features/modalSlice';
 import PublicIcon from '@mui/icons-material/Public';
 import MailReadIcon from '@mui/icons-material/MarkEmailRead';
 import MailIcon from '@mui/icons-material/Mail';
+import ProfileImage from 'Components/ProfileImage';
 
 interface SharedspaceHeaderHeaderProps {
   spaceData: TSharedspaceMetaData,
@@ -63,12 +64,10 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
                 .map((member: typeof spaceData.Sharedspacemembers[0], idx: number) => {
                   const { User } = member;
 
-                  return (
-                    <ProfileImg
-                      key={User.email}
-                      alt='ProfileImg'
-                      src={User.profileImage ? User.profileImage : gravatar.url(User.email, { s: '25px', d: 'retro' })} />
-                  );
+                  return <ProfileImage
+                    key={User.email}
+                    profileImage={User.profileImage}
+                    email={User.email} />;
                 })
             }
             {Sharedspacemembers.length - 5 > 0 && <RestUserImg>{`+${Sharedspacemembers.length - 5}`} </RestUserImg>}

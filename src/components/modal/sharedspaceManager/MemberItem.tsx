@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import gravatar from 'gravatar';
 import useMenu from 'Hooks/useMenu';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -12,6 +11,7 @@ import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 import useUser from 'Hooks/useUser';
 import { toast } from 'react-toastify';
 import { defaultToastOption, successMessage } from 'Lib/noticeConstants';
+import ProfileImage from 'Components/ProfileImage';
 
 const updateRoleOption = [
   {
@@ -108,9 +108,9 @@ const MemberItem: FC<MemberItemProps> = ({
   return (
     <Item>
       <Left>
-        <ProfileImg
-          alt='ProfileImg'
-          src={User.profileImage ? User.profileImage : gravatar.url(User.email, { s: '35px', d: 'retro' })} />
+        <ProfileImage
+          profileImage={User.profileImage}
+          email={User.email} />
       </Left>
       <Center>
         <Email>{User.email}</Email>
@@ -181,14 +181,6 @@ const Item = styled.li`
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
-`;
-
-const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 35px;
-  object-fit: cover;
-  cursor: pointer;
 `;
 
 const Left = styled.div`
