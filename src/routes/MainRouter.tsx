@@ -9,6 +9,7 @@ import SharedspacesViewPage from 'Pages/SharedspacesViewPage';
 import SharedspacesPage from 'Pages/SharedspacesPage';
 import InternalServerErrorPage from 'Pages/InternalServerErrorPage';
 import ForbiddenPage from 'Pages/ForbiddenPage';
+import SharedspacesChatPage from 'Pages/SharedspacesChatPage';
 
 const MainRouter = createBrowserRouter([
   {
@@ -24,16 +25,20 @@ const MainRouter = createBrowserRouter([
         element: <JoinPage />,
       },
       {
+        path: '/sharedspaces/subscribed',
+        element: <SubscribedSpacesPage />,
+      },
+      {
         path: '/sharedspaces',
         element: <SharedspacesPage />,
         children: [
           {
-            path: 'subscribed',
-            element: <SubscribedSpacesPage />,
-          },
-          {
             path: 'view/:url',
             element: <SharedspacesViewPage />
+          },
+          {
+            path: 'chat/:url',
+            element: <SharedspacesChatPage />
           },
         ],
       },
