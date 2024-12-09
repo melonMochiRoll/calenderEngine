@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import RenderUserProfile from 'Components/auth/RenderUserProfile';
 import SatelliteIcon from '@mui/icons-material/SatelliteAlt';
 import { useNavigate } from 'react-router-dom';
-import gravatar from 'gravatar';
 import { ModalName, TSharedspaceMetaData } from 'Typings/types';
 import { updateSharedspaceName } from 'Api/sharedspacesApi';
 import useUser from 'Hooks/useUser';
@@ -12,9 +11,6 @@ import { GET_SHAREDSPACE_KEY } from 'Lib/queryKeys';
 import EditableTitle from 'Components/common/EditableTitle';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
-import PublicIcon from '@mui/icons-material/Public';
-import MailReadIcon from '@mui/icons-material/MarkEmailRead';
-import MailIcon from '@mui/icons-material/Mail';
 import ProfileImage from 'Components/ProfileImage';
 
 interface SharedspaceHeaderHeaderProps {
@@ -27,7 +23,7 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
   const navigate = useNavigate();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
-  const { isLogin, isOwner, hasPermission } = useUser();
+  const { isOwner } = useUser();
   const { name, Sharedspacemembers } = spaceData;
 
   const onUpdateSharedspaceName = async (name: string) => {
@@ -74,32 +70,6 @@ const SharedspaceHeader: FC<SharedspaceHeaderHeaderProps> = ({
           </FlexBox>}
       </Left>
       <Right>
-        {
-          isLogin && !hasPermission() &&
-          <IconButton
-            onClick={() => dispatch(openModal(ModalName.JOINREQUEST_SENDER))}>
-            <MailReadIcon
-              fontSize='large'
-              sx={{ color: 'var(--white)' }} />
-          </IconButton>
-        }
-        {
-          isOwner() &&
-          <>
-            <IconButton>
-              <MailIcon
-                onClick={() => dispatch(openModal(ModalName.JOINREQUEST_MANAGER))}
-                fontSize='large'
-                sx={{ color: 'var(--white)' }} />
-            </IconButton>
-            <IconButton
-              onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
-              <PublicIcon
-                fontSize='large'
-                sx={{ color: 'var(--naver-green)' }} />
-            </IconButton>
-          </>
-        }
         <RenderUserProfile />
       </Right>
     </Block>
@@ -137,14 +107,6 @@ const SpaceTitle = styled.h1`
   margin: 0;
 `;
 
-const ProfileImg = styled.img`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  object-fit: cover;
-  cursor: pointer;
-`;
-
 const RestUserImg = styled.div`
   display: flex;
   justify-content: center;
@@ -163,7 +125,7 @@ const Right = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 30%;
-  gap: 12px;
+  gap: 15px;
 `;
 
 const IconButton = styled.button`

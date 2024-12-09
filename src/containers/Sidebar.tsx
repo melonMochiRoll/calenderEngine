@@ -3,11 +3,20 @@ import styled from '@emotion/styled';
 import HomeIcon from '@mui/icons-material/Home';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { openModal } from 'Features/modalSlice';
+import { ModalName } from 'Typings/types';
+import PublicIcon from '@mui/icons-material/Public';
+import MailIcon from '@mui/icons-material/Mail';
+import MailReadIcon from '@mui/icons-material/MarkEmailRead';
+import useUser from 'Hooks/useUser';
 
 const Sidebar: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const { url = '' } = useParams();
+  const { isLogin, isOwner, hasPermission } = useUser();
   const pageName = location.pathname.split('/')[2];
   
   return (
@@ -24,6 +33,31 @@ const Sidebar: FC = () => {
         </Icon>
         <span>채팅</span>
       </IconButton>
+      {
+        isLogin && !hasPermission() &&
+        <IconButton onClick={() => dispatch(openModal(ModalName.JOINREQUEST_SENDER))}>
+          <MailReadIcon />
+          <span>권한 요청</span>
+        </IconButton>
+      }
+      {
+        isOwner() &&
+        <IconButton onClick={() => dispatch(openModal(ModalName.SHAREDSPACEMANAGER))}>
+          <Icon>
+            <PublicIcon />
+          </Icon>
+          <span>채널 관리</span>
+        </IconButton>
+      }
+      {
+        isOwner() &&
+        <IconButton onClick={() => dispatch(openModal(ModalName.JOINREQUEST_MANAGER))}>
+          <Icon>
+            <MailIcon />
+          </Icon>
+          <span>권한 요청 관리</span>
+        </IconButton>
+      }
     </Block>
   );
 };
@@ -34,6 +68,7 @@ const Block = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 75px;
   height: 100vh;
   padding: 30px 10px;
   background-color: var(--dark-gray);
@@ -52,10 +87,11 @@ const IconButton = styled.div`
   span {
     font-size: 14px;
     padding-top: 5px;
+    text-align: center;
   }
 `;
 
-const Icon = styled.div<{ active: boolean }>`
+const Icon = styled.div<{ active?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
