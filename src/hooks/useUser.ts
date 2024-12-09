@@ -16,7 +16,7 @@ type UseUserReturnType = {
 };
 
 const useUser = (): UseUserReturnType => {
-  const { url = '' } = useParams();
+  const { url: _url = '' } = useParams();
   const {
     data: userData,
     refetch,
@@ -27,11 +27,11 @@ const useUser = (): UseUserReturnType => {
     refetchOnWindowFocus: false,
   });
 
-  const isOwner = (_url?: string): boolean => {
+  const isOwner = (url?: string): boolean => {
     if (userData) {
       const roleName = userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === _url || url)[0]
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url || _url)[0]
         ?.Role.name;
 
       return roleName === SharedspaceMembersRoles.OWNER;
@@ -40,11 +40,11 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
-  const hasPermission = (_url?: string): boolean => {
+  const hasPermission = (url?: string): boolean => {
     if (userData) {
       const roleName = userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === _url || url)[0]
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url || _url)[0]
         ?.Role.name;
       
       return roleName === SharedspaceMembersRoles.MEMBER || roleName === SharedspaceMembersRoles.OWNER;
@@ -53,11 +53,11 @@ const useUser = (): UseUserReturnType => {
     return false;
   };
 
-  const getRoleName = (_url?: string): string => {
+  const getRoleName = (url?: string): string => {
     if (userData) {
       return userData
         .Sharedspacemembers
-        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === _url || url)[0]
+        .filter((it: { Sharedspace: Pick<TSharedspace, 'url'> }) => it.Sharedspace.url === url || _url)[0]
         ?.Role.name;
     }
 
