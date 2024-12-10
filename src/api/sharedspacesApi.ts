@@ -156,9 +156,11 @@ export const getSharedspaceChats = async (
 };
 
 export const createSharedspaceChats = async (
-  url: string,
+  url: string | undefined,
   content: string,
 ) => {
+  if (!url || !content) return;
+
   try {
     await axiosInstance
       .post(`/api/sharedspaces/${url}/chats`, {
