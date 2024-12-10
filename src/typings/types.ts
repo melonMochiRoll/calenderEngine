@@ -183,4 +183,9 @@ export type TChatList = Pick<TChat,
   'SharedspaceId' |
   'createdAt'> & {
     Sender: Pick<TUser, 'email' | 'profileImage'>,
-  }
+  };
+
+export type TChats = {
+  chats: TChatList[],
+  hasMoreData: boolean,
+};
