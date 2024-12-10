@@ -136,7 +136,7 @@ export const deleteSharedspaceMembers = async (
 export const getSharedspaceChats = async (
   url: string | undefined,
   offset: number,
-  limit: number = 10,
+  limit: number = 20,
 ) => {
   if (!url) return;
 
