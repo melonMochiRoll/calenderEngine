@@ -15,6 +15,7 @@ const Chat: FC<ChatProps> = ({
     <Block>
       <Left>
         <ProfileImage
+          profileImage={chat.Sender.profileImage}
           email={chat.Sender.email}
           size={'large'} />
       </Left>
