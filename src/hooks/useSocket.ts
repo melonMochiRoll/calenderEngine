@@ -1,15 +1,17 @@
 import { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
 type TUseSocketReturnType = {
   socket: Socket | null,
 };
 
-const useSocket = (url: string): TUseSocketReturnType => {
+const useSocket = (): TUseSocketReturnType => {
+  const { url = '' } = useParams();
   const socketRef = useRef<Socket>();
 
   useEffect(() => {
-    socketRef.current = io(url);
+    socketRef.current = io(`${process.env.REACT_APP_SERVER_ORIGIN}/sharedspace-${url}`);
 
     return () => {
       socketRef.current?.disconnect();
