@@ -1,20 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSharedspaceChats } from "Api/sharedspacesApi";
 import { GET_SHAREDSPACE_CHATS_KEY } from "Lib/queryKeys";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TChatList } from "Typings/types";
+import { TChats } from "Typings/types";
 
 type TUseChatsReturnType = {
-  data: {
-    chats: TChatList[],
-    hasMoreData: boolean
-  },
+  data: TChats,
   isLoading: boolean,
+  offset: number,
+  setOffset: React.Dispatch<React.SetStateAction<number>>,
 };
 
 const useChats = (): TUseChatsReturnType => {
   const { url: _url } = useParams();
+  const [ offset, setOffset ] = useState(1);
   const {
     data,
     isLoading,
@@ -22,7 +22,7 @@ const useChats = (): TUseChatsReturnType => {
     error,
   } = useQuery({
     queryKey: [GET_SHAREDSPACE_CHATS_KEY],
-    queryFn: () => getSharedspaceChats(_url, 1),
+    queryFn: () => getSharedspaceChats(_url, offset),
     refetchOnWindowFocus: false,
   });
 
@@ -33,6 +33,8 @@ const useChats = (): TUseChatsReturnType => {
   return {
     data,
     isLoading,
+    offset,
+    setOffset,
   };
 };
 
