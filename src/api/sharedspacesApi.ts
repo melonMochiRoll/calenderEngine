@@ -127,7 +127,18 @@ export const deleteSharedspaceMembers = async (
 ) => {
   try {
     await axiosInstance
-      .delete(`/api/sharedspaces/${url}/members/${UserId}`)
+      .delete(`/api/sharedspaces/${url}/members/${UserId}`);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getSharedspaceChats = async (
+  url: string,
+) => {
+  try {
+    await axiosInstance
+      .get(`/api/sharedspaces/${url}/chats`);
   } catch (err) {
     return Promise.reject(err);
   }
