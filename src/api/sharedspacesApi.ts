@@ -154,3 +154,17 @@ export const getSharedspaceChats = async (
     return Promise.reject(err);
   }
 };
+
+export const createSharedspaceChats = async (
+  url: string,
+  content: string,
+) => {
+  try {
+    await axiosInstance
+      .post(`/api/sharedspaces/${url}/chats`, {
+        content,
+      });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
