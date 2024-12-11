@@ -5,7 +5,7 @@ import gravatar from 'gravatar';
 interface ProfileImageProps {
   profileImage?: string,
   email?: string,
-  size?: 'large',
+  size?: 'large' | 'small',
 };
 
 const ProfileImage: FC<ProfileImageProps> = ({
@@ -14,9 +14,23 @@ const ProfileImage: FC<ProfileImageProps> = ({
   size,
 }) => {
 
+  if (size === 'large') {
+    return <Img
+      size={'50px'}
+      alt='ProfileImg'
+      src={profileImage ? profileImage : gravatar.url(email, { s: '25px', d: 'retro' })} />;
+  }
+
+  if (size === 'small') {
+    return <Img
+      size={'25px'}
+      alt='ProfileImg'
+      src={profileImage ? profileImage : gravatar.url(email, { s: '25px', d: 'retro' })} />;
+  }
+
   return (
     <Img
-      size={size}
+      size={'35px'}
       alt='ProfileImg'
       src={profileImage ? profileImage : gravatar.url(email, { s: '25px', d: 'retro' })} />
   );
@@ -25,8 +39,8 @@ const ProfileImage: FC<ProfileImageProps> = ({
 export default ProfileImage;
 
 const Img = styled.img<{ size?: string }>`
-  width: ${({ size }) => size === 'large' ? '50px' : '35px'};
-  height: ${({ size }) => size === 'large' ? '50px' : '35px'};
+  width: ${({ size }) => size};
+  height: ${({ size }) => size};
   border-radius: 35px;
   object-fit: cover;
   cursor: pointer;
