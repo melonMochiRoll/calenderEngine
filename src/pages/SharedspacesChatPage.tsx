@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useRef } from 'react';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import useSocket from 'Hooks/useSocket';
 import SendIcon from '@mui/icons-material/Send';
@@ -14,6 +14,7 @@ import useInput from 'Hooks/useInput';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
 import { throttle } from 'lodash';
+import NewChatNotifier from 'Components/chat/NewChatNotifier';
 
 const SharedspacesChatPage: FC = () => {
   const { url } = useParams();
@@ -22,10 +23,17 @@ const SharedspacesChatPage: FC = () => {
   const { data: chatList, isLoading, offset, setOffset } = useChats();
   const [ chat, onChangeChat, setChat ] = useInput('');
   const scrollbarRef = useRef<HTMLUListElement>(null);
+  const [ showNewChat, setShowNewChat ] = useState({
+    chat: '',
+    active: false,
+    email: '',
+    profileImage: '',
+  });
 
   const onScroll = throttle(() => {
     if (scrollbarRef.current) {
       const isTop = scrollbarRef.current.scrollHeight - 100 < scrollbarRef.current.clientHeight - scrollbarRef.current.scrollTop;
+
       if (isTop && chatList.hasMoreData) {
         scrollbarRef?.current?.scrollTo(0, -200);
         
@@ -42,6 +50,10 @@ const SharedspacesChatPage: FC = () => {
             qc.invalidateQueries([GET_SHAREDSPACE_CHATS_KEY]);
           });
       }
+
+      if (scrollbarRef.current.scrollTop > -100) {
+        setShowNewChat({ chat: '', active: false, email: '', profileImage: '', });
+      }
     }
   }, 300);
     
@@ -55,6 +67,19 @@ const SharedspacesChatPage: FC = () => {
 
       return { chats: [ data, ...prev?.chats ], hasMoreData: prev?.hasMoreData };
     });
+
+    if (scrollbarRef.current) {
+      const scrollBorder = (0 - scrollbarRef.current.scrollTop) > scrollbarRef.current.clientHeight / 2;
+    
+      if (scrollBorder) {
+        setShowNewChat({
+          chat: data.content,
+          active: true,
+          email: data.Sender.email,
+          profileImage: data.Sender.profileImage,
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -105,6 +130,7 @@ const SharedspacesChatPage: FC = () => {
             }) :
             <SkeletonChatList />
           }
+          {showNewChat.active && <NewChatNotifier chat={showNewChat.chat} onClick={() => scrollbarRef?.current?.scrollTo(0, 0)} />}
         </ChatList>
         <SidePadding>
           <Form onSubmit={onSubmit}>
@@ -132,6 +158,7 @@ const Block = styled.div`
 `;
 
 const ChatDiv = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 1000px;
