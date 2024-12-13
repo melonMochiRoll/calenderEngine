@@ -15,13 +15,22 @@ import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
 import { throttle } from 'lodash';
 import NewChatNotifier from 'Components/chat/NewChatNotifier';
+import AddCircleIcon from '@mui/icons-material/AddCircleRounded';
+import useMenu from 'Hooks/useMenu';
+import { Menu, MenuItem } from '@mui/material';
+import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
+import ImagePreviewer from 'Components/chat/ImagePreviewer';
 
 const SharedspacesChatPage: FC = () => {
   const { url } = useParams();
   const qc = useQueryClient();
   const { socket } = useSocket();
   const { data: chatList, isLoading, offset, setOffset } = useChats();
+
   const [ chat, onChangeChat, setChat ] = useInput('');
+  const [ files, setFiles ] = useState<File[]>([]);
+  const [ previews, setPreviews ] = useState<Array<string | ArrayBuffer | null>>([]);
+
   const scrollbarRef = useRef<HTMLUListElement>(null);
   const [ showNewChat, setShowNewChat ] = useState({
     chat: '',
@@ -29,6 +38,13 @@ const SharedspacesChatPage: FC = () => {
     email: '',
     profileImage: '',
   });
+
+  const {
+    anchorEl,
+    open,
+    onOpen,
+    onClose,
+  } = useMenu();
 
   const onScroll = throttle(() => {
     if (scrollbarRef.current) {
@@ -56,6 +72,11 @@ const SharedspacesChatPage: FC = () => {
       }
     }
   }, 300);
+
+  const deleteFile = (idx: number) => {
+    setFiles(prev => [ ...prev.slice(0, idx), ...prev.slice(idx + 1, prev.length) ]);
+    setPreviews(prev => [ ...prev.slice(0, idx), ...prev.slice(idx + 1, prev.length) ]);
+  };
     
   const listener = (data: TChatList) => {
     if (!data) return;
@@ -90,12 +111,62 @@ const SharedspacesChatPage: FC = () => {
     };
   }, [socket, listener]);
 
-  const onSubmit = (e: any) => {
+  const onChangeFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    if (!e.target.files) return [];
 
-    createSharedspaceChats(url, chat.trim())
+    if (files.length) {
+      const result = Object.values(e.target.files).map((file) => {
+        const reader = new FileReader();
+  
+        reader.onloadend = () => {
+          setPreviews((prev) => [ ...prev, reader.result ]);
+        };
+  
+        reader.readAsDataURL(file);
+  
+        return file;
+      });
+
+      return setFiles(prev => [ ...prev, ...result ]);
+    }
+
+    const result = Object.values(e.target.files).map((file) => {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPreviews((prev) => [ ...prev, reader.result ]);
+      };
+
+      reader.readAsDataURL(file);
+
+      return file;
+    });
+
+    setFiles(result);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmedChat = chat.trim();
+
+    if (!trimmedChat && !files.length) {
+      setChat('');
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('content', trimmedChat);
+    files.forEach((file) => {
+      formData.append('images', file);
+    });
+
+    createSharedspaceChats(url, formData)
       .then(() => {
         setChat('');
+        setFiles([]);
+        setPreviews([]);
         scrollbarRef?.current?.scrollTo(0, 0);
       });
   };
@@ -106,6 +177,15 @@ const SharedspacesChatPage: FC = () => {
         <ChatList
           ref={scrollbarRef}
           onScroll={onScroll}>
+          {showNewChat.active &&
+            <NewChatNotifier
+              chat={showNewChat.chat}
+              onClick={() => scrollbarRef?.current?.scrollTo(0, 0)} />}
+          {Boolean(previews.length) &&
+            <ImagePreviewer
+              previews={previews}
+              deleteFile={deleteFile} />
+          }
           {!isLoading ?
             chatList?.chats.map((chat: TChatList, idx: number) => {
 
@@ -130,20 +210,58 @@ const SharedspacesChatPage: FC = () => {
             }) :
             <SkeletonChatList />
           }
-          {showNewChat.active && <NewChatNotifier chat={showNewChat.chat} onClick={() => scrollbarRef?.current?.scrollTo(0, 0)} />}
         </ChatList>
         <SidePadding>
           <Form onSubmit={onSubmit}>
+            <IconButton
+              onClick={onOpen}
+              type='button'>
+              <AddCircleIcon fontSize='large' />
+            </IconButton>
             <ChatInput
               value={chat}
               onChange={onChangeChat}
               placeholder='메시지 보내기' />
-            <IconButton
-              type='button'>
+            <IconButton type='submit'>
               <SendIcon fontSize='large' />
             </IconButton>
           </Form>
         </SidePadding>
+        <Menu
+          aria-labelledby='demo-positioned-button'
+          anchorEl={anchorEl}
+          open={open}
+          onClick={onClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          sx={{  
+            '.MuiMenu-paper': {
+              'backgroundColor': 'var(--black)',
+              'color': 'var(--white)',
+            },
+            '.MuiMenu-paper li:hover': {
+              'backgroundColor': 'var(--google-blue)',
+            },
+          }}>
+            <Label htmlFor='image-upload'>
+              <MenuItem sx={{ gap: '5px' }}>
+                <AddPhotoIcon />
+                <span>이미지 업로드</span>
+              </MenuItem>
+            </Label>
+        </Menu>
+        <InputFile
+          onChange={onChangeFiles}
+          id='image-upload'
+          type='file'
+          accept='image/*'
+          multiple />
       </ChatDiv>
     </Block>
   );
@@ -217,4 +335,21 @@ const IconButton = styled.button`
 
 const SidePadding = styled.div`
   padding: 0 20px;
+`;
+
+const InputFile = styled.input`
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+`;
+
+const Label = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 5px;
 `;
