@@ -19,35 +19,25 @@ const SharedspacesPage = () => {
     errorCode,
     isLoading,
   } = useSharedspace();
+
+  useEffect(() => {
+    if (error) {
+      const errorMessage = errorCode === 403 ?
+        privateTooltip :
+        waitingMessage;
+
+      toast.error(errorMessage, {
+        ...defaultToastOption,
+      });
+      navigate('/login');
+    }
+  }, [error]);
   
   useEffect(() => {
     if (matches.length < 2) {
       navigate('/sharedspaces/subscribed');
     }
   }, [matches]);
-
-  useEffect(() => {
-    if (!isLoading && error) {
-      const delay = setTimeout(() => {
-        if (!error) {
-          clearTimeout(delay);
-        } else {
-          const errorMessage = errorCode === 403 ?
-            privateTooltip :
-            waitingMessage;
-
-          toast.error(errorMessage, {
-            ...defaultToastOption,
-          });
-          navigate('/login');
-        }
-      }, 500);
-
-      return () => {
-        clearTimeout(delay);
-      };
-    }
-  }, [isLoading, error]);
   
   return (
     <Block>
