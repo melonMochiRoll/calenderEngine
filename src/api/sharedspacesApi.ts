@@ -157,14 +157,16 @@ export const getSharedspaceChats = async (
 
 export const createSharedspaceChats = async (
   url: string | undefined,
-  content: string,
+  formData: FormData,
 ) => {
-  if (!url || !content) return;
+  if (!url) return;
 
   try {
     await axiosInstance
-      .post(`/api/sharedspaces/${url}/chats`, {
-        content,
+      .post(`/api/sharedspaces/${url}/chats`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
   } catch (err) {
     return Promise.reject(err);
