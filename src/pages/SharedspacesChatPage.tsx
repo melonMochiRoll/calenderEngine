@@ -20,6 +20,8 @@ import useMenu from 'Hooks/useMenu';
 import { Menu, MenuItem } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import ImagePreviewer from 'Components/chat/ImagePreviewer';
+import { toast } from 'react-toastify';
+import { defaultToastOption, imageTooLargeMessage, waitingMessage } from 'Lib/noticeConstants';
 
 const SharedspacesChatPage: FC = () => {
   const { url } = useParams();
@@ -168,6 +170,19 @@ const SharedspacesChatPage: FC = () => {
         setFiles([]);
         setPreviews([]);
         scrollbarRef?.current?.scrollTo(0, 0);
+      })
+      .catch((err) => {
+        setChat('');
+        setFiles([]);
+        setPreviews([]);
+
+        const errorMessage = err?.respose?.status === 413 ?
+          imageTooLargeMessage :
+          waitingMessage;
+
+        toast.error(errorMessage, {
+          ...defaultToastOption,
+        });
       });
   };
   
