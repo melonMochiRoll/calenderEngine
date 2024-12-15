@@ -189,3 +189,9 @@ export type TChats = {
   chats: TChatList[],
   hasMoreData: boolean,
 };
+
+export type TImages = {
+  id: number;
+  path: string;
+  ChatId: number;
+};
