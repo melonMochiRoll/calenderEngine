@@ -173,6 +173,7 @@ export type TChat = {
   SenderId: number | null;
   SharedspaceId: number;
   createdAt: Date;
+  updatedAt: Date;
   deletedAt: Date | null;
 };
 
@@ -181,8 +182,10 @@ export type TChatList = Pick<TChat,
   'content' |
   'SenderId' |
   'SharedspaceId' |
-  'createdAt'> & {
+  'createdAt' |
+  'updatedAt'> & {
     Sender: Pick<TUser, 'email' | 'profileImage'>,
+    Images: Pick<TImages, 'id' | 'path'>,
   };
 
 export type TChats = {
