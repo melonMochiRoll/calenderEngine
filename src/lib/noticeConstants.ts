@@ -31,4 +31,14 @@ export const defaultToastOption: ToastOptions = {
   progress: undefined,
   theme: 'dark',
   transition: Bounce,
-}; 
+};
+
+export const muiMenuDefaultSx = {
+  '.MuiMenu-paper': {
+    'backgroundColor': 'var(--black)',
+    'color': 'var(--white)',
+  },
+  '.MuiMenu-paper li:hover': {
+    'backgroundColor': 'var(--google-blue)',
+  },
+};
