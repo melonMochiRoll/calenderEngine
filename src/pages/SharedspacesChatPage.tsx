@@ -21,7 +21,7 @@ import { Menu, MenuItem } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import ImagePreviewer from 'Components/chat/ImagePreviewer';
 import { toast } from 'react-toastify';
-import { defaultToastOption, imageTooLargeMessage, waitingMessage } from 'Lib/noticeConstants';
+import { defaultToastOption, imageTooLargeMessage, muiMenuDefaultSx, waitingMessage } from 'Lib/noticeConstants';
 
 const SharedspacesChatPage: FC = () => {
   const { url } = useParams();
@@ -255,15 +255,7 @@ const SharedspacesChatPage: FC = () => {
             vertical: 'bottom',
             horizontal: 'center',
           }}
-          sx={{  
-            '.MuiMenu-paper': {
-              'backgroundColor': 'var(--black)',
-              'color': 'var(--white)',
-            },
-            '.MuiMenu-paper li:hover': {
-              'backgroundColor': 'var(--google-blue)',
-            },
-          }}>
+          sx={muiMenuDefaultSx}>
             <Label htmlFor='image-upload'>
               <MenuItem sx={{ gap: '5px' }}>
                 <AddPhotoIcon />
