@@ -201,6 +201,7 @@ const SharedspacesChatPage: FC = () => {
               previews={previews}
               deleteFile={deleteFile} />
           }
+          {!Boolean(chatList?.chats.length) && <FirstChatNotice>첫 메시지를 전송해보세요</FirstChatNotice>}
           {!isLoading ?
             chatList?.chats.map((chat: TChatList, idx: number) => {
 
@@ -359,4 +360,12 @@ const Label = styled.label`
   align-items: center;
   cursor: pointer;
   gap: 5px;
+`;
+
+const FirstChatNotice = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+  text-align: center;
+  padding-bottom: 50px;
 `;
