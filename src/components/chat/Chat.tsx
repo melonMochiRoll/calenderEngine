@@ -1,18 +1,54 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { TChatList } from 'Typings/types';
+import { TChatList, TChats } from 'Typings/types';
 import ProfileImage from 'Components/ProfileImage';
 import dayjs from 'dayjs';
+import MoreIcon from '@mui/icons-material/MoreHoriz';
+import useMenu from 'Hooks/useMenu';
+import { muiMenuDefaultSx } from 'Lib/noticeConstants';
+import { Menu, MenuItem } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/DeleteForever';
+import { useParams } from 'react-router-dom';
+import { deleteSharedspaceChat } from 'Api/sharedspacesApi';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
 
 interface ChatProps {
   chat: TChatList,
+  idx: number,
 };
 
 const Chat: FC<ChatProps> = ({
   chat,
+  idx,
 }) => {
+  const { url } = useParams();
+  const qc = useQueryClient();
+  const {
+    anchorEl,
+    open,
+    onOpen,
+    onClose,
+  } = useMenu();
+
+  const hoverMenuId = 'hoverMenu';
+
+  const onDeleteChat = (url: string | undefined, chatId: number, idx: number) => {
+    deleteSharedspaceChat(url, chatId)
+      .then(() => {
+        qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
+          if (prev) {
+            const head = prev.chats.slice(0, idx);
+            const tail = prev.chats.slice(idx + 1, prev.chats.length);
+            return { chats: [ ...head, ...tail ], hasMoreData: prev.hasMoreData };
+          }
+        });
+      })
+      .catch(() => {});
+  };
+
   return (
-    <Block>
+    <Block hoverMenuId={hoverMenuId}>
       <Left>
         <ProfileImage
           profileImage={chat.Sender.profileImage}
@@ -45,19 +81,50 @@ const Chat: FC<ChatProps> = ({
           </Images>
         </Bottom>
       </Right>
+      <HoverMenu id={hoverMenuId}>
+        <Item onClick={onOpen}>
+          <MoreIcon fontSize='large' />
+        </Item>
+      </HoverMenu>
+      <Menu
+        aria-labelledby='demo-positioned-button'
+        anchorEl={anchorEl}
+        open={open}
+        onClick={onClose}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'right',
+        }}
+        sx={muiMenuDefaultSx}>
+          <MenuItem
+            onClick={() => onDeleteChat(url, chat.id, idx)}
+            sx={{ gap: '5px', color: 'var(--red)' }}>
+            <DeleteIcon />
+            <span>메시지 삭제</span>
+          </MenuItem>
+      </Menu>
     </Block>
   );
 };
 
 export default Chat;
 
-const Block = styled.li`
+const Block = styled.li<{ hoverMenuId?: string }>`
+  position: relative;
   display: flex;
   padding: 5px 20px;
   gap: 15px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
+
+    #${({hoverMenuId}) => hoverMenuId} {
+      visibility: visible;
+    }
   }
 `;
 
@@ -131,4 +198,25 @@ const MultipleImage = styled.img`
   border-radius: 12px;
   object-fit: cover;
   cursor: pointer;
+`;
+
+const HoverMenu = styled.div`
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  right: 0;
+  padding: 10px;
+`;
+
+const Item = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--gray-3);
+  border-radius: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 `;
