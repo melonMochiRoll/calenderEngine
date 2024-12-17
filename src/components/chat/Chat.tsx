@@ -26,6 +26,23 @@ const Chat: FC<ChatProps> = ({
         </Top>
         <Bottom>
           <Content>{chat.content}</Content>
+          <Images>
+            {
+              chat.Images.map((image, idx) => {
+                const server_URL = process.env.REACT_APP_SERVER_ORIGIN;
+
+                if (chat.Images.length === 1) {
+                  return <SingleImage
+                    key={idx}
+                    src={`${server_URL}/${image.path}`} />
+                }
+
+                return <MultipleImage
+                  key={idx} 
+                  src={`${server_URL}/${image.path}`} />
+              })
+            }
+          </Images>
         </Bottom>
       </Right>
     </Block>
@@ -65,7 +82,9 @@ const Top = styled.div`
 
 const Bottom = styled.div`
   display: flex;
+  flex-direction: column;
   width: 90%;
+  gap: 10px;
 `;
 
 const ProfileName = styled.span`
@@ -90,4 +109,26 @@ const Content = styled.p`
   word-wrap: break-word;
   word-break: normal;
   overflow-y: auto;
+`;
+
+const Images = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+`;
+
+const SingleImage = styled.img`
+  height: 100%;
+  max-height: 300px;
+  border-radius: 12px;
+  object-fit: contain;
+  cursor: pointer;
+`;
+
+const MultipleImage = styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
 `;
