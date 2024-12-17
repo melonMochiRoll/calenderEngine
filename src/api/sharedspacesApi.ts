@@ -172,3 +172,15 @@ export const createSharedspaceChats = async (
     return Promise.reject(err);
   }
 };
+
+export const deleteSharedspaceChat = async (
+  url: string | undefined,
+  chatId: number,
+) => {
+  try {
+    await axiosInstance
+      .delete(`/api/sharedspaces/${url}/chats/${chatId}`);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
