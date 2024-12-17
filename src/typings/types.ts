@@ -185,7 +185,7 @@ export type TChatList = Pick<TChat,
   'createdAt' |
   'updatedAt'> & {
     Sender: Pick<TUser, 'email' | 'profileImage'>,
-    Images: Pick<TImages, 'id' | 'path'>,
+    Images: Pick<TImages, 'id' | 'path'>[],
   };
 
 export type TChats = {
