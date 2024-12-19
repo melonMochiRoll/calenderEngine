@@ -214,7 +214,8 @@ const SharedspacesChatPage: FC = () => {
                   <Fragment key={chat.id}>
                     <Chat
                       key={chat.id}
-                      chat={chat} />
+                      chat={chat}
+                      idx={idx} />
                     <DateSeparator date={chat.createdAt} />
                   </Fragment>
                 );
@@ -222,7 +223,8 @@ const SharedspacesChatPage: FC = () => {
 
               return <Chat
                 key={chat.id}
-                chat={chat} />;
+                chat={chat}
+                idx={idx} />;
             }) :
             <SkeletonChatList />
           }
