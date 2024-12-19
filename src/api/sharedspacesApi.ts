@@ -173,6 +173,29 @@ export const createSharedspaceChats = async (
   }
 };
 
+export const updateSharedspaceChat = async (
+  url: string | undefined,
+  ChatId: number,
+  oldContent: string,
+  newContent: string,
+) => {
+  if (oldContent === newContent || !url) {
+    return;
+  }
+
+  try {
+    const { data } = await axiosInstance
+      .patch(`/api/sharedspaces/${url}/chats`, {
+        ChatId,
+        content: newContent,
+      });
+
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 export const deleteSharedspaceChat = async (
   url: string | undefined,
   chatId: number,
