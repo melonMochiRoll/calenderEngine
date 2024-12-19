@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { ModalName, TChatList, TChats } from 'Typings/types';
 import ProfileImage from 'Components/ProfileImage';
@@ -9,12 +9,15 @@ import { muiMenuDefaultSx } from 'Lib/noticeConstants';
 import { Menu, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import { useParams } from 'react-router-dom';
-import { deleteSharedspaceChat } from 'Api/sharedspacesApi';
+import { deleteSharedspaceChat, updateSharedspaceChat } from 'Api/sharedspacesApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
 import { useAppDispatch } from 'Hooks/reduxHooks';
 import { openModal } from 'Features/modalSlice';
 import { setImagePath } from 'Features/imageViewerSlice';
+import EditIcon from '@mui/icons-material/Edit';
+import useInput from 'Hooks/useInput';
+import EditContent from './EditContent';
 
 interface ChatProps {
   chat: TChatList,
@@ -28,6 +31,9 @@ const Chat: FC<ChatProps> = ({
   const { url } = useParams();
   const qc = useQueryClient();
   const dispatch = useAppDispatch();
+  const [ isEditMode, setIsEditMode ] = useState(false);
+  const [ newContent, onChangeNewContent ] = useInput(chat.content);
+
   const {
     anchorEl,
     open,
@@ -36,10 +42,31 @@ const Chat: FC<ChatProps> = ({
   } = useMenu();
 
   const hoverMenuId = 'hoverMenu';
+  const isUpdated = chat.createdAt !== chat.updatedAt;
 
   const openImageModal = (path: string) => {
     dispatch(setImagePath(path));
     dispatch(openModal(ModalName.IMAGE_VIEWER));
+  };
+
+  const onUpdateChat = (
+    url: string | undefined,
+    ChatId: number,
+    oldContent: string,
+    newContent: string,
+    idx: number
+  ) => {
+    updateSharedspaceChat(url, ChatId, oldContent, newContent)
+      .then((res) => {
+        qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
+          if (prev) {
+            const newChats = [ ...prev.chats ];
+            newChats[idx] = res;
+            return { chats: newChats, hasMoreData: prev.hasMoreData };
+          }
+        });
+      })
+      .catch(() => {});
   };
 
   const onDeleteChat = (url: string | undefined, chatId: number, idx: number) => {
@@ -68,9 +95,21 @@ const Chat: FC<ChatProps> = ({
         <Top>
           <ProfileName>{chat.Sender.email}</ProfileName>
           <Timestamp>{dayjs(chat.createdAt).format('A hh:mm')}</Timestamp>
+          {isUpdated && <UpdatedSpan>수정됨</UpdatedSpan>}
         </Top>
         <Bottom>
-          <Content>{chat.content}</Content>
+          {isEditMode ?
+            <EditContent
+              onClose={() => setIsEditMode(false)}
+              content={newContent}
+              onChangeContent={onChangeNewContent}
+              onSubmit={(e) => {
+                e.preventDefault();
+                onUpdateChat(url, chat.id, chat.content, newContent, idx);
+                setIsEditMode(false);
+              }} /> :
+            <Content>{chat.content}</Content>
+          }
           <Images>
             {
               chat.Images.map((image, idx) => {
@@ -111,6 +150,12 @@ const Chat: FC<ChatProps> = ({
           horizontal: 'right',
         }}
         sx={muiMenuDefaultSx}>
+          <MenuItem
+            onClick={() => setIsEditMode(true)}
+            sx={{ gap: '5px', color: 'var(--gray-3)' }}>
+            <EditIcon />
+            <span>메시지 수정</span>
+          </MenuItem>
           <MenuItem
             onClick={() => onDeleteChat(url, chat.id, idx)}
             sx={{ gap: '5px', color: 'var(--red)' }}>
@@ -230,4 +275,10 @@ const Item = styled.div`
   &:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
+`;
+
+const UpdatedSpan = styled.span`
+  color: var(--gray-6);
+  font-size: 14px;
+  padding-bottom: 1px;
 `;
