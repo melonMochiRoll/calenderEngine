@@ -179,7 +179,7 @@ export const updateSharedspaceChat = async (
   oldContent: string,
   newContent: string,
 ) => {
-  if (oldContent === newContent || !url) {
+  if (oldContent === newContent || !url || !newContent) {
     return;
   }
 
