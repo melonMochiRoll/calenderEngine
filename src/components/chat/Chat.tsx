@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { TChatList, TChats } from 'Typings/types';
+import { ModalName, TChatList, TChats } from 'Typings/types';
 import ProfileImage from 'Components/ProfileImage';
 import dayjs from 'dayjs';
 import MoreIcon from '@mui/icons-material/MoreHoriz';
@@ -12,6 +12,9 @@ import { useParams } from 'react-router-dom';
 import { deleteSharedspaceChat } from 'Api/sharedspacesApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
+import { useAppDispatch } from 'Hooks/reduxHooks';
+import { openModal } from 'Features/modalSlice';
+import { setImagePath } from 'Features/imageViewerSlice';
 
 interface ChatProps {
   chat: TChatList,
@@ -24,6 +27,7 @@ const Chat: FC<ChatProps> = ({
 }) => {
   const { url } = useParams();
   const qc = useQueryClient();
+  const dispatch = useAppDispatch();
   const {
     anchorEl,
     open,
@@ -32,6 +36,11 @@ const Chat: FC<ChatProps> = ({
   } = useMenu();
 
   const hoverMenuId = 'hoverMenu';
+
+  const openImageModal = (path: string) => {
+    dispatch(setImagePath(path));
+    dispatch(openModal(ModalName.IMAGE_VIEWER));
+  };
 
   const onDeleteChat = (url: string | undefined, chatId: number, idx: number) => {
     deleteSharedspaceChat(url, chatId)
@@ -70,11 +79,13 @@ const Chat: FC<ChatProps> = ({
                 if (chat.Images.length === 1) {
                   return <SingleImage
                     key={idx}
+                    onClick={() => openImageModal(image.path)}
                     src={`${server_URL}/${image.path}`} />
                 }
 
                 return <MultipleImage
-                  key={idx} 
+                  key={idx}
+                  onClick={() => openImageModal(image.path)}
                   src={`${server_URL}/${image.path}`} />
               })
             }
