@@ -56,7 +56,7 @@ const Chat: FC<ChatProps> = ({
     newContent: string,
     idx: number
   ) => {
-    updateSharedspaceChat(url, ChatId, oldContent, newContent)
+    updateSharedspaceChat(url, ChatId, oldContent, newContent.trim())
       .then((res) => {
         qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
           if (prev) {
