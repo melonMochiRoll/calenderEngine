@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
-import { ModalName, TChatList, TChats } from 'Typings/types';
+import { TChatList, TChats } from 'Typings/types';
 import ProfileImage from 'Components/ProfileImage';
 import dayjs from 'dayjs';
 import MoreIcon from '@mui/icons-material/MoreHoriz';
@@ -12,12 +12,12 @@ import { useParams } from 'react-router-dom';
 import { deleteSharedspaceChat, updateSharedspaceChat } from 'Api/sharedspacesApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
-import { useAppDispatch } from 'Hooks/reduxHooks';
-import { openModal } from 'Features/modalSlice';
-import { setImagePath } from 'Features/imageViewerSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import useInput from 'Hooks/useInput';
 import EditContent from './EditContent';
+import SingleImage from './SingleImage';
+import MultipleImage from './MultipleImage';
+import useUser from 'Hooks/useUser';
 
 interface ChatProps {
   chat: TChatList,
@@ -30,7 +30,7 @@ const Chat: FC<ChatProps> = ({
 }) => {
   const { url } = useParams();
   const qc = useQueryClient();
-  const dispatch = useAppDispatch();
+  const { userData } = useUser();
   const [ isEditMode, setIsEditMode ] = useState(false);
   const [ newContent, onChangeNewContent ] = useInput(chat.content);
 
@@ -43,11 +43,6 @@ const Chat: FC<ChatProps> = ({
 
   const hoverMenuId = 'hoverMenu';
   const isUpdated = chat.createdAt !== chat.updatedAt;
-
-  const openImageModal = (path: string) => {
-    dispatch(setImagePath(path));
-    dispatch(openModal(ModalName.IMAGE_VIEWER));
-  };
 
   const onUpdateChat = (
     url: string | undefined,
@@ -112,30 +107,32 @@ const Chat: FC<ChatProps> = ({
           }
           <Images>
             {
-              chat.Images.map((image, idx) => {
-                const server_URL = process.env.REACT_APP_SERVER_ORIGIN;
-
+              chat.Images.map((image, imageIdx) => {
                 if (chat.Images.length === 1) {
                   return <SingleImage
                     key={idx}
-                    onClick={() => openImageModal(image.path)}
-                    src={`${server_URL}/${image.path}`} />
+                    image={image} />
                 }
 
                 return <MultipleImage
                   key={idx}
-                  onClick={() => openImageModal(image.path)}
-                  src={`${server_URL}/${image.path}`} />
+                  isSender={chat.SenderId === userData.id}
+                  ChatId={chat.id}
+                  image={image}
+                  chatIdx={idx}
+                  imageIdx={imageIdx} />
               })
             }
           </Images>
         </Bottom>
       </Right>
-      <HoverMenu id={hoverMenuId}>
-        <Item onClick={onOpen}>
-          <MoreIcon fontSize='large' />
-        </Item>
-      </HoverMenu>
+      {chat.SenderId === userData.id &&
+        <HoverMenu id={hoverMenuId}>
+          <Item onClick={onOpen}>
+            <MoreIcon fontSize='large' />
+          </Item>
+        </HoverMenu>
+      }
       <Menu
         aria-labelledby='demo-positioned-button'
         anchorEl={anchorEl}
@@ -238,22 +235,6 @@ const Images = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-`;
-
-const SingleImage = styled.img`
-  height: 100%;
-  max-height: 300px;
-  border-radius: 12px;
-  object-fit: contain;
-  cursor: pointer;
-`;
-
-const MultipleImage = styled.img`
-  width: 180px;
-  height: 180px;
-  border-radius: 12px;
-  object-fit: cover;
-  cursor: pointer;
 `;
 
 const HoverMenu = styled.div`
