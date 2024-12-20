@@ -198,11 +198,32 @@ export const updateSharedspaceChat = async (
 
 export const deleteSharedspaceChat = async (
   url: string | undefined,
-  chatId: number,
+  ChatId: number,
 ) => {
+  if (!url || !ChatId) {
+    return;
+  }
+
   try {
     await axiosInstance
-      .delete(`/api/sharedspaces/${url}/chats/${chatId}`);
+      .delete(`/api/sharedspaces/${url}/chats/${ChatId}`);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const deleteSharedspaceChatImage = async (
+  url: string | undefined,
+  ChatId: number,
+  ImageId: number,
+) => {
+  if (!url || !ChatId || ImageId) {
+    return;
+  }
+
+  try {
+    await axiosInstance
+      .delete(`/api/sharedspaces/${url}/chats/${ChatId}/images/${ImageId}`);
   } catch (err) {
     return Promise.reject(err);
   }
