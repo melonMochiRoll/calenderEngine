@@ -217,7 +217,7 @@ export const deleteSharedspaceChatImage = async (
   ChatId: number,
   ImageId: number,
 ) => {
-  if (!url || !ChatId || ImageId) {
+  if (!url || !ChatId || !ImageId) {
     return;
   }
 
