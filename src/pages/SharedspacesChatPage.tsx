@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import useSocket from 'Hooks/useSocket';
 import SendIcon from '@mui/icons-material/Send';
 import Chat from 'Components/chat/Chat';
-import { TChatList, TChats } from 'Typings/types';
+import { ChatsCommandList, TChatList, TChats } from 'Typings/types';
 import DateSeparator from 'Components/chat/DateSeparator';
 import dayjs from 'dayjs';
 import useChats from 'Hooks/useChats';
@@ -80,9 +80,7 @@ const SharedspacesChatPage: FC = () => {
     setPreviews(prev => [ ...prev.slice(0, idx), ...prev.slice(idx + 1, prev.length) ]);
   };
     
-  const listener = (data: TChatList) => {
-    if (!data) return;
-
+  const onChatCreated = (data: TChatList) => {
     qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
       if (!prev || !Array.isArray(prev.chats)) {
         return { chats: [ data ], hasMoreData: prev?.hasMoreData || false };
@@ -105,13 +103,68 @@ const SharedspacesChatPage: FC = () => {
     }
   };
 
+  const onChatUpdated = (data: TChatList) => {
+    qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
+      if (prev) {
+        const newChats = [ ...prev.chats ];
+        const idx = newChats.findIndex(chat => chat.id === data.id);
+
+        if (idx < 0) return;
+
+        newChats[idx] = data;
+        return { chats: newChats, hasMoreData: prev.hasMoreData };
+      }
+    });
+  };
+
+  const onChatDeleted = (ChatId: number) => {
+    qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
+      if (prev) {
+        const idx = prev.chats.findIndex(chat => chat.id === ChatId);
+
+        if (idx < 0) return;
+
+        const head = prev.chats.slice(0, idx);
+        const tail = prev.chats.slice(idx + 1, prev.chats.length);
+
+        return { chats: [ ...head, ...tail ], hasMoreData: prev.hasMoreData };
+      }
+    });
+  };
+
+  const onChatImageDeleted = (ChatId: number, ImageId: number) => {
+    qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
+      if (prev) {
+        const chatIdx = prev.chats.findIndex(chat => chat.id === ChatId);
+        const head = prev.chats.slice(0, chatIdx);
+        const tail = prev.chats.slice(chatIdx + 1, prev.chats.length);
+
+        const targetChat = prev.chats[chatIdx];
+        const imageIdx = targetChat.Images.findIndex(image => image.id === ImageId);
+        const imagesHead = targetChat.Images.slice(0, imageIdx);
+        const imagesTail = targetChat.Images.slice(imageIdx + 1, targetChat.Images.length);
+
+        return {
+          chats: [ ...head, { ...targetChat, Images: [ ...imagesHead, ...imagesTail ],  }, ...tail ],
+          hasMoreData: prev.hasMoreData
+        };
+      }
+    });
+  };
+
   useEffect(() => {
-    socket?.on('publicChats', listener);
+    socket?.on(`publicChats:${ChatsCommandList.CHAT_CREATED}`, onChatCreated);
+    socket?.on(`publicChats:${ChatsCommandList.CHAT_UPDATED}`, onChatUpdated);
+    socket?.on(`publicChats:${ChatsCommandList.CHAT_DELETED}`, onChatDeleted);
+    socket?.on(`publicChats:${ChatsCommandList.CHAT_IMAGE_DELETED}`, onChatImageDeleted);
 
     return () => {
-      socket?.off('publicChats', listener);
+      socket?.off(`publicChats:${ChatsCommandList.CHAT_CREATED}`, onChatCreated);
+      socket?.off(`publicChats:${ChatsCommandList.CHAT_UPDATED}`, onChatUpdated);
+      socket?.off(`publicChats:${ChatsCommandList.CHAT_DELETED}`, onChatDeleted);
+      socket?.off(`publicChats:${ChatsCommandList.CHAT_IMAGE_DELETED}`, onChatImageDeleted);
     };
-  }, [socket, listener]);
+  }, [socket]);
 
   const onChangeFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -214,8 +267,7 @@ const SharedspacesChatPage: FC = () => {
                   <Fragment key={chat.id}>
                     <Chat
                       key={chat.id}
-                      chat={chat}
-                      idx={idx} />
+                      chat={chat} />
                     <DateSeparator date={chat.createdAt} />
                   </Fragment>
                 );
@@ -223,8 +275,7 @@ const SharedspacesChatPage: FC = () => {
 
               return <Chat
                 key={chat.id}
-                chat={chat}
-                idx={idx} />;
+                chat={chat} />;
             }) :
             <SkeletonChatList />
           }

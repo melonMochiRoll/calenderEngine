@@ -1,54 +1,30 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { ModalName, TChats, TImages } from 'Typings/types';
+import { ModalName, TImages } from 'Typings/types';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'Hooks/reduxHooks';
-import { useQueryClient } from '@tanstack/react-query';
 import { setImagePath } from 'Features/imageViewerSlice';
 import { openModal } from 'Features/modalSlice';
 import { deleteSharedspaceChatImage } from 'Api/sharedspacesApi';
-import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
 import ClearIcon from '@mui/icons-material/Clear';
 
 interface MultipleImageProps {
   isSender: boolean,
   ChatId: number,
   image: Pick<TImages, 'id' | 'path'>,
-  chatIdx: number,
-  imageIdx: number,
 };
 
 const MultipleImage: FC<MultipleImageProps> = ({
   isSender,
   ChatId,
   image,
-  chatIdx,
-  imageIdx,
 }) => {
   const { url } = useParams();
   const dispatch = useAppDispatch();
-  const qc = useQueryClient();
   const server_URL = process.env.REACT_APP_SERVER_ORIGIN;
 
   const deleteImage = () => {
     deleteSharedspaceChatImage(url, ChatId, image.id)
-      .then(() => {
-        qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
-          if (prev) {
-            const head = prev.chats.slice(0, chatIdx);
-            const tail = prev.chats.slice(chatIdx + 1, prev.chats.length);
-
-            const targetChat = prev.chats[chatIdx];
-            const imagesHead = targetChat.Images.slice(0, imageIdx);
-            const imagesTail = targetChat.Images.slice(imageIdx + 1, targetChat.Images.length);
-
-            return {
-              chats: [ ...head, { ...targetChat, Images: [ ...imagesHead, ...imagesTail ],  }, ...tail ],
-              hasMoreData: prev.hasMoreData
-            };
-          }
-        });
-      })
       .catch(() => {});
   };
 

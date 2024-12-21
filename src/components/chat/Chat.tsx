@@ -1,35 +1,31 @@
 import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
-import { TChatList, TChats } from 'Typings/types';
+import { TChatList } from 'Typings/types';
 import ProfileImage from 'Components/ProfileImage';
 import dayjs from 'dayjs';
 import MoreIcon from '@mui/icons-material/MoreHoriz';
 import useMenu from 'Hooks/useMenu';
-import { muiMenuDefaultSx } from 'Lib/noticeConstants';
+import { defaultToastOption, muiMenuDefaultSx, waitingMessage } from 'Lib/noticeConstants';
 import { Menu, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
 import { useParams } from 'react-router-dom';
 import { deleteSharedspaceChat, updateSharedspaceChat } from 'Api/sharedspacesApi';
-import { useQueryClient } from '@tanstack/react-query';
-import { GET_SHAREDSPACE_CHATS_KEY } from 'Lib/queryKeys';
 import EditIcon from '@mui/icons-material/Edit';
 import useInput from 'Hooks/useInput';
 import EditContent from './EditContent';
 import SingleImage from './SingleImage';
 import MultipleImage from './MultipleImage';
 import useUser from 'Hooks/useUser';
+import { toast } from 'react-toastify';
 
 interface ChatProps {
   chat: TChatList,
-  idx: number,
 };
 
 const Chat: FC<ChatProps> = ({
   chat,
-  idx,
 }) => {
   const { url } = useParams();
-  const qc = useQueryClient();
   const { userData } = useUser();
   const [ isEditMode, setIsEditMode ] = useState(false);
   const [ newContent, onChangeNewContent ] = useInput(chat.content);
@@ -49,33 +45,22 @@ const Chat: FC<ChatProps> = ({
     ChatId: number,
     oldContent: string,
     newContent: string,
-    idx: number
   ) => {
     updateSharedspaceChat(url, ChatId, oldContent, newContent.trim())
-      .then((res) => {
-        qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
-          if (prev) {
-            const newChats = [ ...prev.chats ];
-            newChats[idx] = res;
-            return { chats: newChats, hasMoreData: prev.hasMoreData };
-          }
+      .catch(() => {
+        toast.error(waitingMessage, {
+          ...defaultToastOption,
         });
-      })
-      .catch(() => {});
+      });
   };
 
-  const onDeleteChat = (url: string | undefined, chatId: number, idx: number) => {
+  const onDeleteChat = (url: string | undefined, chatId: number) => {
     deleteSharedspaceChat(url, chatId)
-      .then(() => {
-        qc.setQueryData([GET_SHAREDSPACE_CHATS_KEY], (prev?: TChats) => {
-          if (prev) {
-            const head = prev.chats.slice(0, idx);
-            const tail = prev.chats.slice(idx + 1, prev.chats.length);
-            return { chats: [ ...head, ...tail ], hasMoreData: prev.hasMoreData };
-          }
+      .catch(() => {
+        toast.error(waitingMessage, {
+          ...defaultToastOption,
         });
-      })
-      .catch(() => {});
+      });
   };
 
   return (
@@ -100,7 +85,7 @@ const Chat: FC<ChatProps> = ({
               onChangeContent={onChangeNewContent}
               onSubmit={(e) => {
                 e.preventDefault();
-                onUpdateChat(url, chat.id, chat.content, newContent, idx);
+                onUpdateChat(url, chat.id, chat.content, newContent);
                 setIsEditMode(false);
               }} /> :
             <Content>{chat.content}</Content>
@@ -110,17 +95,15 @@ const Chat: FC<ChatProps> = ({
               chat.Images.map((image, imageIdx) => {
                 if (chat.Images.length === 1) {
                   return <SingleImage
-                    key={idx}
+                    key={image.id}
                     image={image} />
                 }
 
                 return <MultipleImage
-                  key={idx}
+                  key={image.id}
                   isSender={chat.SenderId === userData.id}
                   ChatId={chat.id}
-                  image={image}
-                  chatIdx={idx}
-                  imageIdx={imageIdx} />
+                  image={image} />
               })
             }
           </Images>
@@ -154,7 +137,7 @@ const Chat: FC<ChatProps> = ({
             <span>메시지 수정</span>
           </MenuItem>
           <MenuItem
-            onClick={() => onDeleteChat(url, chat.id, idx)}
+            onClick={() => onDeleteChat(url, chat.id)}
             sx={{ gap: '5px', color: 'var(--red)' }}>
             <DeleteIcon />
             <span>메시지 삭제</span>
