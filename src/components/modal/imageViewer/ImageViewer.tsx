@@ -4,7 +4,8 @@ import { useAppSelector } from 'Hooks/reduxHooks';
 
 const ImageViewer: FC = () => {
   const { path } = useAppSelector(state => state.imageViewer);
-  const server_URL = process.env.REACT_APP_SERVER_ORIGIN;
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const server_URL = isDevelopment ? process.env.REACT_APP_DEVELOPMENT_SERVER_ORIGIN : process.env.SERVER_ORIGIN;
 
   return (
     <Block>

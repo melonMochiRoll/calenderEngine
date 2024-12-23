@@ -21,7 +21,8 @@ const MultipleImage: FC<MultipleImageProps> = ({
 }) => {
   const { url } = useParams();
   const dispatch = useAppDispatch();
-  const server_URL = process.env.REACT_APP_SERVER_ORIGIN;
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const server_URL = isDevelopment ? process.env.REACT_APP_DEVELOPMENT_SERVER_ORIGIN : process.env.SERVER_ORIGIN;
 
   const deleteImage = () => {
     deleteSharedspaceChatImage(url, ChatId, image.id)
