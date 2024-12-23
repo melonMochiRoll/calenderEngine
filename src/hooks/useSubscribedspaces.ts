@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSubscribedspaces } from "Api/sharedspacesApi";
-import handleHooksError from "Lib/handleHooksError";
 import { GET_SUBSCRIBED_SPACES_KEY } from "Lib/queryKeys";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,12 +30,6 @@ const useSubscribedspace = (): TUseSubscribedspaceReturnType => {
   useEffect(() => {
     refetch();
   }, [filter]);
-
-  useEffect(() => {
-    if (isError) {
-      handleHooksError(error, navigate);
-    }
-  }, [isError]);
 
   return {
     data,
