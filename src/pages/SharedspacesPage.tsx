@@ -5,13 +5,16 @@ import Sidebar from 'Containers/Sidebar';
 import SharedspaceHeader from 'Containers/SharedspaceHeader';
 import SkeletonSharedspaceHeader from 'Components/skeleton/SkeletonSharedspaceHeader';
 import TodoContainer from 'Containers/TodoContainer';
-import { defaultToastOption, privateTooltip, waitingMessage } from 'Lib/noticeConstants';
+import { defaultToastOption, needLogin, privateTooltip, waitingMessage } from 'Lib/noticeConstants';
 import { toast } from 'react-toastify';
 import useSharedspace from 'Hooks/useSharedspace';
+import useUser from 'Hooks/useUser';
 
 const SharedspacesPage = () => {
   const navigate = useNavigate();
   const matches = useMatches();
+
+  const { isLogin, isNotLogin } = useUser();
 
   const {
     data: spaceData,
@@ -22,14 +25,25 @@ const SharedspacesPage = () => {
 
   useEffect(() => {
     if (error) {
-      const errorMessage = errorCode === 403 ?
-        privateTooltip :
-        waitingMessage;
+      const response = {
+        message: waitingMessage,
+        destination: '/internal',
+      };
+      
+      if (errorCode === 403 && isLogin) {
+        response.message = privateTooltip;
+        response.destination = '/forbidden';
+      }
 
-      toast.error(errorMessage, {
+      if (errorCode === 403 && isNotLogin) {
+        response.message = needLogin;
+        response.destination = '/login';
+      }
+
+      toast.error(response.message, {
         ...defaultToastOption,
       });
-      navigate('/login');
+      navigate(`${response.destination}`);
     }
   }, [error]);
   
