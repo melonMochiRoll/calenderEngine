@@ -74,7 +74,7 @@ const Block = styled.div`
   display: flex;
   width: 100%;
   height: 75%;
-  padding: 10px;
+  padding: 30px 10px;
   margin-bottom: 30px;
   flex-direction: column;
   overflow: auto;
