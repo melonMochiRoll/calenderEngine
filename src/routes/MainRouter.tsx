@@ -1,15 +1,16 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import LoginPage from 'Pages/LoginPage';
-import JoinPage from 'Pages/JoinPage';
-import NotFoundPage from 'Pages/NotFoundPage';
-import SubscribedSpacesPage from 'Pages/SubscribedSpacesPage';
-import MainPage from 'Pages/MainPage';
-import SharedspacesViewPage from 'Pages/SharedspacesViewPage';
-import SharedspacesPage from 'Pages/SharedspacesPage';
-import InternalServerErrorPage from 'Pages/InternalServerErrorPage';
-import ForbiddenPage from 'Pages/ForbiddenPage';
-import SharedspacesChatPage from 'Pages/SharedspacesChatPage';
+
+const MainPage = React.lazy(() => import('../pages/MainPage'));
+const SubscribedSpacesPage = React.lazy(() => import('../pages/SubscribedSpacesPage'));
+const LoginPage = React.lazy(() => import('../pages/LoginPage'));
+const JoinPage = React.lazy(() => import('../pages/JoinPage'));
+const SharedspacesPage = React.lazy(() => import('../pages/SharedspacesPage'));
+const SharedspacesViewPage = React.lazy(() => import('../pages/SharedspacesViewPage'));
+const SharedspacesChatPage = React.lazy(() => import('../pages/SharedspacesChatPage'));
+const NotFoundPage = React.lazy(() => import('../pages/NotFoundPage'));
+const InternalServerErrorPage = React.lazy(() => import('../pages/InternalServerErrorPage'));
+const ForbiddenPage = React.lazy(() => import('../pages/ForbiddenPage'));
 
 const MainRouter = createBrowserRouter([
   {
