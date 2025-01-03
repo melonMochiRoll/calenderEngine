@@ -2,12 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 dotenv.config();
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: isDevelopment ? 'development' : 'production',
+  devtool: isDevelopment ? 'inline-source-map' : 'hidden-source-map',
   entry: './src/client.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -74,5 +77,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
     }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: 'server',
+    // }),
   ],
 };
