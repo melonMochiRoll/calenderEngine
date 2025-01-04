@@ -9,9 +9,11 @@ type TUseSocketReturnType = {
 const useSocket = (): TUseSocketReturnType => {
   const { url = '' } = useParams();
   const socketRef = useRef<Socket>();
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const origin = isDevelopment ? process.env.REACT_APP_DEVELOPMENT_SERVER_ORIGIN : process.env.SERVER_ORIGIN;
 
   useEffect(() => {
-    socketRef.current = io(`${process.env.REACT_APP_SERVER_ORIGIN}/sharedspace-${url}`);
+    socketRef.current = io(`${origin}/sharedspace-${url}`);
 
     return () => {
       socketRef.current?.disconnect();
