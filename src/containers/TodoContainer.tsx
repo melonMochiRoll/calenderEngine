@@ -34,7 +34,7 @@ export default TodoContainer;
 const Block = styled.div<{ isTodoShow: boolean }>`
   display: flex;
   flex-direction: column;
-  width: ${({isTodoShow}) => isTodoShow ? '900px' : '50px'};
+  width: ${({isTodoShow}) => isTodoShow ? '30%' : '50px'};
   height: 100%;
   padding-top: 10px;
   padding-left: 10px;
