@@ -25,9 +25,9 @@ export default CalendarContainer;
 const Calendar = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 70%;
   height: 100%;
-  padding: 20px 100px;
+  padding: 20px 80px;
   background-color: var(--black);
 `;
 
