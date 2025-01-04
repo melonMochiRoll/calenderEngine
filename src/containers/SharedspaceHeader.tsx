@@ -86,6 +86,7 @@ const Block = styled.header`
   padding: 10px 5%;
   border-bottom: 1px solid var(--light-gray);
   background-color: var(--black);
+  z-index: 1;
 `;
 
 const Left = styled.div`
