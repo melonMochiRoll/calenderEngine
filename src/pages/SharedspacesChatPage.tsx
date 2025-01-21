@@ -21,7 +21,7 @@ import { Menu, MenuItem } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import ImagePreviewer from 'Components/chat/ImagePreviewer';
 import { toast } from 'react-toastify';
-import { defaultToastOption, imageTooLargeMessage, muiMenuDefaultSx, waitingMessage } from 'Lib/noticeConstants';
+import { defaultToastOption, imageTooLargeMessage, muiMenuDefaultSx, tooManyImagesMessage, waitingMessage } from 'Lib/noticeConstants';
 
 const SharedspacesChatPage: FC = () => {
   const { url } = useParams();
@@ -168,7 +168,13 @@ const SharedspacesChatPage: FC = () => {
 
   const onChangeFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (!e.target.files) return [];
+    if (!e.target.files) return;
+
+    if (files.length > 5) {
+      return toast.info(tooManyImagesMessage, {
+        ...defaultToastOption,
+      });
+    }
 
     if (files.length) {
       const result = Object.values(e.target.files).map((file) => {
