@@ -13,8 +13,6 @@ const SingleImage: FC<SingleImageProps> = ({
   image,
 }) => {
   const dispatch = useAppDispatch();
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const server_URL = isDevelopment ? process.env.REACT_APP_DEVELOPMENT_SERVER_ORIGIN : process.env.SERVER_ORIGIN;
 
   const openImageModal = (e: React.MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
@@ -27,7 +25,7 @@ const SingleImage: FC<SingleImageProps> = ({
     <Block>
       <Image
         onClick={openImageModal}
-        src={`${server_URL}/${image.path}`}/>
+        src={`${process.env.AWS_S3_BUCKET_URL}/${image.path}`}/>
       <Buttons></Buttons>
     </Block>
   );

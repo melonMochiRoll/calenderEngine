@@ -21,8 +21,6 @@ const MultipleImage: FC<MultipleImageProps> = ({
 }) => {
   const { url } = useParams();
   const dispatch = useAppDispatch();
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const server_URL = isDevelopment ? process.env.REACT_APP_DEVELOPMENT_SERVER_ORIGIN : process.env.SERVER_ORIGIN;
 
   const deleteImage = () => {
     deleteSharedspaceChatImage(url, ChatId, image.id)
@@ -40,7 +38,7 @@ const MultipleImage: FC<MultipleImageProps> = ({
     <Block>
       <Image
         onClick={openImageModal}
-        src={`${server_URL}/${image.path}`}/>
+        src={`${process.env.AWS_S3_BUCKET_URL}/${image.path}`}/>
       {isSender &&
         <Buttons>
           <Button onClick={deleteImage}>
