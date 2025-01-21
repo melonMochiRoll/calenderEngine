@@ -176,27 +176,11 @@ const SharedspacesChatPage: FC = () => {
       });
     }
 
-    if (files.length) {
-      const result = Object.values(e.target.files).map((file) => {
-        const reader = new FileReader();
-  
-        reader.onloadend = () => {
-          setPreviews((prev) => [ ...prev, reader.result ]);
-        };
-  
-        reader.readAsDataURL(file);
-  
-        return file;
-      });
-
-      return setFiles(prev => [ ...prev, ...result ]);
-    }
-
     const result = Object.values(e.target.files).map((file) => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setPreviews((prev) => [ ...prev, reader.result ]);
+        setPreviews(prev => [ ...prev, reader.result ]);
       };
 
       reader.readAsDataURL(file);
@@ -204,7 +188,7 @@ const SharedspacesChatPage: FC = () => {
       return file;
     });
 
-    setFiles(result);
+    setFiles(prev => [ ...prev, ...result ]);
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
