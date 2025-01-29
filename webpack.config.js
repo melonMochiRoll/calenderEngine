@@ -6,7 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 dotenv.config();
 
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.REACT_APP_NODE_ENV === 'development';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
