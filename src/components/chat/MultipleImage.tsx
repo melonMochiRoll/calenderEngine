@@ -38,7 +38,7 @@ const MultipleImage: FC<MultipleImageProps> = ({
     <Block>
       <Image
         onClick={openImageModal}
-        src={`${process.env.AWS_S3_BUCKET_URL}/${image.path}`}/>
+        src={`${process.env.REACT_APP_AWS_S3_BUCKET_URL}/${image.path}`}/>
       {isSender &&
         <Buttons>
           <Button onClick={deleteImage}>
