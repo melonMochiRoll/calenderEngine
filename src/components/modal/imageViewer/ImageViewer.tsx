@@ -8,7 +8,7 @@ const ImageViewer: FC = () => {
   return (
     <Block>
       <Img
-        src={`${process.env.AWS_S3_BUCKET_URL}/${path}`}
+        src={`${process.env.REACT_APP_AWS_S3_BUCKET_URL}/${path}`}
         alt={path} />
     </Block>
   );
